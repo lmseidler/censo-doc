@@ -1,0 +1,19 @@
+<map id="censo.parallel.execute" name="censo.parallel.execute">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,123,174,151"/>
+<area shape="rect" id="Node000002" href="$namespacecenso_1_1parallel.html#a8523dd0abcd9161400eb170e53ca1728" title=" " alt="" coords="470,83,610,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,120,163,97,221,78,282,70,343,69,455,79,454,84,343,74,282,76,222,84,165,102,117,125"/>
+<area shape="rect" id="Node000006" href="$namespacecenso_1_1parallel.html#afe848153b6d2f91c0205864c1f09b528" title=" " alt="" coords="222,93,422,120"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="173,123,206,119,207,124,174,129"/>
+<area shape="rect" id="Node000007" href="$namespacecenso_1_1parallel.html#a7e33a308abc1aca44a8b765145815b59" title=" " alt="" coords="248,144,396,189"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="174,145,233,152,232,158,173,150"/>
+<area shape="rect" id="Node000008" href="$namespacecenso_1_1parallel.html#a9709705bc46bc8b03b12444b60260a27" title=" " alt="" coords="472,175,608,219"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="114,149,162,176,192,189,222,198,283,208,344,211,456,206,457,211,344,217,282,213,221,204,190,194,160,181,111,154"/>
+<area shape="rect" id="Node000003" href="$namespacecenso_1_1parallel.html#a226532f7207b7f77b668928b3c849562" title=" " alt="" coords="664,5,824,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="582,80,661,53,663,58,584,85"/>
+<area shape="rect" id="Node000004" href="$namespacecenso_1_1parallel.html#a9225caa0918ea9e456039ab3855096ae" title=" " alt="" coords="658,75,830,119"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="611,94,643,94,643,100,611,100"/>
+<area shape="rect" id="Node000005" href="$namespacecenso_1_1parallel.html#aa2560cdd789d437d85c59669a49bc9bf" title=" " alt="" coords="664,144,824,189"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="584,109,663,136,661,141,582,114"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="394,141,479,114,480,119,395,146"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="396,174,457,183,456,188,395,179"/>
+</map>

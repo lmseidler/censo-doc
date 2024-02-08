@@ -1,0 +1,21 @@
+<map id="censo.qm_processor.handle_sigterm" name="censo.qm_processor.handle_sigterm">
+<area shape="rect" id="Node000001" title=" " alt="" coords="789,179,992,223"/>
+<area shape="rect" id="Node000002" href="$classcenso_1_1qm__processor_1_1QmProc.html#a81748554f477059c4ca2522c570d9ac7" title=" " alt="" coords="528,179,741,223"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="774,204,742,204,742,198,774,198"/>
+<area shape="rect" id="Node000003" href="$classcenso_1_1orca__processor_1_1OrcaProc.html#a3cd95a042d8a3abc0f1314bbfeb899ba" title=" " alt="" coords="276,75,471,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="572,174,479,134,447,122,448,117,481,129,574,169"/>
+<area shape="rect" id="Node000007" href="$classcenso_1_1orca__processor_1_1OrcaProc.html#a11fc89aef929e38efaef27c8fa59c965" title=" " alt="" coords="276,144,471,189"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="512,187,471,182,472,177,513,182"/>
+<area shape="rect" id="Node000008" href="$classcenso_1_1qm__processor_1_1QmProc.html#a8f4bbffc200a140a2a92f92cdb1a3782" title=" " alt="" coords="267,213,480,258"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="513,220,481,224,480,219,512,215"/>
+<area shape="rect" id="Node000009" href="$classcenso_1_1qm__processor_1_1QmProc.html#a2eaf0e37fd1647ab4c7bc9ad12b70e7a" title=" " alt="" coords="267,283,480,327"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="574,233,481,273,448,285,447,280,479,268,572,228"/>
+<area shape="rect" id="Node000004" href="$classcenso_1_1orca__processor_1_1OrcaProc.html#a3edcb91bae628b0c05af3a9a4faa7c7b" title=" " alt="" coords="14,5,210,50"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="271,73,198,53,200,48,272,67"/>
+<area shape="rect" id="Node000005" href="$classcenso_1_1orca__processor_1_1OrcaProc.html#ac7d1a85911f1d7740f93f4992a393bf8" title=" " alt="" coords="14,75,210,119"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="260,100,210,100,210,94,260,94"/>
+<area shape="rect" id="Node000006" href="$classcenso_1_1orca__processor_1_1OrcaProc.html#a734277fe6dfb2f8af121162acd489354" title=" " alt="" coords="14,144,210,189"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="272,127,200,146,198,141,271,121"/>
+<area shape="rect" id="Node000010" href="$classcenso_1_1qm__processor_1_1QmProc.html#a728f7c3ee78c29658f0218ced7c04fcd" title=" " alt="" coords="5,283,219,327"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="251,308,219,308,219,302,251,302"/>
+</map>

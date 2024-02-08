@@ -1,0 +1,193 @@
+\doxysection{datastructure.\+py}
+\hypertarget{datastructure_8py_source}{}\label{datastructure_8py_source}\index{/home/polt/prog/CENSOdev/src/censo/datastructure.py@{/home/polt/prog/CENSOdev/src/censo/datastructure.py}}
+\mbox{\hyperlink{datastructure_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00001}\mbox{\hyperlink{namespacecenso_1_1datastructure}{00001}}\ \textcolor{keyword}{from}\ functools\ \textcolor{keyword}{import}\ reduce}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00002}00002\ \textcolor{keyword}{from}\ collections\ \textcolor{keyword}{import}\ OrderedDict}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00003}00003\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ TypedDict}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00005}00005\ \textcolor{keyword}{from}\ .params\ \textcolor{keyword}{import}\ BOHR2ANG,\ OMPMIN}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00008}\mbox{\hyperlink{classcenso_1_1datastructure_1_1Atom}{00008}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1Atom}{Atom}}(TypedDict):}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00009}\mbox{\hyperlink{classcenso_1_1datastructure_1_1Atom_a2b5114b3fb3e8ac29d43b20530fa2aeb}{00009}}\ \ \ \ \ element:\ str}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00010}\mbox{\hyperlink{classcenso_1_1datastructure_1_1Atom_a52eb1250ad61e79ddc16c1b27f39ace3}{00010}}\ \ \ \ \ xyz:\ list[float]}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00013}\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData}{00013}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData}{GeometryData}}:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00014}00014\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00015}00015\ \textcolor{stringliteral}{\ \ \ \ Geometry\ contains\ geometry\ information\ as\ well\ as\ identifier\ to\ match\ it\ to\ a\ MoleculeData\ object}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00016}00016\ \textcolor{stringliteral}{\ \ \ \ in\ order\ to\ keep\ the\ object\ small,\ since\ it\ has\ to\ be\ pickled\ for\ multiprocessing}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00017}00017\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00019}\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a25190551373ca236533131bbcfe62ac4}{00019}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a25190551373ca236533131bbcfe62ac4}{\_\_init\_\_}}(self,\ identifier:\ int,\ name:\ str,\ xyz:\ list[str]):}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ takes\ an\ identifier\ and\ the\ geometry\ lines\ from\ the\ xyz-\/file\ as\ input}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ identifier\ linking\ it\ to\ a\ MoleculeData\ object}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ NOTE:\ this\ is\ runtime\ specific\ since\ it\ is\ set\ via\ built-\/in\ id-\/function}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00026}00026\ \ \ \ \ \ \ \ \ self.id:\ int\ =\ identifier}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ name\ of\ the\ linked\ MoleculeData}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00029}00029\ \ \ \ \ \ \ \ \ self.name:\ str\ =\ name}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ list\ of\ dicts\ preserving\ the\ order\ of\ the\ input\ file\ for\ easy\ mapping}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ the\ coordinates\ should\ be\ given\ in\ Angstrom}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ self.xyz\ =\ [\{"{}element"{}:\ "{}H"{},\ "{}xyz"{}:\ [0.0,\ 0.0,\ 0.0]\},\ \{"{}element"{}:\ "{}C"{},\ "{}xyz"{}:\ [0.0,\ 0.0\ 0.7]\},\ ...]}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{xyz}}:\ list[Atom]\ =\ []}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ set\ up\ xyz\ dict\ from\ the\ input\ lines}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ xyz:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ spl\ =\ [s.strip()\ \textcolor{keywordflow}{for}\ s\ \textcolor{keywordflow}{in}\ line.split()]}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ element\ =\ spl[0].capitalize()}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{xyz}}.append(\{\textcolor{stringliteral}{"{}element"{}}:\ element,\ \textcolor{stringliteral}{"{}xyz"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ float(i)\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ spl[1:]]\})}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Count\ atoms}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ self.nat:\ int\ =\ len(self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{xyz}})}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00046}\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a48d8eb7dd2957e31226560dbb01ab261}{00046}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a48d8eb7dd2957e31226560dbb01ab261}{toorca}}(self)\ -\/>\ list:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00048}00048\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ method\ to\ convert\ the\ internal\ cartesian\ coordinates\ to\ a\ data\ format\ usable\ by\ the\ OrcaParser}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00049}00049\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ coord\ =\ []}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ atom\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{xyz}}:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ coord.append([atom[\textcolor{stringliteral}{"{}element"{}}]]\ +\ atom[\textcolor{stringliteral}{"{}xyz"{}}])}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ coord}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00056}\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_aaaf3cf1d926afab6e563600e49c9b0f6}{00056}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_aaaf3cf1d926afab6e563600e49c9b0f6}{tocoord}}(self)\ -\/>\ list[str]:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00058}00058\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ method\ to\ convert\ the\ internal\ cartesian\ coordinates\ (self.xyz)\ to\ coord\ file\ format\ (for\ tm\ or\ xtb)}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00059}00059\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ coord\ =\ [\textcolor{stringliteral}{"{}\$coord\(\backslash\)n"{}}]}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ atom\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{xyz}}:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ coord.append(}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reduce(}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{lambda}\ x,\ y:\ f\textcolor{stringliteral}{"{}\{x\}\ \{y\}"{}},}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ list(map(\textcolor{keyword}{lambda}\ x:\ float(x)\ /\ BOHR2ANG,}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ atom[\textcolor{stringliteral}{"{}xyz"{}}]))\ +\ [f\textcolor{stringliteral}{"{}\{atom['element']\}\(\backslash\)n"{}}]}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ coord.append(\textcolor{stringliteral}{"{}\$end\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ coord}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00074}\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a8c535b5371a3caee34d72696eff2ca77}{00074}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a8c535b5371a3caee34d72696eff2ca77}{fromcoord}}(self,\ path:\ str)\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00076}00076\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ method\ to\ convert\ the\ content\ of\ a\ coord\ file\ to\ cartesian\ coordinates\ for\ the\ 'xyz'\ attribute}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(path,\ \textcolor{stringliteral}{"{}r"{}})\ \textcolor{keyword}{as}\ file:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ lines\ =\ file.readlines()}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00081}\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{00081}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{xyz}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ lines:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ line.startswith(\textcolor{stringliteral}{"{}\$"{}}):}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coords\ =\ line.split()}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ element\ =\ coords[-\/1]}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cartesian\_coords\ =\ [float(x)\ *\ BOHR2ANG\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ coords[:-\/1]]}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{xyz}}.append(\{\textcolor{stringliteral}{"{}element"{}}:\ element,\ \textcolor{stringliteral}{"{}xyz"{}}:\ cartesian\_coords\})}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ line.startswith(\textcolor{stringliteral}{"{}\$end"{}}):}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00091}\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a266848c78f8234091af9fa938f13d3cc}{00091}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a266848c78f8234091af9fa938f13d3cc}{toxyz}}(self)\ -\/>\ list[str]:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00093}00093\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ method\ to\ convert\ self.xyz\ to\ xyz-\/file\ format}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00094}00094\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ lines\ =\ [}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{self.nat\}\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{self.name\}\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ atom\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{xyz}}:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ lines.append(}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{atom['element']\}\ \{atom['xyz'][0]:.10f\}\ \{atom['xyz'][1]:.10f\}\ \{atom['xyz'][2]:.10f\}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lines}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00107}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{00107}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{MoleculeData}}:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00108}00108\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00109}00109\ \textcolor{stringliteral}{\ \ \ \ MoleculeData\ contains\ identifier,\ a\ GeometryData\ object,}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00110}00110\ \textcolor{stringliteral}{\ \ \ \ as\ well\ as\ the\ sorting\ keys}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00111}00111\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00112}00112\ \textcolor{stringliteral}{\ \ \ \ The\ confomers'\ MoleculeDatas\ are\ set\ up\ in\ censo.ensembledata.EnsembleData.setup\_conformers}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00113}00113\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00115}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData_afb14d6a14a806b7caf948866bb69c07a}{00115}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData_afb14d6a14a806b7caf948866bb69c07a}{\_\_init\_\_}}(self,\ name:\ str,\ xyz:\ list[str]):}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00117}00117\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ takes\ geometry\ lines\ from\ the\ xyz-\/file\ as\ input\ to\ pass\ it\ to\ the\ GeometryData\ constructor}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00118}00118\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ stores\ a\ name\ for\ printing\ and\ (limited)\ between-\/run\ comparisons}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ self.name:\ str\ =\ name}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ stores\ the\ geometry\ info\ to\ have\ a\ small\ object\ to\ be\ used\ for\ multiprocessing}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ self.geom:\ GeometryData\ =\ \mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData}{GeometryData}}(id(self),\ self.name,\ xyz)}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ stores\ the\ degeneration\ factor\ of\ the\ conformer}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ self.degen:\ int\ =\ 1}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ stores\ the\ initial\ xtb\ energy\ from\ CREST\ (or\ whatever\ was\ used\ before)}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ self.xtb\_energy:\ float\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ list\ to\ store\ the\ paths\ to\ all\ MO-\/files\ from\ the\ jobs\ run\ for\ this\ conformer}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ self.mo\_paths:\ list[str]\ =\ []}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ store\ all\ Boltzmann\ weights\ in\ order\ of\ calculation}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ TODO\ -\/\ this\ might\ not\ be\ the\ nicest\ way\ of\ doing\ this}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ self.bmws:\ list[float]\ =\ []}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ stores\ the\ results\ of\ the\ calculations}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00140}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData_aab4d03fae98398f0d851ae3669239d72}{00140}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData_aab4d03fae98398f0d851ae3669239d72}{results}}\ =\ OrderedDict()}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ should\ be\ structured\ like\ the\ following:}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ 'part':\ <results\ from\ part\ jobs/in-\/part-\/calculations>}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ =>\ e.g.\ self.results["{}prescreening"{}]["{}gtot"{}]}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ would\ return\ the\ free\ enthalpy\ of\ the\ conformer\ calculated\ in\ prescreening}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ (not\ calculated\ with\ an\ external\ program)}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ self.results["{}prescreening"{}]["{}sp"{}]}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ returns\ the\ 'result'\ of\ the\ DFT\ single\ point\ in\ prescreening}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ (calculated\ by\ external\ program)}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ to\ get\ the\ single-\/point\ energy:\ self.results["{}prescreening"{}]["{}sp"{}]["{}energy"{}]}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ (confer\ to\ the\ results\ for\ each\ jobtype)}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00154}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{00154}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{ParallelJob}}:}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00155}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob_a35c26f38bc05f1af928a8a4c300843a8}{00155}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob_a35c26f38bc05f1af928a8a4c300843a8}{\_\_init\_\_}}(self,\ conf:\ GeometryData,\ jobtype:\ list[str]):}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ conformer\ for\ the\ job}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00157}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob_a383d10be4b141a15f092494a6912280f}{00157}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob_a383d10be4b141a15f092494a6912280f}{conf}}\ =\ conf}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ list\ of\ jobtypes\ to\ execute\ for\ the\ processor}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00160}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob_a406fa54abb202d5b33101f2b19de0b75}{00160}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob_a406fa54abb202d5b33101f2b19de0b75}{jobtype}}\ =\ jobtype}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ number\ of\ cores\ to\ use}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00163}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob_a3d698998ed731fc2fbba6de25475dc36}{00163}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob_a3d698998ed731fc2fbba6de25475dc36}{omp}}\ =\ OMPMIN}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ stores\ path\ to\ an\ mo\ file\ which\ is\ supposed\ to\ be\ used\ as\ a\ guess}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00166}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob_ada7df532749ffce2ea3fced361091292}{00166}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob_ada7df532749ffce2ea3fced361091292}{mo\_guess}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Stores\ all\ the\ important\ information\ for\ preparation\ of\ the\ input\ files\ for\ every\ jobtype}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Always\ contains\ the\ 'general'\ key,\ which\ basically\ stores\ settings\ from\ the\ general\ section}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ that\ are\ supposed\ to\ be\ applied\ for\ every\ job}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Also\ should\ always\ contain\ the\ name\ of\ the\ part\ where\ the\ job\ is\ launched\ from,\ as\ well\ as\ charge\ and}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ number\ of\ unpaired\ electrons}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ NOTE:\ prepinfo.keys()\ and\ items\ in\ jobtype\ are\ not\ necessarily\ the\ same!\ E.g.\ for\ NMR}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ jobtype\ =\ ["{}nmr"{}],\ prepinfo.keys()\ =\ ["{}nmr\_s"{}],\ or\ prepinfo.keys()\ =\ ["{}nmr\_s"{},\ "{}nmr\_j"{}],\ ...}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ self.prepinfo:\ dict[str,\ dict[str,\ any]]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}general"{}}:\ \{\},\ \textcolor{stringliteral}{"{}partname"{}}:\ \textcolor{stringliteral}{"{}"{}},\ \textcolor{stringliteral}{"{}charge"{}}:\ 0,\ \textcolor{stringliteral}{"{}unpaired"{}}:\ 0\}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ store\ metadata,\ is\ updated\ by\ the\ processor}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ structure\ e.g.:\ \{"{}sp"{}:\ \{"{}success"{}:\ True,\ "{}error"{}:\ None\},\ "{}xtb\_rrho"{}:\ \{"{}success"{}:\ False,\ ...\},\ ...\}}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ always\ contains\ the\ "{}mo\_path"{}\ key}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ self.meta:\ dict[str,\ any]\ =\ \{\textcolor{stringliteral}{"{}mo\_path"{}}:\ \textcolor{keywordtype}{None}\}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ store\ the\ results\ of\ the\ job}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ self.results:\ dict[str,\ any]\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ stores\ all\ flags\ for\ the\ jobtypes}}
+\DoxyCodeLine{\Hypertarget{datastructure_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ self.flags:\ dict[str,\ any]\ =\ \{\}}
+
+\end{DoxyCode}

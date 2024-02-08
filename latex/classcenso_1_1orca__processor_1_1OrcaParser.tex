@@ -1,0 +1,80 @@
+\doxysection{censo.\+orca\+\_\+processor.\+Orca\+Parser Class Reference}
+\hypertarget{classcenso_1_1orca__processor_1_1OrcaParser}{}\label{classcenso_1_1orca__processor_1_1OrcaParser}\index{censo.orca\_processor.OrcaParser@{censo.orca\_processor.OrcaParser}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Ordered\+Dict \mbox{\hyperlink{classcenso_1_1orca__processor_1_1OrcaParser_ab27c21f094766823187f31c860c7859f}{read\+\_\+input}} (self, str path)
+\item 
+None \mbox{\hyperlink{classcenso_1_1orca__processor_1_1OrcaParser_a8477c553d8e4ea4e1446dfdd69b30f4f}{write\+\_\+input}} (self, str path, Ordered\+Dict indict)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Parser for orca input files. Can read input files and transpile them to ordered dict. Also capable of writing an
+input file from a properly ordered dict (see __todict for format).
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{orca__processor_8py_source_l00022}{22}} of file \mbox{\hyperlink{orca__processor_8py_source}{orca\+\_\+processor.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcenso_1_1orca__processor_1_1OrcaParser_ab27c21f094766823187f31c860c7859f}\label{classcenso_1_1orca__processor_1_1OrcaParser_ab27c21f094766823187f31c860c7859f} 
+\index{censo.orca\_processor.OrcaParser@{censo.orca\_processor.OrcaParser}!read\_input@{read\_input}}
+\index{read\_input@{read\_input}!censo.orca\_processor.OrcaParser@{censo.orca\_processor.OrcaParser}}
+\doxysubsubsection{\texorpdfstring{read\_input()}{read\_input()}}
+{\footnotesize\ttfamily  Ordered\+Dict censo.\+orca\+\_\+processor.\+Orca\+Parser.\+read\+\_\+input (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{path }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Read orca input file at 'path' and parse into ordered dict.
+
+Args:
+    path: path to the orca input file
+
+Returns:
+    OrderedDict: OrderedDict containing the parsed input file
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{orca__processor_8py_source_l00028}{28}} of file \mbox{\hyperlink{orca__processor_8py_source}{orca\+\_\+processor.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1orca__processor_1_1OrcaParser_ab27c21f094766823187f31c860c7859f_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcenso_1_1orca__processor_1_1OrcaParser_a8477c553d8e4ea4e1446dfdd69b30f4f}\label{classcenso_1_1orca__processor_1_1OrcaParser_a8477c553d8e4ea4e1446dfdd69b30f4f} 
+\index{censo.orca\_processor.OrcaParser@{censo.orca\_processor.OrcaParser}!write\_input@{write\_input}}
+\index{write\_input@{write\_input}!censo.orca\_processor.OrcaParser@{censo.orca\_processor.OrcaParser}}
+\doxysubsubsection{\texorpdfstring{write\_input()}{write\_input()}}
+{\footnotesize\ttfamily  None censo.\+orca\+\_\+processor.\+Orca\+Parser.\+write\+\_\+input (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{path,  }\item[{Ordered\+Dict}]{indict }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Writes an orca input file at 'path' from an OrderedDict.
+
+Args:
+    path: path to the output file
+    indict: OrderedDict containing the input file
+
+Returns:
+    None
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{orca__processor_8py_source_l00049}{49}} of file \mbox{\hyperlink{orca__processor_8py_source}{orca\+\_\+processor.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1orca__processor_1_1OrcaParser_a8477c553d8e4ea4e1446dfdd69b30f4f_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/polt/prog/\+CENSOdev/src/censo/\mbox{\hyperlink{orca__processor_8py}{orca\+\_\+processor.\+py}}\end{DoxyCompactItemize}

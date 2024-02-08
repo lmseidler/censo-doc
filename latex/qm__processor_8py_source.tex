@@ -1,0 +1,722 @@
+\doxysection{qm\+\_\+processor.\+py}
+\hypertarget{qm__processor_8py_source}{}\label{qm__processor_8py_source}\index{/home/polt/prog/CENSOdev/src/censo/qm\_processor.py@{/home/polt/prog/CENSOdev/src/censo/qm\_processor.py}}
+\mbox{\hyperlink{qm__processor_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00001}\mbox{\hyperlink{namespacecenso_1_1qm__processor}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00002}00002\ \textcolor{stringliteral}{Contains\ QmProc\ base\ class,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00003}00003\ \textcolor{stringliteral}{Additionally\ contains\ functions\ which\ should\ be\ present\ irrespective\ of\ the\ QM}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00004}00004\ \textcolor{stringliteral}{code.\ (xTB\ always\ available)}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00005}00005\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00006}00006\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00007}00007\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00008}00008\ \textcolor{keyword}{import}\ signal}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00009}00009\ \textcolor{keyword}{import}\ subprocess}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00010}00010\ \textcolor{keyword}{from}\ time\ \textcolor{keyword}{import}\ perf\_counter}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00011}00011\ \textcolor{keyword}{from}\ collections.abc\ \textcolor{keyword}{import}\ Callable}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00013}00013\ \textcolor{keyword}{from}\ .datastructure\ \textcolor{keyword}{import}\ ParallelJob}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00014}00014\ \textcolor{keyword}{from}\ .params\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00015}00015\ \ \ \ \ ENVIRON,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00016}00016\ \ \ \ \ CODING,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00017}00017\ \ \ \ \ rot\_sym\_num,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00018}00018\ \ \ \ \ PLENGTH,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00019}00019\ \ \ \ \ DIGILEN,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00020}00020\ \ \ \ \ WARNLEN,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00021}00021\ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00022}00022\ \textcolor{keyword}{from}\ .utilities\ \textcolor{keyword}{import}\ \textcolor{keywordflow}{print},\ frange}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00023}00023\ \textcolor{keyword}{from}\ .logging\ \textcolor{keyword}{import}\ setup\_logger}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00025}\mbox{\hyperlink{namespacecenso_1_1qm__processor_a509529337b6a10a34e0f2350477f799e}{00025}}\ logger\ =\ setup\_logger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00028}\mbox{\hyperlink{namespacecenso_1_1qm__processor_a22b125619a26fa23f1e2a590c737a202}{00028}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacecenso_1_1qm__processor_a22b125619a26fa23f1e2a590c737a202}{handle\_sigterm}}(signum,\ frame,\ sub):}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00029}00029\ \ \ \ \ logger.critical(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{f'worker\{os.getpid()\}:':\{WARNLEN\}\}Received\ SIGTERM.\ Terminating."{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00031}00031\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00032}00032\ \ \ \ \ sub.send\_signal(signal.SIGTERM)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00035}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc}{00035}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc}{QmProc}}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00036}00036\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ QmProc\ base\ class}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00038}00038\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00040}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_ad4b7bb19bdfd6e2a4f53df984795c110}{00040}}\ \ \ \ \ \_paths\ =\ \{}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}orcapath"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}orcaversion"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtbpath"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}crestpath"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cosmorssetup"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}dbpath"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cosmothermversion"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mpshiftpath"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}escfpath"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00050}00050\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00052}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a637ee0476f4d6e17e2b52bfa6b75cb1e}{00052}}\ \ \ \ \ \_req\_settings\_xtb\ =\ \{}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtb\_sp"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gfnv"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtb\_gsolv"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ no\ special\ requirements}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtb\_rrho"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gfnv"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00064}00064\ \ \ \ \ \textcolor{preprocessor}{@classmethod}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00065}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_ad3b9f86de0bab593c9701ffee2570474}{00065}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_ad3b9f86de0bab593c9701ffee2570474}{print\_paths}}(cls)\ -\/>\ None:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00067}00067\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Print\ out\ the\ paths\ of\ all\ external\ QM\ programs.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00068}00068\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ an\ empty\ list\ to\ store\ the\ lines\ of\ the\ output.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ lines\ =\ []}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Append\ a\ separator\ line\ to\ the\ output.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ lines.append(\textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ +\ \textcolor{stringliteral}{"{}"{}}.ljust(PLENGTH,\ \textcolor{stringliteral}{"{}-\/"{}})\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Append\ the\ title\ of\ the\ section\ to\ the\ output,\ centered.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ lines.append(\textcolor{stringliteral}{"{}PATHS\ of\ external\ QM\ programs"{}}.center(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ PLENGTH,\ \textcolor{stringliteral}{"{}\ "{}})\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Append\ a\ separator\ line\ to\ the\ output.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ lines.append(\textcolor{stringliteral}{"{}"{}}.ljust(PLENGTH,\ \textcolor{stringliteral}{"{}-\/"{}})\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Iterate\ over\ each\ program\ and\ its\ path\ in\ the\ settings.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ program,\ path\ \textcolor{keywordflow}{in}\ cls.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_ad4b7bb19bdfd6e2a4f53df984795c110}{\_paths}}.items():}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Append\ a\ line\ with\ the\ program\ and\ its\ path\ to\ the\ output.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ lines.append(f\textcolor{stringliteral}{"{}\{program\}:"{}}.ljust(DIGILEN,\ \textcolor{stringliteral}{"{}\ "{}})\ +\ f\textcolor{stringliteral}{"{}\{path\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Print\ each\ line\ of\ the\ output.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ lines:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ print(line)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00091}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a91f871d129615044bcc2b7a64b32dbf4}{00091}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a91f871d129615044bcc2b7a64b32dbf4}{\_\_init\_\_}}(self,\ workdir:\ str):}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ dict\ to\ map\ the\ jobtypes\ to\ their\ respective\ methods}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ self.\_jobtypes:\ dict[str,\ Callable]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00094}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a557e2e7d49bd60e4699770351a9f0766}{00094}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtb\_sp"{}}:\ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a557e2e7d49bd60e4699770351a9f0766}{\_xtb\_sp}}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a2eaf0e37fd1647ab4c7bc9ad12b70e7a}{\_xtb\_sp}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00095}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a561389dd11ca26bba601a08177fcdd64}{00095}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtb\_gsolv"{}}:\ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a561389dd11ca26bba601a08177fcdd64}{\_xtb\_gsolv}}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a728f7c3ee78c29658f0218ced7c04fcd}{\_xtb\_gsolv}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00096}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_ab43dec45e81d6cbccd788e36e6ea60ef}{00096}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtb\_rrho"{}}:\ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_ab43dec45e81d6cbccd788e36e6ea60ef}{\_xtb\_rrho}}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a8f4bbffc200a140a2a92f92cdb1a3782}{\_xtb\_rrho}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00099}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a0917e29e566bd7e61d298389ac1dd24a}{00099}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a0917e29e566bd7e61d298389ac1dd24a}{workdir}}\ =\ workdir}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00101}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a02c2f0459a8017bf51f9849344a42af5}{00101}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a02c2f0459a8017bf51f9849344a42af5}{run}}(self,\ job:\ ParallelJob)\ -\/>\ ParallelJob:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00103}00103\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Run\ methods\ depending\ on\ jobtype.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00104}00104\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ DO\ NOT\ OVERRIDE\ OR\ OVERLOAD!\ this\ will\ break\ e.g.\ censo.parallel.execute}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00105}00105\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00106}00106\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00107}00107\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ job\ (ParallelJob):\ job\ to\ run}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00108}00108\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00109}00109\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00110}00110\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ job\ (ParallelJob):\ job\ with\ results}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00111}00111\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{f'worker\{os.getpid()\}:':\{WARNLEN\}\}Running\ on\ \{job.omp\}\ cores."{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ jobtype\ is\ basically\ an\ ordered\ (!!!)\ (important\ e.g.\ if\ sp\ is\ required\ before\ the\ next\ step)}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ list\ containing\ the\ types\ of\ computations\ to\ do}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ all(t\ \textcolor{keywordflow}{in}\ self.\_jobtypes.keys()\ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ job.jobtype):}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}At\ least\ one\ jobtype\ of\ \{self.\_jobtypes\}\ is\ not\ available\ for\ \{self.\_\_class\_\_.\_\_name\_\_\}.\(\backslash\)nAvailable\ "{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ f\textcolor{stringliteral}{"{}jobtypes\ are:\ \{self.\_jobtypes.keys()\}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ run\ all\ the\ computations}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ job.jobtype:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ jobdir}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ jobdir\ =\ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a1bd575b413b1802441d38578f4b9ebc5}{\_create\_jobdir}}(job.conf.name,\ j)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Time\ execution}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ start\ =\ perf\_counter()}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{f'worker\{os.getpid()\}:':\{WARNLEN\}\}Running\ \{j\}\ calculation\ in\ \{jobdir\}."{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Running\ \{j\}\ calculation\ for\ \{job.conf.name\}."{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ job.results[j],\ job.meta[j]\ =\ self.\_jobtypes[j](job,\ jobdir)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Copy\ mo\ path\ if\ possible\ to\ be\ used\ for\ further\ calculations}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ (processors\ grab\ the\ mo\ path\ from\ the\ 'mo\_path'\ key\ that\ is\ always\ present\ in\ the\ meta\ dict)}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ job.meta[j].get(\textcolor{stringliteral}{"{}mo\_path"{}},\ \textcolor{keywordtype}{None})\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.meta[\textcolor{stringliteral}{"{}mo\_path"{}}]\ =\ job.meta[j][\textcolor{stringliteral}{"{}mo\_path"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ end\ =\ perf\_counter()}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ job.meta[j][\textcolor{stringliteral}{"{}time"{}}]\ =\ end\ -\/\ start}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ a\ calculation\ failed\ all\ following\ calculations\ will\ not\ be\ executed}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ job.meta[j][\textcolor{stringliteral}{"{}success"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j2\ \textcolor{keywordflow}{in}\ job.jobtype[job.jobtype.index(j)\ +\ 1:]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.meta[j2][\textcolor{stringliteral}{"{}success"{}}]\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.meta[j2][\textcolor{stringliteral}{"{}error"{}}]\ =\ \textcolor{stringliteral}{"{}Previous\ calculation\ failed"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ job.meta[\textcolor{stringliteral}{"{}total\_time"{}}]\ =\ sum(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ job.meta[j][\textcolor{stringliteral}{"{}time"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ job.jobtype}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ job.meta[j][\textcolor{stringliteral}{"{}error"{}}]\ !=\ \textcolor{stringliteral}{"{}Previous\ calculation\ failed"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ returns\ modified\ job\ object\ with\ result\ dict\ e.g.:\ \{"{}sp"{}:\ ...,\ "{}gsolv"{}:\ ...,\ etc.\}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ job}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00161}00161\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00162}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a81748554f477059c4ca2522c570d9ac7}{00162}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a81748554f477059c4ca2522c570d9ac7}{\_make\_call}}(call:\ list,\ outputpath:\ str,\ jobdir:\ str)\ -\/>\ int:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00164}00164\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Make\ a\ call\ to\ an\ external\ program\ and\ write\ output\ into\ outputfile.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00165}00165\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00166}00166\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00167}00167\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ call\ (list):\ list\ containing\ the\ call\ to\ the\ external\ program}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00168}00168\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ outputpath\ (str):\ path\ to\ the\ outputfile}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00169}00169\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ jobdir\ (str):\ path\ to\ the\ jobdir}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00170}00170\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00171}00171\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00172}00172\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ returncode\ (int):\ returncode\ of\ the\ external\ program}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00173}00173\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ call\ external\ program\ and\ write\ output\ into\ outputfile}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(outputpath,\ \textcolor{stringliteral}{"{}w"{}},\ newline=\textcolor{keywordtype}{None})\ \textcolor{keyword}{as}\ outputfile:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{f'worker\{os.getpid()\}:':\{WARNLEN\}\}Running\ \{call\}..."{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ create\ subprocess\ for\ external\ program}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ sub\ =\ subprocess.Popen(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ call,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ shell=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stdin=\textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stderr=subprocess.STDOUT,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ universal\_newlines=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cwd=jobdir,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stdout=outputfile,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ env=ENVIRON,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{f'worker\{os.getpid()\}:':\{WARNLEN\}\}Started\ (PID:\ \{sub.pid\})."{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ make\ sure\ to\ send\ SIGTERM\ to\ subprocess\ if\ program\ is\ quit}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ signal.signal(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ signal.SIGTERM,\ \textcolor{keyword}{lambda}\ signum,\ frame:\ \mbox{\hyperlink{namespacecenso_1_1qm__processor_a22b125619a26fa23f1e2a590c737a202}{handle\_sigterm}}(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ signum,\ frame,\ sub)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ wait\ for\ process\ to\ finish}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ returncode\ =\ sub.wait()}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}\{f'worker\{os.getpid()\}:':\{WARNLEN\}\}Done."{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ returncode}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00208}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a1bd575b413b1802441d38578f4b9ebc5}{00208}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a1bd575b413b1802441d38578f4b9ebc5}{\_create\_jobdir}}(self,\ confname:\ str,\ job:\ str)\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00210}00210\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Creates\ a\ subdir\ in\ confdir\ for\ the\ job.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00211}00211\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ jobdir\ =\ os.path.join(self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a0917e29e566bd7e61d298389ac1dd24a}{workdir}},\ confname,\ job)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ the\ directory}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ os.makedirs(jobdir)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ FileExistsError:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{f'worker\{os.getpid()\}:':\{WARNLEN\}\}Jobdir\ \{jobdir\}\ already\ exists!"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ Files\ will\ be\ overwritten."{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ jobdir}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00225}00225\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00226}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a72a4a67a78c68e86670f99b06485dc83}{00226}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a72a4a67a78c68e86670f99b06485dc83}{\_get\_sym\_num}}(sym=None,\ linear=None):}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ rotational\ symmetry\ number\ from\ Schoenfließ\ symbol"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ sym\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ sym\ =\ \textcolor{stringliteral}{"{}c1"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ linear\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ linear\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ symnum\ =\ 1}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ linear\ \textcolor{keywordflow}{and}\ \textcolor{stringliteral}{"{}c"{}}\ \textcolor{keywordflow}{in}\ sym.lower()[0]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ symnum\ =\ 1}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ symnum}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ linear\ \textcolor{keywordflow}{and}\ \textcolor{stringliteral}{"{}d"{}}\ \textcolor{keywordflow}{in}\ sym.lower()[0]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ symnum\ =\ 2}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ symnum}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ key\ \textcolor{keywordflow}{in}\ rot\_sym\_num.keys():}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ key\ \textcolor{keywordflow}{in}\ sym.lower():}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ symnum\ =\ rot\_sym\_num.get(key,\ 1)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ symnum}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00245}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a2eaf0e37fd1647ab4c7bc9ad12b70e7a}{00245}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a557e2e7d49bd60e4699770351a9f0766}{\_xtb\_sp}}(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ job:\ ParallelJob,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ jobdir:\ str,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ filename:\ str\ =\ \textcolor{stringliteral}{"{}xtb\_sp"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ no\_solv:\ bool\ =\ \textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00251}00251\ \ \ \ \ )\ -\/>\ tuple[dict[str,\ float\ |\ \textcolor{keywordtype}{None}],\ dict[str,\ any]]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00253}00253\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Calculates\ the\ single-\/point\ energy\ with\ GFNn-\/xTB\ or\ GFN-\/FF.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00254}00254\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00255}00255\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00256}00256\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ job\ (ParallelJob):\ job\ to\ run}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00257}00257\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ jobdir\ (str):\ path\ to\ the\ jobdir}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00258}00258\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ filename\ (str,\ optional):\ filename\ to\ use\ for\ the\ coord\ file.\ Defaults\ to\ "{}xtb\_sp"{}.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00259}00259\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ no\_solv\ (bool,\ optional):\ whether\ to\ run\ the\ sp\ in\ gas-\/phase.\ Defaults\ to\ False.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00260}00260\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00261}00261\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00262}00262\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ result\ (dict[str,\ float\ |\ None]):\ result\ of\ the\ sp\ calculation}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00263}00263\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ meta\ (dict[str,\ any]):\ metadata\ about\ the\ job}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00264}00264\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00265}00265\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ result\ =\ \{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00266}00266\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}energy"{}:\ None,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00267}00267\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00268}00268\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ set\ results}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ result\ =\ \{}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}energy"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ set\ metadata}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ meta\ =\ \{}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00279}00279\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ set\ in/out\ path}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ inputpath\ =\ os.path.join(jobdir,\ f\textcolor{stringliteral}{"{}\{filename\}.coord"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ outputpath\ =\ os.path.join(jobdir,\ f\textcolor{stringliteral}{"{}\{filename\}.out"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ xcontrolname\ =\ \textcolor{stringliteral}{"{}xtb\_sp-\/xcontrol-\/inp"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00284}00284\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ cleanup}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ files\ =\ [}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtbrestart"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtbtopo.mol"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ xcontrolname,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wbo"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}charges"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gfnff\_topo"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{filename\}.out"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ remove\ potentially\ preexisting\ files\ to\ avoid\ confusion}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ file\ \textcolor{keywordflow}{in}\ files:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ os.path.isfile(os.path.join(jobdir,\ file)):}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os.remove(os.path.join(jobdir,\ file))}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ generate\ coord\ file\ for\ xtb}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(inputpath,\ \textcolor{stringliteral}{"{}w"{}},\ newline=\textcolor{keywordtype}{None})\ \textcolor{keyword}{as}\ file:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ file.writelines(job.conf.tocoord())}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ setup\ call\ for\ xtb\ single-\/point}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ call\ =\ [}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_ad4b7bb19bdfd6e2a4f53df984795c110}{\_paths}}[\textcolor{stringliteral}{"{}xtbpath"{}}],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{filename\}.coord"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/"{}}\ +\ job.prepinfo[\textcolor{stringliteral}{"{}xtb\_sp"{}}][\textcolor{stringliteral}{"{}gfnv"{}}],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/sp"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/chrg"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{job.prepinfo['charge']\}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/norestart"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/parallel"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{job.omp\}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ add\ solvent\ to\ xtb\ call\ if\ not\ a\ gas-\/phase\ sp}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ (set\ either\ through\ run\ settings\ or\ by\ call\ kwarg\ e.g.\ for\ \_xtb\_gsolv)}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ NOTE\ on\ solvents\_dict\ (or\ rather\ censo\_solvents.json):}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ [0]\ is\ the\ normal\ name\ of\ the\ solvent,\ if\ it\ is\ available,\ [1]\ is\ the\ replacement}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ (job.prepinfo[\textcolor{stringliteral}{"{}general"{}}].get(\textcolor{stringliteral}{"{}gas-\/phase"{}},\ \textcolor{keyword}{False})\ \textcolor{keywordflow}{or}\ no\_solv):}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ call.extend(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/"{}}\ +\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}sm\_rrho"{}}],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.prepinfo[\textcolor{stringliteral}{"{}xtb\_sp"{}}][\textcolor{stringliteral}{"{}solvent\_key\_xtb"{}}],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}reference"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/I"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xcontrolname,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00332}00332\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ set\ gbsa\ grid}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(os.path.join(jobdir,\ xcontrolname),\ \textcolor{stringliteral}{"{}w"{}},\ newline=\textcolor{keywordtype}{None})\ \textcolor{keyword}{as}\ xcout:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(\textcolor{stringliteral}{"{}\$gbsa\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(\textcolor{stringliteral}{"{}\ \ gbsagrid=tight\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(\textcolor{stringliteral}{"{}\$end\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ call\ xtb}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ returncode\ =\ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a81748554f477059c4ca2522c570d9ac7}{\_make\_call}}(call,\ outputpath,\ jobdir)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ returncode\ !=\ 0\ then\ some\ error\ happened\ in\ xtb}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ returncode\ !=\ 0:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}success"{}}]\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}error"{}}]\ =\ \textcolor{stringliteral}{"{}what\ went\ wrong\ in\ xtb\_sp"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result,\ meta}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ read\ energy\ from\ outputfile}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(outputpath,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=CODING,\ newline=\textcolor{keywordtype}{None})\ \textcolor{keyword}{as}\ outputfile:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ outputfile.readlines():}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}|\ TOTAL\ ENERGY"{}}\ \textcolor{keywordflow}{in}\ line:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}energy"{}}]\ =\ float(line.split()[3])}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}success"{}}]\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ TODO\ -\/\ important\ -\/\ what\ to\ do\ if\ calculation\ not\ converged?}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ FIXME\ -\/\ right\ now\ the\ case\ meta["{}success"{}]\ =\ None\ might\ appear\ if\ "{}TOTAL\ ENERGY"{}\ is\ not\ found\ in\ outputfile}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result,\ meta}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00358}00358\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00359}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a728f7c3ee78c29658f0218ced7c04fcd}{00359}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a561389dd11ca26bba601a08177fcdd64}{\_xtb\_gsolv}}(self,\ job:\ ParallelJob,\ jobdir:\ str)\ -\/>\ tuple[dict[str,\ float\ |\ \textcolor{keywordtype}{None}],\ dict[str,\ any]]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00361}00361\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Calculate\ additive\ GBSA\ or\ ALPB\ solvation\ using\ GFNn-\/xTB\ or\ GFN-\/FF.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00362}00362\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00363}00363\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00364}00364\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ job\ (ParallelJob):\ job\ to\ run}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00365}00365\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ jobdir\ (str):\ path\ to\ the\ jobdir}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00366}00366\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00367}00367\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00368}00368\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ result\ (dict[str,\ any]):\ result\ of\ the\ gsolv\ calculation}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00369}00369\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00370}00370\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ result\ =\ \{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00371}00371\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}gsolv"{}:\ None,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00372}00372\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}energy\_xtb\_gas"{}:\ None,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00373}00373\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}energy\_xtb\_solv"{}:\ None,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00374}00374\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00375}00375\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ what\ is\ returned\ in\ the\ end}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ result\ =\ \{}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gsolv"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}energy\_xtb\_gas"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}energy\_xtb\_solv"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00381}00381\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ meta\ =\ \{}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00387}00387\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ run\ gas-\/phase\ GFN\ single-\/point}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ spres,\ spmeta\ =\ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a557e2e7d49bd60e4699770351a9f0766}{\_xtb\_sp}}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a2eaf0e37fd1647ab4c7bc9ad12b70e7a}{\_xtb\_sp}}(job,\ jobdir,\ filename=\textcolor{stringliteral}{"{}gas"{}},\ no\_solv=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00390}00390\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ spmeta[\textcolor{stringliteral}{"{}success"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}energy\_xtb\_gas"{}}]\ =\ spres[\textcolor{stringliteral}{"{}energy"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}success"{}}]\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}error"{}}]\ =\ \textcolor{stringliteral}{"{}what\ went\ wrong\ in\ xtb\_gsolv"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result,\ meta}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00396}00396\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00397}00397\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ run\ single-\/point\ in\ solution:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ''reference''\ corresponds\ to\ 1\(\backslash\);bar\ of\ ideal\ gas\ and\ 1\(\backslash\);mol/L\ of\ liquid}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ solution\ at\ infinite\ dilution,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00400}00400\ \ \ \ \ \ \ \ \ spres,\ spmeta\ =\ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a557e2e7d49bd60e4699770351a9f0766}{\_xtb\_sp}}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a2eaf0e37fd1647ab4c7bc9ad12b70e7a}{\_xtb\_sp}}(job,\ jobdir,\ filename=\textcolor{stringliteral}{"{}solv"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00401}00401\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ spmeta[\textcolor{stringliteral}{"{}success"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}energy\_xtb\_solv"{}}]\ =\ spres[\textcolor{stringliteral}{"{}energy"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00403}00403\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}success"{}}]\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}error"{}}]\ =\ \textcolor{stringliteral}{"{}what\ went\ wrong\ in\ xtb\_gsolv"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result,\ meta}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00407}00407\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00408}00408\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ only\ reached\ if\ both\ gas-\/phase\ and\ solvated\ sp\ succeeded}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}gsolv"{}}]\ =\ result[\textcolor{stringliteral}{"{}energy\_xtb\_solv"{}}]\ -\/\ result[\textcolor{stringliteral}{"{}energy\_xtb\_gas"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00410}00410\ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}success"{}}]\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00411}00411\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00412}00412\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result,\ meta}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00413}00413\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00414}00414\ \ \ \ \ \textcolor{comment}{\#\ TODO\ -\/\ break\ this\ down}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00415}\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a8f4bbffc200a140a2a92f92cdb1a3782}{00415}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_ab43dec45e81d6cbccd788e36e6ea60ef}{\_xtb\_rrho}}(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00416}00416\ \ \ \ \ \ \ \ \ self,\ job:\ ParallelJob,\ jobdir:\ str,\ filename:\ str\ =\ \textcolor{stringliteral}{"{}xtb\_rrho"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00417}00417\ \ \ \ \ )\ -\/>\ tuple[dict[str,\ any],\ dict[str,\ any]]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00419}00419\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Calculates\ the\ mRRHO\ contribution\ to\ the\ free\ enthalpy\ of\ a\ conformer\ with\ GFNn-\/xTB/GFN-\/FF.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00420}00420\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00421}00421\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00422}00422\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ job\ (ParallelJob):\ job\ to\ run}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00423}00423\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ jobdir\ (str):\ path\ to\ the\ jobdir}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00424}00424\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ filename\ (str,\ optional):\ filename\ to\ use\ for\ the\ coord\ file.\ Defaults\ to\ "{}xtb\_rrho"{}.}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00425}00425\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00426}00426\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00427}00427\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ result\ (dict[str,\ any]):\ result\ of\ the\ rrho\ calculation}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00428}00428\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00429}00429\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ result\ =\ \{}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00430}00430\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}energy"{}:\ None,\ \#\ contains\ the\ gibbs\ energy\ at\ given\ temperature\ (might\ be\ ZPVE\ if\ T\ =\ 0K)}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00431}00431\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}rmsd"{}:\ None,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00432}00432\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}gibbs"{}:\ None,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00433}00433\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}enthalpy"{}:\ None,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00434}00434\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}entropy"{}:\ None,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00435}00435\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}symmetry"{}:\ None,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00436}00436\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}symnum"{}:\ None,}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00437}00437\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00438}00438\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00439}00439\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ what\ is\ returned\ in\ the\ end}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00440}00440\ \ \ \ \ \ \ \ \ result\ =\ \{}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}energy"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}rmsd"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gibbs"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}enthalpy"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}entropy"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}symmetry"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}symnum"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00448}00448\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00449}00449\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ meta\ =\ \{}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00453}00453\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00454}00454\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00455}00455\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ set\ in/out\ path}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00456}00456\ \ \ \ \ \ \ \ \ outputpath\ =\ os.path.join(jobdir,\ f\textcolor{stringliteral}{"{}\{filename\}.out"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00457}00457\ \ \ \ \ \ \ \ \ xcontrolname\ =\ \textcolor{stringliteral}{"{}rrho-\/xcontrol-\/inp"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00458}00458\ \ \ \ \ \ \ \ \ xcontrolpath\ =\ os.path.join(jobdir,\ xcontrolname)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00459}00459\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00460}00460\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ TODO\ -\/\ is\ this\ list\ complete?}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00461}00461\ \ \ \ \ \ \ \ \ files\ =\ [}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtbrestart"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}xtbtopo.mol"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ xcontrolname,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}wbo"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}charges"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gfnff\_topo"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00468}00468\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00469}00469\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ remove\ potentially\ preexisting\ files\ to\ avoid\ confusion}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00471}00471\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ file\ \textcolor{keywordflow}{in}\ files:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00472}00472\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ os.path.isfile(os.path.join(jobdir,\ file)):}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00473}00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os.remove(os.path.join(jobdir,\ file))}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00474}00474\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00475}00475\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ setup\ xcontrol}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(xcontrolpath,\ \textcolor{stringliteral}{"{}w"{}},\ newline=\textcolor{keywordtype}{None})\ \textcolor{keyword}{as}\ xcout:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00477}00477\ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(\textcolor{stringliteral}{"{}\$thermo\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}multitemp"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00479}00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ trange\ =\ frange(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00480}00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}trange"{}}][0],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}trange"{}}][1],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ step=job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}trange"{}}][2],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00484}00484\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Always\ append\ the\ fixed\ temperature\ to\ the\ trange\ so\ that\ it\ is\ the\ last\ value}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00486}00486\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ (important\ since\ -\/-\/enso\ will\ make\ xtb\ give\ the\ G(T)\ value\ for\ this\ temperature)}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00487}00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ trange.append(job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}temperature"{}}])}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00488}00488\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00489}00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Write\ trange\ to\ the\ xcontrol\ file}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00490}00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\ \ \ \ temp="{}}\ f\textcolor{stringliteral}{"{}\{','.join([str(i)\ for\ i\ in\ trange])\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\ \ \ \ temp=\{job.prepinfo['general']['temperature']\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00495}00495\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(f\textcolor{stringliteral}{"{}\ \ \ \ sthr=\{job.prepinfo['general']['sthr']\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00497}00497\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(f\textcolor{stringliteral}{"{}\ \ \ \ imagthr=\{job.prepinfo['general']['imagthr']\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00499}00499\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ TODO\ -\/\ when\ do\ you\ actually\ want\ to\ set\ the\ scale\ manually?}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ don't\ set\ scale\ manually\ for\ now}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}\ if\ self.instructions.get("{}scale"{},\ "{}automatic"{})\ !=\ "{}automatic"{}:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00503}00503\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ for\ automatic\ -\/-\/>\ is\ method\ dependant\ leave\ it\ to\ xTB\ e.g.\ GFNFF\ has\ a}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00504}00504\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ different\ scaling\ factor\ than\ GFN2}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00505}00505\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(f"{}\ \ \ \ scale=\{self.instructions['scale']\}\(\backslash\)n"{})\ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00506}00506\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(\textcolor{stringliteral}{"{}\$symmetry\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00508}00508\ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(\textcolor{stringliteral}{"{}\ \ \ \ \ maxat=1000\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ always\ consider\ symmetry}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ xcout.write("{}\ \ \ \ desy=0.1\(\backslash\)n"{})\ \#\ taken\ from\ xtb\ defaults}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ xcout.write("{}\ \ \ \ desy=0.0\(\backslash\)n"{})}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00512}00512\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ set\ gbsa\ grid}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}gas-\/phase"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(\textcolor{stringliteral}{"{}\$gbsa\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(\textcolor{stringliteral}{"{}\ \ gbsagrid=tight\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00517}00517\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ xcout.write(\textcolor{stringliteral}{"{}\$end\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00519}00519\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00520}00520\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}bhess"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ set\ ohess\ or\ bhess}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00522}00522\ \ \ \ \ \ \ \ \ \ \ \ \ dohess\ =\ \textcolor{stringliteral}{"{}-\/-\/bhess"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ dohess\ =\ \textcolor{stringliteral}{"{}-\/-\/ohess"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00525}00525\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00526}00526\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ generate\ coord\ file\ for\ xtb}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00527}00527\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(os.path.join(jobdir,\ f\textcolor{stringliteral}{"{}\{filename\}.coord"{}}),\ \textcolor{stringliteral}{"{}w"{}},\ newline=\textcolor{keywordtype}{None})\ \textcolor{keyword}{as}\ file:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ file.writelines(job.conf.tocoord())}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00529}00529\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00530}00530\ \ \ \ \ \ \ \ \ call\ =\ [}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_ad4b7bb19bdfd6e2a4f53df984795c110}{\_paths}}[\textcolor{stringliteral}{"{}xtbpath"{}}],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{filename\}.coord"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/"{}}\ +\ job.prepinfo[\textcolor{stringliteral}{"{}xtb\_rrho"{}}][\textcolor{stringliteral}{"{}gfnv"{}}],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ dohess,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}vtight"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/chrg"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{job.prepinfo['charge']\}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/enso"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/norestart"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/I"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ xcontrolname,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00542}00542\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/parallel"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{job.omp\}"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00544}00544\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00545}00545\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00546}00546\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ add\ solvent\ to\ xtb\ call\ if\ necessary}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00547}00547\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}gas-\/phase"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ call.extend(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00549}00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00550}00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/"{}}\ +\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}sm\_rrho"{}}],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00551}00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.prepinfo[\textcolor{stringliteral}{"{}xtb\_rrho"{}}][\textcolor{stringliteral}{"{}solvent\_key\_xtb"{}}],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00554}00554\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00555}00555\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ rmsd\ bias\ is\ used\ (should\ be\ defined\ in\ censo\ workdir\ (cwd))\ TODO}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00556}00556\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}rmsdbias"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ move\ one\ dir\ up\ to\ get\ to\ cwd\ (FIXME)}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00558}00558\ \ \ \ \ \ \ \ \ \ \ \ \ cwd\ =\ os.path.join(os.path.split(self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a0917e29e566bd7e61d298389ac1dd24a}{workdir}})[::-\/1][1:][::-\/1])}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00559}00559\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ call.extend(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00561}00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00562}00562\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/bias-\/input"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00563}00563\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os.path.join(cwd,\ \textcolor{stringliteral}{"{}rmsdpot.xyz"{}}),}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00564}00564\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00565}00565\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00566}00566\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00567}00567\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ call\ xtb}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00568}00568\ \ \ \ \ \ \ \ \ returncode\ =\ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a81748554f477059c4ca2522c570d9ac7}{\_make\_call}}(call,\ outputpath,\ jobdir)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00569}00569\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00570}00570\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ check\ if\ converged:}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00571}00571\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ returncode\ !=\ 0:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00572}00572\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}success"{}}]\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}error"{}}]\ =\ \textcolor{stringliteral}{"{}what\ went\ wrong\ in\ xtb\_rrho"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result,\ meta}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00575}00575\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00576}00576\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ read\ output\ and\ store\ lines}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00577}00577\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(outputpath,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=CODING,\ newline=\textcolor{keywordtype}{None})\ \textcolor{keyword}{as}\ outputfile:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ lines\ =\ outputfile.readlines()}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00579}00579\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00580}00580\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}multitemp"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00581}00581\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ get\ gibbs\ energy,\ enthalpy\ and\ entropy\ for\ given\ temperature\ range}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00582}00582\ \ \ \ \ \ \ \ \ \ \ \ \ trange\ =\ frange(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}trange"{}}][0],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}trange"{}}][1],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ step=job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}trange"{}}][2],}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00587}00587\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00588}00588\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ gibbs\ energy}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00589}00589\ \ \ \ \ \ \ \ \ \ \ \ \ gt\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00590}00590\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00591}00591\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ enthalpy}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00592}00592\ \ \ \ \ \ \ \ \ \ \ \ \ ht\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00593}00593\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00594}00594\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ Gibbs\ energy\ and\ enthalpy}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00595}00595\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ lines:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00596}00596\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}T/K"{}}\ \textcolor{keywordflow}{in}\ line:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00597}00597\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line2\ \textcolor{keywordflow}{in}\ lines[lines.index(line)\ +\ 2:]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00598}00598\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}}\ \textcolor{keywordflow}{in}\ line2:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00599}00599\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00600}00600\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00601}00601\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\ =\ float(line2.split()[0])}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00602}00602\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gt[T]\ =\ float(line2.split()[4])}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00603}00603\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ht[T]\ =\ float(line2.split()[2])}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00604}00604\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00605}00605\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ rotational\ entropy}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00606}00606\ \ \ \ \ \ \ \ \ \ \ \ \ rotS\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00607}00607\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00608}00608\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ rotational\ entropy}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00609}00609\ \ \ \ \ \ \ \ \ \ \ \ \ entropy\_lines\ =\ (}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00610}00610\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (line,\ lines[i\ +\ 1])\ \textcolor{keywordflow}{for}\ i,\ line\ \textcolor{keywordflow}{in}\ enumerate(lines)\ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}VIB"{}}\ \textcolor{keywordflow}{in}\ line}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00611}00611\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00612}00612\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ entropy\_lines:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00613}00613\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\ =\ float(line[0].split()[0])}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00614}00614\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rotS[T]\ =\ float(line[1].split()[4])}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00615}00615\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00616}00616\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ symmetry}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00617}00617\ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}linear"{}}]\ =\ next(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00618}00618\ \ \ \ \ \ \ \ \ \ \ \ \ (}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00619}00619\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}true"{}}:\ \textcolor{keyword}{True},\ \textcolor{stringliteral}{"{}false"{}}:\ \textcolor{keyword}{False}\}[line.split()[2]]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00620}00620\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ lines}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00621}00621\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}:\ \ linear?\ "{}}\ \textcolor{keywordflow}{in}\ line}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00622}00622\ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00623}00623\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00624}00624\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00625}00625\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00626}00626\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ rmsd}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00627}00627\ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}rmsd"{}}]\ =\ next(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00628}00628\ \ \ \ \ \ \ \ \ \ \ \ \ (}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00629}00629\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ float(line.split()[3])}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00630}00630\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ lines}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00631}00631\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}final\ rmsd\ /\ "{}}\ \textcolor{keywordflow}{in}\ line\ \textcolor{keywordflow}{and}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}bhess"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00632}00632\ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00633}00633\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00634}00634\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00635}00635\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00636}00636\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ check\ if\ xtb\ calculated\ the\ temperature\ range\ correctly}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00637}00637\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}multitemp"{}}]\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ (}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00638}00638\ \ \ \ \ \ \ \ \ \ \ \ \ len(trange)\ ==\ len(gt)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00639}00639\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ len(trange)\ ==\ len(ht)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00640}00640\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ len(trange)\ ==\ len(rotS)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00641}00641\ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00642}00642\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}success"{}}]\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00643}00643\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}error"{}}]\ =\ \textcolor{stringliteral}{"{}what\ went\ wrong\ in\ xtb\_rrho"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00644}00644\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result,\ meta}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00645}00645\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}multitemp"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00646}00646\ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}gibbs"{}}]\ =\ gt}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00647}00647\ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}enthalpy"{}}]\ =\ ht}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00648}00648\ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}entropy"{}}]\ =\ rotS}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00649}00649\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00650}00650\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ xtb\_enso.json\ is\ generated\ by\ xtb\ by\ using\ the\ '-\/-\/enso'\ argument\ *only*\ when\ using\ -\/-\/bhess\ or\ -\/-\/ohess}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00651}00651\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ (when\ a\ hessian\ is\ calculated)}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00652}00652\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ contains\ output\ from\ xtb\ in\ json\ format\ to\ be\ more\ easily\ digestible\ by\ CENSO}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00653}00653\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00654}00654\ \ \ \ \ \ \ \ \ \ \ \ \ os.path.join(jobdir,\ \textcolor{stringliteral}{"{}xtb\_enso.json"{}}),}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00655}00655\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}r"{}},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00656}00656\ \ \ \ \ \ \ \ \ \ \ \ \ encoding=CODING,}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00657}00657\ \ \ \ \ \ \ \ \ \ \ \ \ newline=\textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00658}00658\ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00659}00659\ \ \ \ \ \ \ \ \ \ \ \ \ data\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00660}00660\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00661}00661\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ read\ number\ of\ imaginary\ frequencies\ and\ print\ warning}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00662}00662\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}number\ of\ imags"{}}\ \textcolor{keywordflow}{in}\ data:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00663}00663\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ data[\textcolor{stringliteral}{"{}number\ of\ imags"{}}]\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00664}00664\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00665}00665\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Found\ \{data['number\ of\ imags']\}\ significant"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00666}00666\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\ imaginary\ frequencies\ for\ "{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00667}00667\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{job.conf.name\}."{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00668}00668\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00669}00669\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00670}00670\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ get\ gibbs\ energy}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00671}00671\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}G(T)"{}}\ \textcolor{keywordflow}{in}\ data:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00672}00672\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}success"{}}]\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00673}00673\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00674}00674\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}temperature"{}}]\ ==\ 0.0:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00675}00675\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}energy"{}}]\ =\ data.get(\textcolor{stringliteral}{"{}ZPVE"{}},\ 0.0)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00676}00676\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}multitemp"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00677}00677\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}gibbs"{}}][job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}temperature"{}}]]\ =\ data.get(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00678}00678\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ZPVE"{}},\ 0.0}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00679}00679\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00680}00680\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}enthalpy"{}}][job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}temperature"{}}]]\ =\ data.get(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00681}00681\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ZPVE"{}},\ 0.0}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00682}00682\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00683}00683\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}entropy"{}}][}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00684}00684\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}temperature"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00685}00685\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ set\ this\ to\ None\ for\ predictability}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00686}00686\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00687}00687\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}energy"{}}]\ =\ data.get(\textcolor{stringliteral}{"{}G(T)"{}},\ 0.0)}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00688}00688\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}multitemp"{}}]:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00689}00689\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}gibbs"{}}][job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}temperature"{}}]]\ =\ data.get(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00690}00690\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}G(T)"{}},\ 0.0}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00691}00691\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00692}00692\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}enthalpy"{}}][}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00693}00693\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}temperature"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00694}00694\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ set\ this\ to\ None\ for\ predictability}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00695}00695\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}entropy"{}}][}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00696}00696\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job.prepinfo[\textcolor{stringliteral}{"{}general"{}}][\textcolor{stringliteral}{"{}temperature"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00697}00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ set\ this\ to\ None\ for\ predictability}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00698}00698\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00699}00699\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ only\ determine\ symmetry\ if\ all\ the\ needed\ information\ is\ there}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00700}00700\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}point\ group"{}}\ \textcolor{keywordflow}{and}\ \textcolor{stringliteral}{"{}linear"{}}\ \textcolor{keywordflow}{in}\ data.keys():}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00701}00701\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}symmetry"{}}]\ =\ data[\textcolor{stringliteral}{"{}point\ group"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00702}00702\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}linear"{}}]\ =\ data.get(\textcolor{stringliteral}{"{}linear"{}},\ result[\textcolor{stringliteral}{"{}linear"{}}])}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00703}00703\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00704}00704\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ could\ not\ determine\ symmetry\ correctly}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00705}00705\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}symmetry"{}}]\ =\ \textcolor{stringliteral}{"{}c1"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00706}00706\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}linear"{}}]\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00707}00707\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00708}00708\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ calculate\ symnum}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00709}00709\ \ \ \ \ \ \ \ \ \ \ \ \ result[\textcolor{stringliteral}{"{}symnum"{}}]\ =\ self.\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc_a72a4a67a78c68e86670f99b06485dc83}{\_get\_sym\_num}}(}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00710}00710\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sym=result[\textcolor{stringliteral}{"{}symmetry"{}}],\ linear=result[\textcolor{stringliteral}{"{}linear"{}}]}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00711}00711\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00712}00712\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00713}00713\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}success"{}}]\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00714}00714\ \ \ \ \ \ \ \ \ \ \ \ \ meta[\textcolor{stringliteral}{"{}error"{}}]\ =\ \textcolor{stringliteral}{"{}Could\ not\ read\ xtb\_enso.json"{}}}
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00715}00715\ }
+\DoxyCodeLine{\Hypertarget{qm__processor_8py_source_l00716}00716\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result,\ meta}
+
+\end{DoxyCode}

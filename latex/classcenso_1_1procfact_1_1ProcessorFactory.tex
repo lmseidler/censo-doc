@@ -1,0 +1,39 @@
+\doxysection{censo.\+procfact.\+Processor\+Factory Class Reference}
+\hypertarget{classcenso_1_1procfact_1_1ProcessorFactory}{}\label{classcenso_1_1procfact_1_1ProcessorFactory}\index{censo.procfact.ProcessorFactory@{censo.procfact.ProcessorFactory}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc}{Qm\+Proc}} \mbox{\hyperlink{classcenso_1_1procfact_1_1ProcessorFactory_a1846fea23d2648fa32e5124498425449}{create\+\_\+processor}} (cls, prog, \texorpdfstring{$\ast$}{*}args, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{procfact_8py_source_l00008}{8}} of file \mbox{\hyperlink{procfact_8py_source}{procfact.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcenso_1_1procfact_1_1ProcessorFactory_a1846fea23d2648fa32e5124498425449}\label{classcenso_1_1procfact_1_1ProcessorFactory_a1846fea23d2648fa32e5124498425449} 
+\index{censo.procfact.ProcessorFactory@{censo.procfact.ProcessorFactory}!create\_processor@{create\_processor}}
+\index{create\_processor@{create\_processor}!censo.procfact.ProcessorFactory@{censo.procfact.ProcessorFactory}}
+\doxysubsubsection{\texorpdfstring{create\_processor()}{create\_processor()}}
+{\footnotesize\ttfamily  \mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc}{Qm\+Proc}} censo.\+procfact.\+Processor\+Factory.\+create\+\_\+processor (\begin{DoxyParamCaption}\item[{}]{cls,  }\item[{}]{prog,  }\item[{\texorpdfstring{$\ast$}{*}}]{args,  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}returns an instance of the requested processor type (mapping with the 'prog' setting)
+for now the QmProc class uses xtb as driver (this method should be changed if additional drivers are implemented)
+available processor types are mapped in ProcessorFactory.__proctypes
+
+example: create_processor(orca, external_paths, solvents_dict=...)
+(lookup the constructors for the processor types for further documentation)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{procfact_8py_source_l00016}{16}} of file \mbox{\hyperlink{procfact_8py_source}{procfact.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/polt/prog/\+CENSOdev/src/censo/\mbox{\hyperlink{procfact_8py}{procfact.\+py}}\end{DoxyCompactItemize}

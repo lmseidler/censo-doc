@@ -1,0 +1,247 @@
+\doxysection{censo.\+utilities Namespace Reference}
+\hypertarget{namespacecenso_1_1utilities}{}\label{namespacecenso_1_1utilities}\index{censo.utilities@{censo.utilities}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcenso_1_1utilities_1_1DfaHelper}{Dfa\+Helper}}
+\item 
+class \mbox{\hyperlink{classcenso_1_1utilities_1_1SolventHelper}{Solvent\+Helper}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecenso_1_1utilities_a77350255ddac0818e34adc1e1cc3ca56}{print}} (\texorpdfstring{$\ast$}{*}args, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+list\mbox{[}str\mbox{]} \mbox{\hyperlink{namespacecenso_1_1utilities_abe22bf840f8e96c1bee0873364dd05f3}{format\+\_\+data}} (list\mbox{[}str\mbox{]} headers, list\mbox{[}list\mbox{[}any\mbox{]}\mbox{]} rows, list\mbox{[}str\mbox{]} units=None, int sortby=0, int padding=6)
+\item 
+list\mbox{[}float\mbox{]} \mbox{\hyperlink{namespacecenso_1_1utilities_a9d5c48ed78b42275c19615dc50bd0e12}{frange}} (float start, float end, float step=1)
+\item 
+tuple\mbox{[}list, int, str\mbox{]} \mbox{\hyperlink{namespacecenso_1_1utilities_a1db48817359ff4d7a37104643cebc6db}{t2x}} (str path, bool writexyz=False, str outfile="{}original.\+xyz"{})
+\item 
+float\texorpdfstring{$\vert$}{|}None \mbox{\hyperlink{namespacecenso_1_1utilities_aabc5ed21d31b76dbca1c3465c297db18}{check\+\_\+for\+\_\+float}} (str line)
+\item 
+\mbox{\hyperlink{namespacecenso_1_1utilities_adba539528179943aafeb045ef6e3ae37}{do\+\_\+md5}} (path)
+\item 
+Callable \mbox{\hyperlink{namespacecenso_1_1utilities_ab08de0fdeafd46a18c50a7915942620b}{timeit}} (f)
+\item 
+Ordered\+Dict\mbox{[}str, any\mbox{]} \mbox{\hyperlink{namespacecenso_1_1utilities_a78bec95817040df118d190a9981939b6}{od\+\_\+insert}} (Ordered\+Dict\mbox{[}str, any\mbox{]} od, str key, any value, int index)
+\item 
+float \mbox{\hyperlink{namespacecenso_1_1utilities_aad7b994a1e6d2ed96708399daefa7e61}{mad}} (list\mbox{[}float\mbox{]} trajectory1, list\mbox{[}float\mbox{]} trajectory2)
+\item 
+float \mbox{\hyperlink{namespacecenso_1_1utilities_a719f00ba55d8f845c51a67701cc28936}{mean\+\_\+similarity}} (list\mbox{[}list\mbox{[}float\mbox{]}\mbox{]} trajectories)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecenso_1_1utilities_ad1d3257b772b340cd472a5f2f323b269}{logger}} = setup\+\_\+logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Utility functions which are used in the CENSO modules. From creating folders to
+printout routines.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacecenso_1_1utilities_aabc5ed21d31b76dbca1c3465c297db18}\label{namespacecenso_1_1utilities_aabc5ed21d31b76dbca1c3465c297db18} 
+\index{censo.utilities@{censo.utilities}!check\_for\_float@{check\_for\_float}}
+\index{check\_for\_float@{check\_for\_float}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{check\_for\_float()}{check\_for\_float()}}
+{\footnotesize\ttfamily  float \texorpdfstring{$\vert$}{|} None censo.\+utilities.\+check\+\_\+for\+\_\+float (\begin{DoxyParamCaption}\item[{str}]{line }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Go through line and check for float, return first float\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00319}{319}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{namespacecenso_1_1utilities_adba539528179943aafeb045ef6e3ae37}\label{namespacecenso_1_1utilities_adba539528179943aafeb045ef6e3ae37} 
+\index{censo.utilities@{censo.utilities}!do\_md5@{do\_md5}}
+\index{do\_md5@{do\_md5}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{do\_md5()}{do\_md5()}}
+{\footnotesize\ttfamily censo.\+utilities.\+do\+\_\+md5 (\begin{DoxyParamCaption}\item[{}]{path }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Calculate md5 of file to identifly if restart happend on the same file!
+Input is buffered into smaller sizes to ease on memory consumption.
+Hashes entire content of ensemble input file to compare later
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00333}{333}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{namespacecenso_1_1utilities_abe22bf840f8e96c1bee0873364dd05f3}\label{namespacecenso_1_1utilities_abe22bf840f8e96c1bee0873364dd05f3} 
+\index{censo.utilities@{censo.utilities}!format\_data@{format\_data}}
+\index{format\_data@{format\_data}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{format\_data()}{format\_data()}}
+{\footnotesize\ttfamily  list\mbox{[}str\mbox{]} censo.\+utilities.\+format\+\_\+data (\begin{DoxyParamCaption}\item[{list\mbox{[}str\mbox{]}}]{headers,  }\item[{list\mbox{[}list\mbox{[}any\mbox{]}\mbox{]}}]{rows,  }\item[{list\mbox{[}str\mbox{]} }]{units = {\ttfamily None},  }\item[{int }]{sortby = {\ttfamily 0},  }\item[{int }]{padding = {\ttfamily 6} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generates a formatted table based on the given headers, rows, units, and sortby index.
+
+Args:
+    headers (list[str]): The list of column headers.
+    rows (list[list[any]]): The list of rows, where each row is a list of values.
+    units (list[str], optional): The list of units for each column. Defaults to None.
+    sortby (int, optional): The index of the column to sort by. Defaults to 0. In case of a string column,
+                            use natural sorting.
+
+Returns:
+    list[str]: The list of formatted lines representing the table.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00171}{171}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{namespacecenso_1_1utilities_a9d5c48ed78b42275c19615dc50bd0e12}\label{namespacecenso_1_1utilities_a9d5c48ed78b42275c19615dc50bd0e12} 
+\index{censo.utilities@{censo.utilities}!frange@{frange}}
+\index{frange@{frange}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{frange()}{frange()}}
+{\footnotesize\ttfamily  list\mbox{[}float\mbox{]} censo.\+utilities.\+frange (\begin{DoxyParamCaption}\item[{float}]{start,  }\item[{float}]{end,  }\item[{float }]{step = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Creates a range of floats, adding 'step' to 'start' while it's less or equal than 'end'.
+
+Args:
+    start (float): The start of the range.
+    end (float): The end of the range.
+    step (float, optional): The step size. Defaults to 1.
+
+Returns:
+    list[float]: The list of floats.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00244}{244}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{namespacecenso_1_1utilities_aad7b994a1e6d2ed96708399daefa7e61}\label{namespacecenso_1_1utilities_aad7b994a1e6d2ed96708399daefa7e61} 
+\index{censo.utilities@{censo.utilities}!mad@{mad}}
+\index{mad@{mad}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{mad()}{mad()}}
+{\footnotesize\ttfamily  float censo.\+utilities.\+mad (\begin{DoxyParamCaption}\item[{list\mbox{[}float\mbox{]}}]{trajectory1,  }\item[{list\mbox{[}float\mbox{]}}]{trajectory2 }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Calculates the MAD (mean absolute deviation) between two trajectories.
+
+Args:
+    trajectory1 (list[float]): The first trajectory.
+    trajectory2 (list[float]): The second trajectory.
+
+Returns:
+    float: The MAD.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00393}{393}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{namespacecenso_1_1utilities_aad7b994a1e6d2ed96708399daefa7e61_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{namespacecenso_1_1utilities_a719f00ba55d8f845c51a67701cc28936}\label{namespacecenso_1_1utilities_a719f00ba55d8f845c51a67701cc28936} 
+\index{censo.utilities@{censo.utilities}!mean\_similarity@{mean\_similarity}}
+\index{mean\_similarity@{mean\_similarity}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{mean\_similarity()}{mean\_similarity()}}
+{\footnotesize\ttfamily  float censo.\+utilities.\+mean\+\_\+similarity (\begin{DoxyParamCaption}\item[{list\mbox{[}list\mbox{[}float\mbox{]}\mbox{]}}]{trajectories }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Calculates the mean similarity of a list of trajectories.
+
+Args:
+    trajectories (list[list[float]]): The list of trajectories.
+
+Returns:
+    float: The mean similarity.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00412}{412}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{namespacecenso_1_1utilities_a719f00ba55d8f845c51a67701cc28936_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{namespacecenso_1_1utilities_a78bec95817040df118d190a9981939b6}\label{namespacecenso_1_1utilities_a78bec95817040df118d190a9981939b6} 
+\index{censo.utilities@{censo.utilities}!od\_insert@{od\_insert}}
+\index{od\_insert@{od\_insert}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{od\_insert()}{od\_insert()}}
+{\footnotesize\ttfamily  Ordered\+Dict\mbox{[}str, any\mbox{]} censo.\+utilities.\+od\+\_\+insert (\begin{DoxyParamCaption}\item[{Ordered\+Dict\mbox{[}str, any\mbox{]}}]{od,  }\item[{str}]{key,  }\item[{any}]{value,  }\item[{int }]{index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Insert a new key/value pair into an OrderedDict at a specific position.
+If it was a normal dict:
+    od[key] = value, with insertion before the 'index'th key.
+
+Args:
+    od: The OrderedDict to insert into.
+    key: The key to insert.
+    value: The value associated with the key.
+    index: The index before which to insert the key/value pair.
+
+Returns:
+    The updated OrderedDict.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00370}{370}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{namespacecenso_1_1utilities_a77350255ddac0818e34adc1e1cc3ca56}\label{namespacecenso_1_1utilities_a77350255ddac0818e34adc1e1cc3ca56} 
+\index{censo.utilities@{censo.utilities}!print@{print}}
+\index{print@{print}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily censo.\+utilities.\+print (\begin{DoxyParamCaption}\item[{\texorpdfstring{$\ast$}{*}}]{args,  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}patch print to always flush
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00151}{151}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{namespacecenso_1_1utilities_a1db48817359ff4d7a37104643cebc6db}\label{namespacecenso_1_1utilities_a1db48817359ff4d7a37104643cebc6db} 
+\index{censo.utilities@{censo.utilities}!t2x@{t2x}}
+\index{t2x@{t2x}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{t2x()}{t2x()}}
+{\footnotesize\ttfamily  tuple\mbox{[}list, int, str\mbox{]} censo.\+utilities.\+t2x (\begin{DoxyParamCaption}\item[{str}]{path,  }\item[{bool }]{writexyz = {\ttfamily False},  }\item[{str }]{outfile = {\ttfamily "{}original.xyz"{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}convert TURBOMOLE coord file to xyz data and/or write *.xyz output
+
+ - path [abs. path] either to dir or file directly
+ - writexyz [bool] default=False, directly write to outfile
+ - outfile [filename] default = 'original.xyz' filename of xyz file which
+                    is written into the same directory as
+ returns:
+ - coordxyz --> list of strings including atom x y z information
+ - number of atoms
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00264}{264}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{namespacecenso_1_1utilities_ab08de0fdeafd46a18c50a7915942620b}\label{namespacecenso_1_1utilities_ab08de0fdeafd46a18c50a7915942620b} 
+\index{censo.utilities@{censo.utilities}!timeit@{timeit}}
+\index{timeit@{timeit}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{timeit()}{timeit()}}
+{\footnotesize\ttfamily  Callable censo.\+utilities.\+timeit (\begin{DoxyParamCaption}\item[{}]{f }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}time function execution
+timed function should have no return value, since it is lost in the process
+calling a decorated function returns the time spent for it's execution
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00353}{353}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacecenso_1_1utilities_ad1d3257b772b340cd472a5f2f323b269}\label{namespacecenso_1_1utilities_ad1d3257b772b340cd472a5f2f323b269} 
+\index{censo.utilities@{censo.utilities}!logger@{logger}}
+\index{logger@{logger}!censo.utilities@{censo.utilities}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily censo.\+utilities.\+logger = setup\+\_\+logger(\+\_\+\+\_\+name\+\_\+\+\_\+)}
+
+
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00018}{18}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+

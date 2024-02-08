@@ -1,0 +1,365 @@
+\doxysection{ensembledata.\+py}
+\hypertarget{ensembledata_8py_source}{}\label{ensembledata_8py_source}\index{/home/polt/prog/CENSOdev/src/censo/ensembledata.py@{/home/polt/prog/CENSOdev/src/censo/ensembledata.py}}
+\mbox{\hyperlink{ensembledata_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00001}\mbox{\hyperlink{namespacecenso_1_1ensembledata}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00002}00002\ \textcolor{stringliteral}{stores\ ensembledata\ and\ conformers}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00003}00003\ \textcolor{stringliteral}{functionality\ for\ program\ setup}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00004}00004\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00006}00006\ \textcolor{keyword}{from}\ argparse\ \textcolor{keyword}{import}\ Namespace}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00007}00007\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00008}00008\ \textcolor{keyword}{from}\ math\ \textcolor{keyword}{import}\ exp}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00009}00009\ \textcolor{keyword}{from}\ collections.abc\ \textcolor{keyword}{import}\ Callable}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00011}00011\ \textcolor{keyword}{from}\ .params\ \textcolor{keyword}{import}\ AU2J,\ KB,\ DESCR}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00012}00012\ \textcolor{keyword}{from}\ .datastructure\ \textcolor{keyword}{import}\ MoleculeData}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00013}00013\ \textcolor{keyword}{from}\ .utilities\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00014}00014\ \ \ \ \ check\_for\_float,}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00015}00015\ \ \ \ \ do\_md5,}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00016}00016\ \ \ \ \ t2x,}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00017}00017\ \ \ \ \ \textcolor{keywordflow}{print}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00018}00018\ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00019}00019\ \textcolor{keyword}{from}\ .logging\ \textcolor{keyword}{import}\ setup\_logger}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00021}\mbox{\hyperlink{namespacecenso_1_1ensembledata_ad9fec83d0ff203b0e3fdb29ded19ffac}{00021}}\ logger\ =\ setup\_logger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00024}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData}{00024}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData}{EnsembleData}}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00025}00025\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}\ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00027}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ab75938ba0f7a3e4a6113f0b44145c3a7}{00027}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ab75938ba0f7a3e4a6113f0b44145c3a7}{\_\_init\_\_}}(self,\ workdir:\ str,\ args:\ Namespace\ =\ \textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Setup\ a\ EnsembleData\ object\ using\ the\ args\ from\ the\ command\ line}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ workdir\ is\ the\ directory\ where\ the\ CENSO\ run\ should\ be\ executed\ in}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ current\ working\ directory}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ self.workdir:\ str\ =\ workdir}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ args\ are\ given\ set\ accordingly,\ otherwise\ assume\ CENSO\ is\ used\ without\ commandline}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ self.args:\ Namespace\ =\ args}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ contains\ run-\/specific\ info\ that\ may\ change\ during\ runtime}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ initialized\ in\ EnsembleData.read\_input}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00041}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{00041}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}\ =\ \{}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}nconf"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}nat"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}md5"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}charge"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}unpaired"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ stores\ the\ conformers\ with\ all\ info}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ NOTE:\ this\ is\ deliberately\ chosen\ to\ be\ a\ list\ since\ lists\ are\ ordered}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a4f7fcb91f7f0180e80e6027c47a5b160}{\_\_conformers}}:\ list[MoleculeData]\ =\ []}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ stores\ the\ conformers\ which\ were\ sorted\ out}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ self.rem:\ list[MoleculeData]\ =\ []}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ absolute\ path\ to\ ensemble\ input\ file}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}{ensemble\_path}}:\ str}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00059}00059\ \ \ \ \ \textcolor{preprocessor}{@property}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00060}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{00060}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}(self):}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00062}00062\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns\ the\ conformers\ list.\ Includes\ a\ check\ wether\ there\ are\ any\ conformers\ left.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ len(self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a4f7fcb91f7f0180e80e6027c47a5b160}{\_\_conformers}})\ >\ 0}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a4f7fcb91f7f0180e80e6027c47a5b160}{\_\_conformers}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00067}00067\ \ \ \ \ \textcolor{preprocessor}{@conformers.setter}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00068}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{00068}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}(self,\ confs):}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ all(isinstance(conf,\ MoleculeData)\ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ confs)}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a4f7fcb91f7f0180e80e6027c47a5b160}{\_\_conformers}}\ =\ confs}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00072}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a22dac152d589cd3b059d572bdd338c8e}{00072}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a22dac152d589cd3b059d572bdd338c8e}{read\_input}}(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ ensemble\_path:\ str,}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ charge:\ int\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ unpaired:\ int\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ nconf:\ int\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00078}00078\ \ \ \ \ )\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00080}00080\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Read\ ensemble\ input\ file.\ Should\ be\ a\ file\ in\ xyz-\/file\ format\ with\ all\ the\ conformers\ in\ consecutive\ order.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ If\ command\ line\ arguments\ are\ given,\ the\ priorities\ of\ parameters\ will\ be:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00082}00082\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ 1.\ method\ arguments,}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00083}00083\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ 2.\ cml\ arguments,}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00084}00084\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ 3.\ defaults.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00085}00085\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00086}00086\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00087}00087\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ ensemble\_path\ (str):\ Path\ to\ the\ ensemble\ input\ file.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00088}00088\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ charge\ (int,\ optional):\ Charge\ of\ the\ system.\ Defaults\ to\ None.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00089}00089\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ unpaired\ (int,\ optional):\ Number\ of\ unpaired\ electrons.\ Defaults\ to\ None.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00090}00090\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ nconf\ (int,\ optional):\ Number\ of\ conformers\ to\ consider.\ Defaults\ to\ None.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00091}00091\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00092}00092\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00093}00093\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ None}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00094}00094\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00095}00095\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Raises:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00096}00096\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ RuntimeError:\ If\ the\ charge\ or\ the\ number\ of\ unpaired\ electrons\ is\ not\ defined.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00097}00097\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00099}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}{00099}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}{ensemble\_path}}\ =\ ensemble\_path}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ store\ md5\ hash\ for\ quick\ comparison\ of\ inputs\ later}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}md5"{}}]\ =\ do\_md5(self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}{ensemble\_path}})}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ \$coord\ in\ file\ =>\ tm\ format,\ needs\ to\ be\ converted\ to\ xyz}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}{ensemble\_path}},\ \textcolor{stringliteral}{"{}r"{}})\ \textcolor{keyword}{as}\ inp:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ lines\ =\ inp.readlines()}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ any([\textcolor{stringliteral}{"{}\$coord"{}}\ \textcolor{keywordflow}{in}\ line\ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ lines]):}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_,\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}nat"{}}],\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}{ensemble\_path}}\ =\ t2x(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}{ensemble\_path}},\ writexyz=\textcolor{keyword}{True},\ outfile=\textcolor{stringliteral}{"{}converted.xyz"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}nat"{}}]\ =\ int(lines[0].split()[0])}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ set\ charge\ and\ unpaired\ via\ funtion\ args\ or\ cml\ args}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.args\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}charge"{}}]\ =\ charge\ \textcolor{keywordflow}{or}\ self.args.charge}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}unpaired"{}}]\ =\ unpaired\ \textcolor{keywordflow}{or}\ self.args.unpaired}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}charge"{}}]\ =\ charge}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}unpaired"{}}]\ =\ unpaired}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}charge"{}}]\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}unpaired"{}}]\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Charge\ or\ number\ of\ unpaired\ electrons\ not\ defined."{}})}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a7f08eda30138abdcf0352d22a4748de8}{setup\_conformers}}(nconf)}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Print\ CENSO\ header}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ print(DESCR)}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Print\ information\ about\ read\ ensemble}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Read\ \{len(self.conformers)\}\ conformers.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Number\ of\ atoms:\ \{self.runinfo['nat']\}\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Charge:\ \{self.runinfo['charge']\}\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Unpaired\ electrons:\ \{self.runinfo['unpaired']\}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00139}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a7f08eda30138abdcf0352d22a4748de8}{00139}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a7f08eda30138abdcf0352d22a4748de8}{setup\_conformers}}(self,\ maxconf:\ int)\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00141}00141\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ open\ ensemble\ input}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00142}00142\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ split\ into\ conformers}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00143}00143\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ create\ MoleculeData\ objects\ out\ of\ coord\ input}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00144}00144\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ read\ out\ energy\ from\ xyz\ file\ if\ possible}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00145}00145\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00146}00146\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:\ }}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00147}00147\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ maxconf\ (int):\ Maximum\ number\ of\ conformers\ to\ consider.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00148}00148\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00149}00149\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00150}00150\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ None}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00151}00151\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ open\ ensemble\ input}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}{ensemble\_path}},\ \textcolor{stringliteral}{"{}r"{}})\ \textcolor{keyword}{as}\ file:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ lines\ =\ file.readlines()}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ nat\ =\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}nat"{}}]}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ check\ for\ correct\ line\ count\ in\ input}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ assuming\ consecutive\ xyz-\/file\ format\ (every\ conf\ therefore\ needs\ nat\ +\ 2\ lines)}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(lines)\ \%\ (nat\ +\ 2)\ !=\ 0:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ check\ if\ the\ last\ lines\ contain\ any\ alphanumeric\ characters}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ divisor\ =\ len(lines)\ //\ (nat\ +\ 2)}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ any([line.isalnum()\ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ lines[divisor:]]):}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(\textcolor{stringliteral}{"{}Could\ not\ read\ ensemble\ input\ file."{}})}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ not\ you\ can\ trim\ the\ last\ lines}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lines\ =\ lines[divisor:]}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.args\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{and}\ self.args.nconf\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nconf\ =\ int(len(lines)\ /\ (nat\ +\ 2))}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.args.nconf\ >\ nconf:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{global}\ logger}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Provided\ nconf\ is\ larger\ than\ number\ of\ conformers\ in\ input\ file.\ Setting\ to\ "{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}the\ max.\ amount\ automatically."{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nconf\ =\ self.args.nconf}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nconf\ =\ maxconf\ \textcolor{keywordflow}{or}\ int(len(lines)\ /\ (nat\ +\ 2))}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}[\textcolor{stringliteral}{"{}nconf"{}}]\ =\ nconf}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ get\ precalculated\ energies\ if\ possible}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(nconf):}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Don't\ use\ the\ property\ here\ since\ the\ conformer\ list\ is\ expected\ to\ be\ empty,\ otherwise\ assertion}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ would\ fail}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a4f7fcb91f7f0180e80e6027c47a5b160}{\_\_conformers}}.append(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{MoleculeData}}(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}CONF\{i\ +\ 1\}"{}},\ lines[2\ +\ i\ *}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (nat\ +\ 2):(i\ +\ 1)\ *\ (nat\ +\ 2)]}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ precalculated\ energy\ set\ to\ 0.0\ if\ it\ cannot\ be\ found}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}[i].xtb\_energy\ =\ (}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ check\_for\_float(lines[i\ *\ (nat\ +\ 2)\ +\ 1])\ \textcolor{keywordflow}{or}\ 0.0}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ also\ works\ if\ xtb\_energy\ is\ None\ for\ some\ reason\ (None\ is\ put\ first)}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}.sort(key=\textcolor{keyword}{lambda}\ x:\ x.xtb\_energy)}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00202}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a450da817691091a515ebd76cfe677f55}{00202}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a450da817691091a515ebd76cfe677f55}{update\_conformers}}(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ target:\ Callable[[MoleculeData],\ float],}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ threshold:\ float,}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ additional\_filter:\ Callable[[MoleculeData],\ bool]\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ boltzmann:\ bool\ =\ \textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00208}00208\ \ \ \ \ )\ -\/>\ list[str]:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00210}00210\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Update\ the\ conformers\ based\ on\ a\ target\ function,\ a\ threshold,\ and\ an\ additional\ filter.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00211}00211\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Logic\ for\ the\ additional\ filter\ is\ "{}and"{}.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00212}00212\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns\ a\ list\ of\ the\ names\ of\ the\ removed\ conformers.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00213}00213\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00214}00214\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00215}00215\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ target\ (Callable[[MoleculeData],\ float]):\ A\ function\ that\ takes\ a\ MoleculeData\ object\ as\ input\ and\ returns\ a}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00216}00216\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ float.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00217}00217\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ threshold\ (float):\ The\ threshold\ value.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00218}00218\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ additional\_filter\ (Callable[[MoleculeData],\ bool],\ optional):\ An\ optional\ function\ that\ takes\ a\ MoleculeData}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00219}00219\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ object\ as\ input\ and\ returns\ a\ boolean.\ Defaults\ to\ None.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00220}00220\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ boltzmann\ (bool,\ optional):\ If\ True,\ the\ threshold\ is\ interpreted\ as\ a\ population\ threshold.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00221}00221\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00222}00222\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00223}00223\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ None}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00224}00224\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ boltzmann:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ pick\ the\ free\ enthalpy\ of\ the\ lowest\ conformer}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ limit\ =\ min([target(conf)\ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}])}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00228}00228\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ filter\ out\ all\ conformers\ above\ threshold}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ so\ that\ 'filtered'\ contains\ all\ conformers\ that\ should\ not\ be\ considered\ any\ further}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ filtered\ =\ [}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ conf}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ filter(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (additional\_filter\ \textcolor{keywordflow}{or}\ \textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ (\textcolor{keyword}{lambda}\ x:\ target(x)\ -\/\ limit\ >\ threshold),}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00236}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{00236}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}},}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ boltzmann\ \textcolor{keywordflow}{and}\ 0.0\ <=\ threshold\ <=\ 1.0:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Sort\ and\ iterate\ through\ the\ conformers\ by\ target\ (should\ be\ the\ Boltzmann\ population)\ in\ reverse\ order}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Therefore,\ the\ conformer\ with\ the\ highest\ population\ is\ first}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ 0.0}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ filtered\ =\ []}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ sorted(self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}},\ key=target,\ reverse=\textcolor{keyword}{True}):}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ s\ >\ threshold:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ The\ conformer\ is\ above\ the\ population\ threshold\ and\ should\ be\ removed}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filtered.append(conf)}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ The\ population\ of\ the\ conformer\ is\ appended}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ +=\ target(conf)}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Invalid\ filter\ settings\ for\ updating\ conformer\ list."{}})}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ move\ the\ sorted\ out\ conformers\ to\ rem\ list}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ filtered:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ pop\ item\ from\ conformers\ and\ insert\ this\ item\ at\ index\ 0\ in\ rem}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ self.rem.insert(0,\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}.pop(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}.index(conf)))}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log\ removed\ conformers}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Removed\ \{conf.name\}."{}})}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [conf.name\ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ filtered]}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00266}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_add43fc0e01f321970e568cbc7d77dc4c}{00266}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_add43fc0e01f321970e568cbc7d77dc4c}{remove\_conformers}}(self,\ confids:\ list[int])\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00268}00268\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Remove\ the\ conformers\ with\ the\ IDs\ listed\ in\ 'confids'\ from\ further\ consideration.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00269}00269\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00270}00270\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00271}00271\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ confids\ (list[int]):\ A\ list\ of\ conformer\ IDs.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00272}00272\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00273}00273\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00274}00274\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ None}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00275}00275\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(confids)\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ remove\ =\ []}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ confid\ \textcolor{keywordflow}{in}\ confids:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ remove.append(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next(c\ \textcolor{keywordflow}{for}\ c\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}\ \textcolor{keywordflow}{if}\ c.geom.id\ ==\ confid))}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00281}00281\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ r\ \textcolor{keywordflow}{in}\ remove:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ pop\ item\ from\ conformers\ and\ insert\ this\ item\ at\ index\ 0\ in\ rem}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.rem.insert(0,\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}.pop(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}.index(r)))}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log\ removed\ conformers}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Removed\ \{r.name\}."{}})}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00290}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ab9f9e1d0f9f188d7ac28af5f71cb3a54}{00290}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ab9f9e1d0f9f188d7ac28af5f71cb3a54}{dump\_ensemble}}(self,\ part:\ str)\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00292}00292\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ dump\ the\ conformers\ to\ a\ file}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00293}00293\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ os.path.join(f\textcolor{stringliteral}{"{}\{self.workdir\}"{}},\ f\textcolor{stringliteral}{"{}censo\_ensemble\_\{part\}.xyz"{}}),\ \textcolor{stringliteral}{"{}w"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{as}\ file:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file.writelines(conf.geom.toxyz())}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00300}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a89e3f15276a3bedfde417821e2dff8f7}{00300}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a89e3f15276a3bedfde417821e2dff8f7}{calc\_boltzmannweights}}(self,\ temp:\ float,\ part:\ str)\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00302}00302\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Calculate\ populations\ for\ boltzmann\ distribution\ of\ ensemble\ at\ given\ temperature\ and\ part\ name\ to\ search\ }}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00303}00303\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ results,\ given\ values\ for\ free\ enthalpy}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00304}00304\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00305}00305\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00306}00306\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ temp\ (float):\ Temperature\ in\ Kelvin.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00307}00307\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ part\ (str):\ Name\ of\ the\ part\ to\ search\ results\ for.}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00308}00308\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00309}00309\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00310}00310\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ None}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00311}00311\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ find\ lowest\ gtot\ value}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ all([\textcolor{stringliteral}{"{}gtot"{}}\ \textcolor{keywordflow}{in}\ conf.results[part].keys()\ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}]):}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ minfree:\ float\ =\ min(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [conf.results[part][\textcolor{stringliteral}{"{}gtot"{}}]\ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}]}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ calculate\ boltzmann\ factors}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ bmfactors\ =\ \{}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ id(conf):\ conf.degen}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ exp(-\/(conf.results[part][\textcolor{stringliteral}{"{}gtot"{}}]\ -\/\ minfree)\ *\ AU2J\ /\ (KB\ *\ temp))}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ NOTE:\ if\ anything\ went\ wrong\ in\ the\ single-\/point\ calculation\ ("{}success"{}:\ False),}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ this\ should\ be\ handled\ before\ coming\ to\ this\ step}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ since\ then\ the\ energy\ might\ be\ 'None'}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ gtot\_replacement\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jt\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}xtb\_opt"{}},\ \textcolor{stringliteral}{"{}sp"{}}]:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ all(jt\ \textcolor{keywordflow}{in}\ conf.results[part].keys()\ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}):}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ minfree:\ float\ =\ min(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [conf.results[part][jt][\textcolor{stringliteral}{"{}energy"{}}]}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}]}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ calculate\ boltzmann\ factors}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bmfactors\ =\ \{}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ id(conf):\ conf.degen}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ exp(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/(conf.results[part][jt][\textcolor{stringliteral}{"{}energy"{}}]\ -\/\ minfree)}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ AU2J}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ /\ (KB\ *\ temp)}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gtot\_replacement\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00348}00348\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ gtot\_replacement:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Could\ not\ determine\ Boltzmann\ factors\ for\ \{part\}."{}})}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ calculate\ partition\ function\ from\ boltzmann\ factors}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ bsum:\ float\ =\ sum(bmfactors.values())}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Store\ Boltzmann\ populations\ in\ results\ and\ also\ in\ a\ special\ list\ for\ convenience}}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}}\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}}:}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ conf.results[part][\textcolor{stringliteral}{"{}bmw"{}}]\ =\ bmfactors[id(conf)]\ /\ bsum}
+\DoxyCodeLine{\Hypertarget{ensembledata_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ conf.bmws.append(bmfactors[id(conf)]\ /\ bsum)}
+
+\end{DoxyCode}

@@ -1,0 +1,364 @@
+\doxysection{censo.\+part.\+Censo\+Part Class Reference}
+\hypertarget{classcenso_1_1part_1_1CensoPart}{}\label{classcenso_1_1part_1_1CensoPart}\index{censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_acf007aca70ba76eee25003396b3d3c84}{get\+\_\+settings}} (cls)
+\item 
+\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_afec1f678e7727cb100ae0cb0d265f4c1}{set\+\_\+settings}} (cls, dict\mbox{[}str, any\mbox{]} settings)
+\item 
+\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a113056aa29b1512b97f59de2a968e826}{set\+\_\+setting}} (cls, str setting\+\_\+name, any setting\+\_\+value)
+\item 
+\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_abc627023356baa64231dca99f30c48a6}{get\+\_\+options}} (cls)
+\item 
+\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a186f19337cc62fdbb6f11666a7453c3b}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData}{Ensemble\+Data}} ensemble)
+\item 
+None \mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_aadf0d3676b63e7eb2eb79fb126c3e670}{run}} (self)
+\item 
+None \mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a1da213ee85325837ec060436cb57d4e4}{print\+\_\+info}} (self)
+\item 
+None \mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a6f080b5b7db57d8f701004b78267e286}{write\+\_\+json}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a4cf1e2b06bbd1c49691d2fd36754b119}{set\+\_\+general\+\_\+settings}} (dict\mbox{[}str, any\mbox{]} settings)
+\item 
+\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a69c9579f369a52b8b621f1855c684921}{set\+\_\+general\+\_\+setting}} (setting, value)
+\item 
+\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_acf81255589cd586b4b23db71fa17c386}{get\+\_\+general\+\_\+settings}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a56ea2474f0cd296a12a717890a7e64cd}{dir}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+dict\mbox{[}str, any\mbox{]} \mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a57ea2ed738885471a65bfe09230ee40a}{\+\_\+complete}} (cls, dict\mbox{[}str, any\mbox{]} tocomplete)
+\item 
+None \mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a753ca48d3f7e1cfc8c7a2a14b83e824d}{\+\_\+validate}} (cls, dict\mbox{[}str, any\mbox{]} tovalidate)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Callable \mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a4f028772b4b69b4be478ca94cebfc0f8}{\+\_\+create\+\_\+dir}} (Callable runner)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a60798f65a41a51c13c8b1b685264efc1}{\+\_\+settings}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dict \mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a11ed37e33a5ac09d3541ca3d0eca3415}{\+\_\+options}}
+\item 
+dict \mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_af9a732bfc258f51d7e476a7b060f690b}{\+\_\+settings}} = \{\}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Part class as parent class for all parts of the calculation.
+
+Settings that are not part of the general settings and strictly necessary for ...
+... DFT calculations:
+    - prog
+    - func
+    - basis
+    - grid
+    - template
+    - gcp
+... xtb calculations:
+    - gfnv
+Further requirements are defined in dictionaries belonging to processor classes.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00020}{20}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a186f19337cc62fdbb6f11666a7453c3b}\label{classcenso_1_1part_1_1CensoPart_a186f19337cc62fdbb6f11666a7453c3b} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily censo.\+part.\+Censo\+Part.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData}{Ensemble\+Data}}}]{ensemble }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initializes a part instance.
+
+Args:
+    ensemble: The ensemble instance that manages the conformers.
+
+Returns:
+    None
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00207}{207}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a57ea2ed738885471a65bfe09230ee40a}\label{classcenso_1_1part_1_1CensoPart_a57ea2ed738885471a65bfe09230ee40a} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!\_complete@{\_complete}}
+\index{\_complete@{\_complete}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{\_complete()}{\_complete()}}
+{\footnotesize\ttfamily  dict\mbox{[}str, any\mbox{]} censo.\+part.\+Censo\+Part.\+\_\+complete (\begin{DoxyParamCaption}\item[{}]{cls,  }\item[{dict\mbox{[}str, any\mbox{]}}]{tocomplete }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}fill in missing settings with default values
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00095}{95}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1part_1_1CensoPart_a57ea2ed738885471a65bfe09230ee40a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a4f028772b4b69b4be478ca94cebfc0f8}\label{classcenso_1_1part_1_1CensoPart_a4f028772b4b69b4be478ca94cebfc0f8} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!\_create\_dir@{\_create\_dir}}
+\index{\_create\_dir@{\_create\_dir}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{\_create\_dir()}{\_create\_dir()}}
+{\footnotesize\ttfamily  Callable censo.\+part.\+Censo\+Part.\+\_\+create\+\_\+dir (\begin{DoxyParamCaption}\item[{Callable}]{runner }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+\begin{DoxyVerb}This method needs to be defined as @staticmethod to be accessible from within the class via the @_create_dir
+decorator. The wrapper function within will be able to access the instance variables of the class.
+To access this method from child classes, the decorator must be called like: @CensoPart._create_dir.
+
+Args:
+    runner: The function to be decorated.
+
+Returns:
+    Callable: The decorated function.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00177}{177}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a753ca48d3f7e1cfc8c7a2a14b83e824d}\label{classcenso_1_1part_1_1CensoPart_a753ca48d3f7e1cfc8c7a2a14b83e824d} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!\_validate@{\_validate}}
+\index{\_validate@{\_validate}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{\_validate()}{\_validate()}}
+{\footnotesize\ttfamily  None censo.\+part.\+Censo\+Part.\+\_\+validate (\begin{DoxyParamCaption}\item[{}]{cls,  }\item[{dict\mbox{[}str, any\mbox{]}}]{tovalidate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Validates the type of each setting in the given dict. Also potentially validate if the setting is allowed by 
+checking with cls._options.
+
+Args:
+    tovalidate (dict[str, any]): The dict containing the settings to be validated.
+
+Returns:
+    None
+
+Raises:
+    ValueError: If the setting is not allowed or the value is not within the allowed range.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00106}{106}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1part_1_1CensoPart_a753ca48d3f7e1cfc8c7a2a14b83e824d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcenso_1_1part_1_1CensoPart_acf81255589cd586b4b23db71fa17c386}\label{classcenso_1_1part_1_1CensoPart_acf81255589cd586b4b23db71fa17c386} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!get\_general\_settings@{get\_general\_settings}}
+\index{get\_general\_settings@{get\_general\_settings}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{get\_general\_settings()}{get\_general\_settings()}}
+{\footnotesize\ttfamily censo.\+part.\+Censo\+Part.\+get\+\_\+general\+\_\+settings (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00072}{72}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_abc627023356baa64231dca99f30c48a6}\label{classcenso_1_1part_1_1CensoPart_abc627023356baa64231dca99f30c48a6} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!get\_options@{get\_options}}
+\index{get\_options@{get\_options}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{get\_options()}{get\_options()}}
+{\footnotesize\ttfamily censo.\+part.\+Censo\+Part.\+get\+\_\+options (\begin{DoxyParamCaption}\item[{}]{cls }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00091}{91}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_acf007aca70ba76eee25003396b3d3c84}\label{classcenso_1_1part_1_1CensoPart_acf007aca70ba76eee25003396b3d3c84} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!get\_settings@{get\_settings}}
+\index{get\_settings@{get\_settings}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{get\_settings()}{get\_settings()}}
+{\footnotesize\ttfamily censo.\+part.\+Censo\+Part.\+get\+\_\+settings (\begin{DoxyParamCaption}\item[{}]{cls }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00076}{76}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a1da213ee85325837ec060436cb57d4e4}\label{classcenso_1_1part_1_1CensoPart_a1da213ee85325837ec060436cb57d4e4} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!print\_info@{print\_info}}
+\index{print\_info@{print\_info}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{print\_info()}{print\_info()}}
+{\footnotesize\ttfamily  None censo.\+part.\+Censo\+Part.\+print\+\_\+info (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}formatted print for part instructions
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00234}{234}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_aadf0d3676b63e7eb2eb79fb126c3e670}\label{classcenso_1_1part_1_1CensoPart_aadf0d3676b63e7eb2eb79fb126c3e670} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!run@{run}}
+\index{run@{run}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily  None censo.\+part.\+Censo\+Part.\+run (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}what gets executed if the part is run
+should be implemented for every part respectively
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00227}{227}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a69c9579f369a52b8b621f1855c684921}\label{classcenso_1_1part_1_1CensoPart_a69c9579f369a52b8b621f1855c684921} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!set\_general\_setting@{set\_general\_setting}}
+\index{set\_general\_setting@{set\_general\_setting}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{set\_general\_setting()}{set\_general\_setting()}}
+{\footnotesize\ttfamily censo.\+part.\+Censo\+Part.\+set\+\_\+general\+\_\+setting (\begin{DoxyParamCaption}\item[{}]{setting,  }\item[{}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00067}{67}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a4cf1e2b06bbd1c49691d2fd36754b119}\label{classcenso_1_1part_1_1CensoPart_a4cf1e2b06bbd1c49691d2fd36754b119} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!set\_general\_settings@{set\_general\_settings}}
+\index{set\_general\_settings@{set\_general\_settings}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{set\_general\_settings()}{set\_general\_settings()}}
+{\footnotesize\ttfamily  None censo.\+part.\+Censo\+Part.\+set\+\_\+general\+\_\+settings (\begin{DoxyParamCaption}\item[{dict\mbox{[}str, any\mbox{]}}]{settings }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00061}{61}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a113056aa29b1512b97f59de2a968e826}\label{classcenso_1_1part_1_1CensoPart_a113056aa29b1512b97f59de2a968e826} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!set\_setting@{set\_setting}}
+\index{set\_setting@{set\_setting}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{set\_setting()}{set\_setting()}}
+{\footnotesize\ttfamily censo.\+part.\+Censo\+Part.\+set\+\_\+setting (\begin{DoxyParamCaption}\item[{}]{cls,  }\item[{str}]{setting\+\_\+name,  }\item[{any}]{setting\+\_\+value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00086}{86}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_afec1f678e7727cb100ae0cb0d265f4c1}\label{classcenso_1_1part_1_1CensoPart_afec1f678e7727cb100ae0cb0d265f4c1} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!set\_settings@{set\_settings}}
+\index{set\_settings@{set\_settings}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{set\_settings()}{set\_settings()}}
+{\footnotesize\ttfamily censo.\+part.\+Censo\+Part.\+set\+\_\+settings (\begin{DoxyParamCaption}\item[{}]{cls,  }\item[{dict\mbox{[}str, any\mbox{]}}]{settings }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00080}{80}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1part_1_1CensoPart_afec1f678e7727cb100ae0cb0d265f4c1_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a6f080b5b7db57d8f701004b78267e286}\label{classcenso_1_1part_1_1CensoPart_a6f080b5b7db57d8f701004b78267e286} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!write\_json@{write\_json}}
+\index{write\_json@{write\_json}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{write\_json()}{write\_json()}}
+{\footnotesize\ttfamily  None censo.\+part.\+Censo\+Part.\+write\+\_\+json (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Writes the part's results to a json file.
+
+Returns:
+    None
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00258}{258}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a11ed37e33a5ac09d3541ca3d0eca3415}\label{classcenso_1_1part_1_1CensoPart_a11ed37e33a5ac09d3541ca3d0eca3415} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!\_options@{\_options}}
+\index{\_options@{\_options}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{\_options}{\_options}}
+{\footnotesize\ttfamily dict censo.\+part.\+Censo\+Part.\+\_\+options\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}maxcores"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ 4,\ \textcolor{stringliteral}{"{}range"{}}:\ [OMPMIN,\ 256]\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}omp"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ 4,\ \textcolor{stringliteral}{"{}range"{}}:\ [OMPMIN,\ OMPMAX]\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}imagthr"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ -\/100.0,\ \textcolor{stringliteral}{"{}range"{}}:\ [-\/300.0,\ 0.0]\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sthr"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ 0.0,\ \textcolor{stringliteral}{"{}range"{}}:\ [0.0,\ 100.0]\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}scale"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ 1.0,\ \textcolor{stringliteral}{"{}range"{}}:\ [0.0,\ 1.0]\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}temperature"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ 298.15,\ \textcolor{stringliteral}{"{}range"{}}:\ [1e-\/05,\ 2000.0]\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}solvent"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{stringliteral}{"{}h2o"{}},\ \textcolor{stringliteral}{"{}options"{}}:\ []\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sm\_rrho"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{stringliteral}{"{}alpb"{}},\ \textcolor{stringliteral}{"{}options"{}}:\ [\textcolor{stringliteral}{"{}alpb"{}},\ \textcolor{stringliteral}{"{}gbsa"{}}]\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}multitemp"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}evaluate\_rrho"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}consider\_sym"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bhess"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}rmsdbias"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{False}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}balance"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gas-\/phase"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{False}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}copy\_mo"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}retry\_failed"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}trange"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ [273.15,\ 373.15,\ 5]\},}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00037}{37}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_af9a732bfc258f51d7e476a7b060f690b}\label{classcenso_1_1part_1_1CensoPart_af9a732bfc258f51d7e476a7b060f690b} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!\_settings@{\_settings}}
+\index{\_settings@{\_settings}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{\_settings}{\_settings}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily dict censo.\+part.\+Censo\+Part.\+\_\+settings = \{\}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00058}{58}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a60798f65a41a51c13c8b1b685264efc1}\label{classcenso_1_1part_1_1CensoPart_a60798f65a41a51c13c8b1b685264efc1} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!\_settings@{\_settings}}
+\index{\_settings@{\_settings}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{\_settings}{\_settings}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily censo.\+part.\+Censo\+Part.\+\_\+settings\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00083}{83}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+\Hypertarget{classcenso_1_1part_1_1CensoPart_a56ea2474f0cd296a12a717890a7e64cd}\label{classcenso_1_1part_1_1CensoPart_a56ea2474f0cd296a12a717890a7e64cd} 
+\index{censo.part.CensoPart@{censo.part.CensoPart}!dir@{dir}}
+\index{dir@{dir}!censo.part.CensoPart@{censo.part.CensoPart}}
+\doxysubsubsection{\texorpdfstring{dir}{dir}}
+{\footnotesize\ttfamily censo.\+part.\+Censo\+Part.\+dir}
+
+
+
+Definition at line \mbox{\hyperlink{part_8py_source_l00193}{193}} of file \mbox{\hyperlink{part_8py_source}{part.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/polt/prog/\+CENSOdev/src/censo/\mbox{\hyperlink{part_8py}{part.\+py}}\end{DoxyCompactItemize}

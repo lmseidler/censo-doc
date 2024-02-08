@@ -1,0 +1,114 @@
+\doxysection{censo.\+datastructure.\+Geometry\+Data Class Reference}
+\hypertarget{classcenso_1_1datastructure_1_1GeometryData}{}\label{classcenso_1_1datastructure_1_1GeometryData}\index{censo.datastructure.GeometryData@{censo.datastructure.GeometryData}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a25190551373ca236533131bbcfe62ac4}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, int identifier, str name, list\mbox{[}str\mbox{]} \mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{xyz}})
+\item 
+list \mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a48d8eb7dd2957e31226560dbb01ab261}{toorca}} (self)
+\item 
+list\mbox{[}str\mbox{]} \mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_aaaf3cf1d926afab6e563600e49c9b0f6}{tocoord}} (self)
+\item 
+None \mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a8c535b5371a3caee34d72696eff2ca77}{fromcoord}} (self, str path)
+\item 
+list\mbox{[}str\mbox{]} \mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a266848c78f8234091af9fa938f13d3cc}{toxyz}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}{xyz}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Geometry contains geometry information as well as identifier to match it to a MoleculeData object
+in order to keep the object small, since it has to be pickled for multiprocessing
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{datastructure_8py_source_l00013}{13}} of file \mbox{\hyperlink{datastructure_8py_source}{datastructure.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcenso_1_1datastructure_1_1GeometryData_a25190551373ca236533131bbcfe62ac4}\label{classcenso_1_1datastructure_1_1GeometryData_a25190551373ca236533131bbcfe62ac4} 
+\index{censo.datastructure.GeometryData@{censo.datastructure.GeometryData}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!censo.datastructure.GeometryData@{censo.datastructure.GeometryData}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily censo.\+datastructure.\+Geometry\+Data.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{identifier,  }\item[{str}]{name,  }\item[{list\mbox{[}str\mbox{]}}]{xyz }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}takes an identifier and the geometry lines from the xyz-file as input
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{datastructure_8py_source_l00019}{19}} of file \mbox{\hyperlink{datastructure_8py_source}{datastructure.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcenso_1_1datastructure_1_1GeometryData_a8c535b5371a3caee34d72696eff2ca77}\label{classcenso_1_1datastructure_1_1GeometryData_a8c535b5371a3caee34d72696eff2ca77} 
+\index{censo.datastructure.GeometryData@{censo.datastructure.GeometryData}!fromcoord@{fromcoord}}
+\index{fromcoord@{fromcoord}!censo.datastructure.GeometryData@{censo.datastructure.GeometryData}}
+\doxysubsubsection{\texorpdfstring{fromcoord()}{fromcoord()}}
+{\footnotesize\ttfamily  None censo.\+datastructure.\+Geometry\+Data.\+fromcoord (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{path }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}method to convert the content of a coord file to cartesian coordinates for the 'xyz' attribute
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{datastructure_8py_source_l00074}{74}} of file \mbox{\hyperlink{datastructure_8py_source}{datastructure.\+py}}.
+
+\Hypertarget{classcenso_1_1datastructure_1_1GeometryData_aaaf3cf1d926afab6e563600e49c9b0f6}\label{classcenso_1_1datastructure_1_1GeometryData_aaaf3cf1d926afab6e563600e49c9b0f6} 
+\index{censo.datastructure.GeometryData@{censo.datastructure.GeometryData}!tocoord@{tocoord}}
+\index{tocoord@{tocoord}!censo.datastructure.GeometryData@{censo.datastructure.GeometryData}}
+\doxysubsubsection{\texorpdfstring{tocoord()}{tocoord()}}
+{\footnotesize\ttfamily  list\mbox{[}str\mbox{]} censo.\+datastructure.\+Geometry\+Data.\+tocoord (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}method to convert the internal cartesian coordinates (self.xyz) to coord file format (for tm or xtb)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{datastructure_8py_source_l00056}{56}} of file \mbox{\hyperlink{datastructure_8py_source}{datastructure.\+py}}.
+
+\Hypertarget{classcenso_1_1datastructure_1_1GeometryData_a48d8eb7dd2957e31226560dbb01ab261}\label{classcenso_1_1datastructure_1_1GeometryData_a48d8eb7dd2957e31226560dbb01ab261} 
+\index{censo.datastructure.GeometryData@{censo.datastructure.GeometryData}!toorca@{toorca}}
+\index{toorca@{toorca}!censo.datastructure.GeometryData@{censo.datastructure.GeometryData}}
+\doxysubsubsection{\texorpdfstring{toorca()}{toorca()}}
+{\footnotesize\ttfamily  list censo.\+datastructure.\+Geometry\+Data.\+toorca (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}method to convert the internal cartesian coordinates to a data format usable by the OrcaParser
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{datastructure_8py_source_l00046}{46}} of file \mbox{\hyperlink{datastructure_8py_source}{datastructure.\+py}}.
+
+\Hypertarget{classcenso_1_1datastructure_1_1GeometryData_a266848c78f8234091af9fa938f13d3cc}\label{classcenso_1_1datastructure_1_1GeometryData_a266848c78f8234091af9fa938f13d3cc} 
+\index{censo.datastructure.GeometryData@{censo.datastructure.GeometryData}!toxyz@{toxyz}}
+\index{toxyz@{toxyz}!censo.datastructure.GeometryData@{censo.datastructure.GeometryData}}
+\doxysubsubsection{\texorpdfstring{toxyz()}{toxyz()}}
+{\footnotesize\ttfamily  list\mbox{[}str\mbox{]} censo.\+datastructure.\+Geometry\+Data.\+toxyz (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}method to convert self.xyz to xyz-file format
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{datastructure_8py_source_l00091}{91}} of file \mbox{\hyperlink{datastructure_8py_source}{datastructure.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f}\label{classcenso_1_1datastructure_1_1GeometryData_a776a9d3dbd931113cdf0b95d4f61c59f} 
+\index{censo.datastructure.GeometryData@{censo.datastructure.GeometryData}!xyz@{xyz}}
+\index{xyz@{xyz}!censo.datastructure.GeometryData@{censo.datastructure.GeometryData}}
+\doxysubsubsection{\texorpdfstring{xyz}{xyz}}
+{\footnotesize\ttfamily censo.\+datastructure.\+Geometry\+Data.\+xyz}
+
+
+
+Definition at line \mbox{\hyperlink{datastructure_8py_source_l00081}{81}} of file \mbox{\hyperlink{datastructure_8py_source}{datastructure.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/polt/prog/\+CENSOdev/src/censo/\mbox{\hyperlink{datastructure_8py}{datastructure.\+py}}\end{DoxyCompactItemize}

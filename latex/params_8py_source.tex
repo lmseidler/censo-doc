@@ -1,0 +1,543 @@
+\doxysection{params.\+py}
+\hypertarget{params_8py_source}{}\label{params_8py_source}\index{/home/polt/prog/CENSOdev/src/censo/params.py@{/home/polt/prog/CENSOdev/src/censo/params.py}}
+\mbox{\hyperlink{params_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00001}\mbox{\hyperlink{namespacecenso_1_1params}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00002}00002\ \textcolor{stringliteral}{Storing\ constants\ for\ the\ use\ in\ all\ CENSO\ modules.}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00003}00003\ \textcolor{stringliteral}{Storing\ program\ paths\ -\/-\/>\ still\ in\ transition}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00004}00004\ \textcolor{stringliteral}{Storing\ censo\_solvent\_db\ solvent\ database\ across\ all\ solvation\ models\ (as\ fallback)}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00005}00005\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00006}00006\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00007}00007\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00008}00008\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00010}00010\ \textcolor{keyword}{from}\ .\_\_version\_\_\ \textcolor{keyword}{import}\ \_\_version\_\_}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00012}\mbox{\hyperlink{namespacecenso_1_1params_a1d206708fe437300a4eaab856f969f6e}{00012}}\ DESCR\ =\ f\textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00013}00013\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00014}00014\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00015}00015\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00016}00016\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CENSO\ -\/\ Commandline\ ENSO\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00017}00017\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v\ \{\_\_version\_\_:<\{19\}\}\ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00018}00018\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ energetic\ sorting\ of\ CREST\ Conformer\ Rotamer\ Ensembles\ \ \ \ |}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00019}00019\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ University\ of\ Bonn,\ MCTC\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00020}00020\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ???\ 2024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ based\ on\ ENSO\ version\ 2.0.1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ L.\ M.\ Seidler,\ F.\ Bohle\ and\ S.\ Grimme\ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00023}00023\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00024}00024\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_|}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00025}00025\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Please\ cite:\ }}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ ???}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ S.\ Grimme,\ F.\ Bohle,\ A.\ Hansen,\ P.\ Pracht,\ S.\ Spicher,\ and\ M.\ Stahn\ }}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ J.\ Phys.\ Chem.\ A\ 2021,\ 125,\ 19,\ 4039-\/4054.}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ DOI:\ https://doi.org/10.1021/acs.jpca.1c00971}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ This\ program\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00033}00033\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00034}00034\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00035}00035\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00037}\mbox{\hyperlink{namespacecenso_1_1params_ac8b2e730e2df5b6b9a5cafe752cc1da4}{00037}}\ ENVIRON\ =\ os.environ.copy()}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00038}00038\ \textcolor{keywordflow}{if}\ getattr(sys,\ \textcolor{stringliteral}{"{}frozen"{}},\ \textcolor{keyword}{False}):\ \ \textcolor{comment}{\#\ if\ bundled\ by\ pyinstaller\ ...}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00039}00039\ \ \ \ \ \textcolor{comment}{\#\ workaround\ for\ LD\_LIBRARY\_PATH\ pyinstaller\ and\ suse}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00040}\mbox{\hyperlink{namespacecenso_1_1params_af0dc9408c506cf5dc21c1a6e172e04dd}{00040}}\ \ \ \ \ LP\_KEY\ =\ \textcolor{stringliteral}{"{}LD\_LIBRARY\_PATH"{}}\ \ \textcolor{comment}{\#\ for\ GNU/Linux\ and\ *BSD.}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00041}\mbox{\hyperlink{namespacecenso_1_1params_a1f9b6005070ec0b9bc9a2b670137dc18}{00041}}\ \ \ \ \ lp\_orig\ =\ ENVIRON.get(LP\_KEY\ +\ \textcolor{stringliteral}{"{}\_ORIG"{}})}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00042}00042\ \ \ \ \ \textcolor{keywordflow}{if}\ lp\_orig\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ ENVIRON[LP\_KEY]\ =\ lp\_orig\ \ \textcolor{comment}{\#\ restore\ the\ original,\ unmodified\ value}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00044}00044\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ This\ happens\ when\ LD\_LIBRARY\_PATH\ was\ not\ set.}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ the\ env\ var\ as\ a\ last\ resort:}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ ENVIRON.pop(LP\_KEY,\ \textcolor{keywordtype}{None})}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00048}00048\ \ \ \ \ \textcolor{comment}{\#\ end\ workaround}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00050}\mbox{\hyperlink{namespacecenso_1_1params_aa1cfd19e823b8ec1d2cc4288b01221fe}{00050}}\ CODING\ =\ \textcolor{stringliteral}{"{}ISO-\/8859-\/1"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00052}\mbox{\hyperlink{namespacecenso_1_1params_aafcea3f9136af73d2cc0516860edf515}{00052}}\ DIGILEN\ =\ 60}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00054}\mbox{\hyperlink{namespacecenso_1_1params_a90005809fd8d215d18a9ed7733ac7715}{00054}}\ PLENGTH\ =\ 100}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00056}\mbox{\hyperlink{namespacecenso_1_1params_aab1066d4504ef8926f125ec8fd764d90}{00056}}\ AU2J\ =\ 4.3597482e-\/18\ \ \textcolor{comment}{\#\ a.u.(hartree/mol)\ to\ J}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00057}\mbox{\hyperlink{namespacecenso_1_1params_a575ccefd4fcc9c99e92fb2fc4f4df470}{00057}}\ KB\ =\ 1.3806485279e-\/23\ \ \textcolor{comment}{\#\ J/K}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00058}\mbox{\hyperlink{namespacecenso_1_1params_aafa2f8916e2dd66787a4ec413e86f9e4}{00058}}\ R\ =\ 1.987203585e-\/03\ \ \textcolor{comment}{\#\ kcal/(mol*K)}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00059}\mbox{\hyperlink{namespacecenso_1_1params_a7c4174340ad472669e0ac891419a8e25}{00059}}\ AU2KCAL\ =\ 627.50947428}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00060}\mbox{\hyperlink{namespacecenso_1_1params_a028130dfe8dfc71b29c917a83075ec6b}{00060}}\ BOHR2ANG\ =\ 0.52917721067}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00061}\mbox{\hyperlink{namespacecenso_1_1params_aecf73281c5a835c1801edd2238d0083a}{00061}}\ PLANCK\ =\ 6.62607015e-\/34}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00062}\mbox{\hyperlink{namespacecenso_1_1params_aec822c64274f950dd54b46152fdce6e2}{00062}}\ C\ =\ 2.998e8}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00063}\mbox{\hyperlink{namespacecenso_1_1params_a8817ca4f134c8a2c63fcb7aa81c0cd0f}{00063}}\ WARNLEN\ =\ max([len(i)\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}WARNING:"{}},\ \textcolor{stringliteral}{"{}ERROR:"{}},\ \textcolor{stringliteral}{"{}INFORMATION:"{}}]])\ +\ 1}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00065}\mbox{\hyperlink{namespacecenso_1_1params_a07ca9f48b8fcd4b5e1cb11f548d0ef25}{00065}}\ ASSETS\_PATH\ =\ \_\_file\_\_.replace(\textcolor{stringliteral}{"{}params.py"{}},\ \textcolor{stringliteral}{"{}assets"{}})}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00067}\mbox{\hyperlink{namespacecenso_1_1params_a834283e3f48e845e6c3e4e937f69e3a2}{00067}}\ USER\_ASSETS\_PATH\ =\ os.path.join(os.path.expanduser(\textcolor{stringliteral}{"{}\string~"{}}),\ \textcolor{stringliteral}{"{}.censo2\_assets"{}})}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00069}\mbox{\hyperlink{namespacecenso_1_1params_a1e0436dac8bd024985f346ad7a9b27d4}{00069}}\ PROGS\ =\ (\textcolor{stringliteral}{"{}orca"{}},\ \textcolor{stringliteral}{"{}tm"{}})}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00071}\mbox{\hyperlink{namespacecenso_1_1params_ab70bd2d89419830926fd21764228179d}{00071}}\ SOLV\_MODS:\ dict[str,\ tuple]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00072}00072\ \ \ \ \ \textcolor{stringliteral}{"{}orca"{}}:\ (\textcolor{stringliteral}{"{}cpcm"{}},\ \textcolor{stringliteral}{"{}smd"{}}),}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00073}00073\ \ \ \ \ \textcolor{stringliteral}{"{}tm"{}}:\ (\textcolor{stringliteral}{"{}cosmo"{}},\ \textcolor{stringliteral}{"{}dcosmors"{}}),}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00074}00074\ \}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00076}\mbox{\hyperlink{namespacecenso_1_1params_a94b2c93b1332a8fd424e14cc68c2fb45}{00076}}\ GRIDOPTIONS\ =\ (}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00077}00077\ \ \ \ \ \textcolor{stringliteral}{"{}low"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00078}00078\ \ \ \ \ \textcolor{stringliteral}{"{}low+"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00079}00079\ \ \ \ \ \textcolor{stringliteral}{"{}high"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00080}00080\ \ \ \ \ \textcolor{stringliteral}{"{}high+"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00081}00081\ )}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00083}\mbox{\hyperlink{namespacecenso_1_1params_a21d9f031db6a820115bc8afa9de2646c}{00083}}\ GFNOPTIONS\ =\ (}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00084}00084\ \ \ \ \ \textcolor{stringliteral}{"{}gfnff"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00085}00085\ \ \ \ \ \textcolor{stringliteral}{"{}gfn1"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00086}00086\ \ \ \ \ \textcolor{stringliteral}{"{}gfn2"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00087}00087\ )}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00089}\mbox{\hyperlink{namespacecenso_1_1params_a141935d948a6716d6091475c2ce5262c}{00089}}\ CENSORCNAME\ =\ \textcolor{stringliteral}{"{}.censo2rc"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00091}\mbox{\hyperlink{namespacecenso_1_1params_a538eb96cb83b35fe2fd913668aa6213b}{00091}}\ OMPMIN\ =\ 4}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00093}\mbox{\hyperlink{namespacecenso_1_1params_a6b0d4b4dc0f3a2eefd06823789ca4a33}{00093}}\ OMPMAX\ =\ 32}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00095}\mbox{\hyperlink{namespacecenso_1_1params_aab30731fa51756a0edfeb009ab1ab5b0}{00095}}\ COSMORS\_PARAM\ =\ \{}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00096}00096\ \ \ \ \ \textcolor{stringliteral}{"{}12-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1201.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00097}00097\ \ \ \ \ \textcolor{stringliteral}{"{}13-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1301.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00098}00098\ \ \ \ \ \textcolor{stringliteral}{"{}14-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1401.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00099}00099\ \ \ \ \ \textcolor{stringliteral}{"{}15-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1501.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00100}00100\ \ \ \ \ \textcolor{stringliteral}{"{}16-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1601.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00101}00101\ \ \ \ \ \textcolor{stringliteral}{"{}17-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1701.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00102}00102\ \ \ \ \ \textcolor{stringliteral}{"{}18-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_18.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00103}00103\ \ \ \ \ \textcolor{stringliteral}{"{}19-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_19.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00104}00104\ \ \ \ \ \textcolor{stringliteral}{"{}12-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_HB2012\_C30\_1201.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00105}00105\ \ \ \ \ \textcolor{stringliteral}{"{}13-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_HB2012\_C30\_1301.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00106}00106\ \ \ \ \ \textcolor{stringliteral}{"{}14-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_C30\_1401.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00107}00107\ \ \ \ \ \textcolor{stringliteral}{"{}15-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_C30\_1501.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00108}00108\ \ \ \ \ \textcolor{stringliteral}{"{}16-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_C30\_1601.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00109}00109\ \ \ \ \ \textcolor{stringliteral}{"{}17-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_C30\_1701.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00110}00110\ \ \ \ \ \textcolor{stringliteral}{"{}18-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_18.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00111}00111\ \ \ \ \ \textcolor{stringliteral}{"{}19-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_19.ctd"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00112}00112\ \}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00114}00114\ \textcolor{comment}{\#\ qm\_prepinfo:\ grid\ and\ scfconv\ settings\ for\ ORCA\ and\ TM}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00115}\mbox{\hyperlink{namespacecenso_1_1params_ace1e4c9633c79615080fba0907309557}{00115}}\ qm\_prepinfo\ =\ \{}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00116}00116\ \ \ \ \ \textcolor{stringliteral}{"{}orca"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}low"{}}:\ [\textcolor{stringliteral}{"{}grid4\ nofinalgrid"{}},\ \textcolor{stringliteral}{"{}loosescf"{}}],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}low+"{}}:\ [\textcolor{stringliteral}{"{}grid4\ nofinalgrid"{}},\ \textcolor{stringliteral}{"{}scfconv6"{}}],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}high"{}}:\ [\textcolor{stringliteral}{"{}grid4\ nofinalgrid"{}},\ \textcolor{stringliteral}{"{}scfconv7"{}}],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}high+"{}}:\ [\textcolor{stringliteral}{"{}grid5\ nofinalgrid"{}},\ \textcolor{stringliteral}{"{}scfconv7"{}}],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00121}00121\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00122}00122\ \ \ \ \ \textcolor{stringliteral}{"{}tm"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}low"{}}:\ [\textcolor{stringliteral}{"{}-\/grid"{}},\ \textcolor{stringliteral}{"{}m3"{}},\ \textcolor{stringliteral}{"{}-\/scfconv"{}},\ \textcolor{stringliteral}{"{}6"{}}],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}low+"{}}:\ [\textcolor{stringliteral}{"{}-\/grid"{}},\ \textcolor{stringliteral}{"{}m4"{}},\ \textcolor{stringliteral}{"{}-\/scfconv"{}},\ \textcolor{stringliteral}{"{}6"{}}],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}high"{}}:\ [\textcolor{stringliteral}{"{}-\/grid"{}},\ \textcolor{stringliteral}{"{}m4"{}},\ \textcolor{stringliteral}{"{}-\/scfconv"{}},\ \textcolor{stringliteral}{"{}7"{}}],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}high+"{}}:\ [\textcolor{stringliteral}{"{}-\/grid"{}},\ \textcolor{stringliteral}{"{}m5"{}},\ \textcolor{stringliteral}{"{}-\/scfconv"{}},\ \textcolor{stringliteral}{"{}7"{}}],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00127}00127\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00128}00128\ \}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00131}00131\ \textcolor{comment}{\#\ rotational\ entropy\ from\ symmetry}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00132}00132\ \textcolor{comment}{\#\ https://cccbdb.nist.gov/thermo.asp}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00133}\mbox{\hyperlink{namespacecenso_1_1params_ac791fd765d83b728c2aac4531e579acb}{00133}}\ rot\_sym\_num\ =\ \{}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00134}00134\ \ \ \ \ \textcolor{stringliteral}{"{}c1"{}}:\ 1,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00135}00135\ \ \ \ \ \textcolor{stringliteral}{"{}ci"{}}:\ 1,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00136}00136\ \ \ \ \ \textcolor{stringliteral}{"{}cs"{}}:\ 1,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00137}00137\ \ \ \ \ \textcolor{stringliteral}{"{}c2"{}}:\ 2,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00138}00138\ \ \ \ \ \textcolor{stringliteral}{"{}c3"{}}:\ 3,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00139}00139\ \ \ \ \ \textcolor{stringliteral}{"{}c4"{}}:\ 4,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00140}00140\ \ \ \ \ \textcolor{stringliteral}{"{}c5"{}}:\ 5,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00141}00141\ \ \ \ \ \textcolor{stringliteral}{"{}c6"{}}:\ 6,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00142}00142\ \ \ \ \ \textcolor{stringliteral}{"{}c7"{}}:\ 7,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00143}00143\ \ \ \ \ \textcolor{stringliteral}{"{}c8"{}}:\ 8,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00144}00144\ \ \ \ \ \textcolor{stringliteral}{"{}c9"{}}:\ 9,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00145}00145\ \ \ \ \ \textcolor{stringliteral}{"{}c10"{}}:\ 10,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00146}00146\ \ \ \ \ \textcolor{stringliteral}{"{}c11"{}}:\ 11,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00147}00147\ \ \ \ \ \textcolor{stringliteral}{"{}s4"{}}:\ 2,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00148}00148\ \ \ \ \ \textcolor{stringliteral}{"{}s6"{}}:\ 3,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00149}00149\ \ \ \ \ \textcolor{stringliteral}{"{}s8"{}}:\ 4,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00150}00150\ \ \ \ \ \textcolor{stringliteral}{"{}d2"{}}:\ 4,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00151}00151\ \ \ \ \ \textcolor{stringliteral}{"{}d3"{}}:\ 6,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00152}00152\ \ \ \ \ \textcolor{stringliteral}{"{}d4"{}}:\ 8,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00153}00153\ \ \ \ \ \textcolor{stringliteral}{"{}d5"{}}:\ 10,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00154}00154\ \ \ \ \ \textcolor{stringliteral}{"{}d6"{}}:\ 12,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00155}00155\ \ \ \ \ \textcolor{stringliteral}{"{}d7"{}}:\ 14,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00156}00156\ \ \ \ \ \textcolor{stringliteral}{"{}d8"{}}:\ 16,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00157}00157\ \ \ \ \ \textcolor{stringliteral}{"{}d9"{}}:\ 18,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00158}00158\ \ \ \ \ \textcolor{stringliteral}{"{}d10"{}}:\ 20,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00159}00159\ \ \ \ \ \textcolor{stringliteral}{"{}t"{}}:\ 12,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00160}00160\ \ \ \ \ \textcolor{stringliteral}{"{}th"{}}:\ 12,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00161}00161\ \ \ \ \ \textcolor{stringliteral}{"{}td"{}}:\ 12,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00162}00162\ \ \ \ \ \textcolor{stringliteral}{"{}o"{}}:\ 24,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00163}00163\ \ \ \ \ \textcolor{stringliteral}{"{}oh"{}}:\ 24,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00164}00164\ \ \ \ \ \textcolor{stringliteral}{"{}ih"{}}:\ 60,}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00165}00165\ \}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00167}\mbox{\hyperlink{namespacecenso_1_1params_a6c34763e230dda05f5fc0f1d3be97641}{00167}}\ si\_bib\ =\ \{}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00168}00168\ \ \ \ \ \textcolor{stringliteral}{"{}tm"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@misc\{TURBOMOLE,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{TURBOMOLE\ V7.5\ 2020\},\ a\ development\ of\ \{University\ of\ Karlsruhe\}\ and"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \{Forschungszentrum\ Karlsruhe\ GmbH\},\ 1989-\/2007,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \{TURBOMOLE\ GmbH\},\ since\ 2007;\ available\ from\ \(\backslash\)\(\backslash\)"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \{\(\backslash\)tt\ https://www.turbomole.org\}.\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@Article\{TURBOMOLE.2020,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Balasubramani,\ Sree\ Ganesh\ \ and\ Chen,\ Guo\ P.\ "{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ and\ Coriani,\ Sonia\ and\ Diedenhofen,\ Michael\ and\ "{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ Frank,\ Marius\ S.\ and\ Franzke,\ Yannick\ J.\ and\ "{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ Furche,\ Filipp\ and\ Grotjahn,\ Robin\ and\ Harding,\ Michael\ E.\ "{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ and\ H\(\backslash\)"{}attig,\ Christof\ and\ Hellweg,\ Arnim\ and\ "{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ Helmich-\/Paris,\ Benjamin\ and\ Holzer,\ Christof\ and\ Huniar,\ Uwe"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ and\ Kaupp,\ Martin\ and\ Marefat\ Khah,\ Alireza\ "{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ and\ Karbalaei\ Khani,\ Sarah\ and\ M\(\backslash\)"{}uller,\ Thomas\ and\ Mack,\ Fabian"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ and\ Nguyen,\ Brian\ D.\ and\ Parker,\ Shane\ M.\ and\ Perlt,\ Eva\ "{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ and\ Rappoport,\ Dmitrij\ and\ Reiter,\ Kevin\ and\ Roy,\ Saswata\ and"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ R\(\backslash\)"{}uckert,\ Matthias\ and\ Schmitz,\ Gunnar\ and\ Sierka,\ Marek"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ and\ Tapavicza,\ Enrico\ and\ Tew,\ David\ P.\ and\ van\ W\(\backslash\)"{}ullen,\ Christoph"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ and\ Voora,\ Vamsee\ K.\ and\ Weigend,\ Florian\ and"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ Wody\{\(\backslash\)’n\}ski,\ Artur\ and\ Yu,\ Jason\ M.\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{TURBOMOLE:\ Modular\ program\ suite\ for\ \(\backslash\)textit\{ab\ initio\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ \ \ \ \ \ \ \ \ \ quantum-\/chemical\ and\ condensed-\/matter\ simulations\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ \ \ =\ \{J.\ Chem.\ Phys.\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ \ \ \ =\ \{152\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ issue\ \ \ \ \ =\ \{18\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ \ \ \ \ =\ \{184107\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ \ \ \ \ \ =\ \{2020\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ \ \ \ \ \ \ =\ \{\ https://doi.org/10.1063/5.0004635\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ DOI\ \ \ \ \ \ \ =\ \{10.1063/5.0004635\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00200}00200\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00201}00201\ \ \ \ \ \textcolor{stringliteral}{"{}orca"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{ORCA\_generic,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Neese,\ Frank\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{The\ ORCA\ program\ system\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{WIREs\ Computational\ Molecular\ Science\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{2\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{1\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{73-\/78\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{https://doi.org/10.1002/wcms.81\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://onlinelibrary.wiley.com/doi/abs/10.1002/wcms.81\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ eprint\ =\ \{https://onlinelibrary.wiley.com/doi/pdf/10.1002/wcms.81\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2012\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{ORCA4.0,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Neese,\ Frank\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{Software\ update:\ the\ ORCA\ program\ system,\ version\ 4.0\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{WIREs\ Computational\ Molecular\ Science\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{8\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{1\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{e1327\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{https://doi.org/10.1002/wcms.1327\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://onlinelibrary.wiley.com/doi/abs/10.1002/wcms.1327\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ eprint\ =\ \{https://onlinelibrary.wiley.com/doi/pdf/10.1002/wcms.1327\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2018\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00226}00226\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00227}00227\ \ \ \ \ \textcolor{stringliteral}{"{}cosmors"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{Klamt1995,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Klamt,\ Andreas\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1021/j100007a062\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{The\ Journal\ of\ Physical\ Chemistry\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{7\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{2224-\/-\/2235\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{Conductor-\/like\ Screening\ Model\ for\ Real\ Solvents:\ A\ New\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}Approach\ to\ the\ Quantitative\ Calculation\ of\ Solvation\ Phenomena\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://pubs.acs.org/doi/abs/10.1021/j100007a062\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{99\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{1995\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{Klamt1998,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Klamt,\ Andreas\ and\ Jonas,\ Volker\ and\ B\{\(\backslash\)"{}\{u\}\}rger,\ Thorsten"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ and\ Lohrenz,\ John\ C.\ W.\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1021/jp980017s\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{The\ Journal\ of\ Physical\ Chemistry\ A\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{26\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{5074-\/-\/5085\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{Refinement\ and\ Parametrization\ of\ COSMO-\/RS\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://pubs.acs.org/doi/10.1021/jp980017s\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{102\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{1998\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{Eckert2002,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Eckert,\ Frank\ and\ Klamt,\ Andreas\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1002/aic.690480220\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{AIChE\ Journal\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{2\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{369-\/-\/385\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{Fast\ solvent\ screening\ via\ quantum\ chemistry:\ COSMO-\/RS\ approach\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{http://doi.wiley.com/10.1002/aic.690480220\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{48\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2002\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@misc\{COSMOtherm,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ \ title\ =\ \{COSMOtherm,\ Release\ 19;\ COSMOlogic\ GmbH\ \&\ Co.\ KG,\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\{\(\backslash\)tt\ http://www.cosmologic.de\}.\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00267}00267\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00268}00268\ \ \ \ \ \textcolor{stringliteral}{"{}xtb"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{xtb\_generic,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title=\{Extended\ tight‐binding\ quantum\ chemistry\ methods\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author=\{Bannwarth,\ Christoph\ and\ Caldeweyher,\ Eike\ and\ Ehlert,"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ Sebastian\ and\ Hansen,\ Andreas\ and\ Pracht,\ Philipp\ and\ Seibert,\ Jakob\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}and\ Spicher,\ Spicher\ and\ Grimme,\ Stefan\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal=\{\{WIREs\}\ Comput\{.\}\ Mol\{.\}\ Sci\{.\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{11\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year=\{2020\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages=\{e01493\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi=\{10.1002/wcms.1493\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url=\{https://dx.doi.org/10.1002/wcms.1493\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{GFN2,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title=\{GFN2-\/xTB—An\ accurate\ and\ broadly\ parametrized\ self-\/consistent"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ tight-\/binding\ quantum\ chemical\ method\ with\ multipole\ electrostatics\ and"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ density-\/dependent\ dispersion\ contributions\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author=\{Bannwarth,\ Christoph\ and\ Ehlert,\ Sebastian\ and\ Grimme,\ Stefan\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal=\{J\{.\}\ Chem\{.\}\ Theory\ Comput\{.\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume=\{15\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number=\{3\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages=\{1652-\/-\/1671\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year=\{2019\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi=\{10.1021/acs.jctc.8b01176\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url=\{https://dx.doi.org/10.1021/acs.jctc.8b01176\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{GFN1,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title=\{A\ robust\ and\ accurate\ tight-\/binding\ quantum\ chemical\ method\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}for\ structures,\ vibrational\ frequencies,\ and\ noncovalent\ interactions\ of"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ large\ molecular\ systems\ parametrized\ for\ all\ spd-\/block\ elements\ (Z=1-\/-\/86)\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author=\{Grimme,\ Stefan\ and\ Bannwarth,\ Christoph\ and\ Shushkov,\ Philip\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal=\{J\{.\}\ Chem\{.\}\ Theory\ Comput\{.\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume=\{13\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number=\{5\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages=\{1989-\/-\/2009\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year=\{2017\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi=\{10.1021/acs.jctc.7b00118\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url=\{https://dx.doi.org/10.1021/acs.jctc.7b00118\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00307}00307\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00308}00308\ \ \ \ \ \textcolor{stringliteral}{"{}censo"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{CENSO"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Grimme,\ Stefan\ and\ Bohle,\ Fabian\ and\ Hansen,\ Andreas\ and\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}Pracht,\ Philipp\ and\ Spicher,\ Sebastian\ and\ Stahn,\ Marcel\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{Efficient\ Quantum\ Chemical\ Calculation\ of\ Structure\ Ensembles"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ and\ Free\ Energies\ for\ Nonrigid\ Molecules\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{The\ Journal\ of\ Physical\ Chemistry\ A\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{125\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{19\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{4039-\/-\/4054\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2021\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1021/acs.jpca.1c00971\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ note\ =\{PMID:\ 33688730\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ URL\ =\ \{https://doi.org/10.1021/acs.jpca.1c00971\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ eprint\ =\ \{https://doi.org/10.1021/acs.jpca.1c00971\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00324}00324\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00325}00325\ \ \ \ \ \textcolor{comment}{\#\ selected\ functionals:}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00326}00326\ \ \ \ \ \textcolor{stringliteral}{"{}r2scan-\/3c"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{r2scan-\/3c,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Grimme,\ Stefan\ and\ Hansen,\ Andreas\ and\ Ehlert,\ Sebastian\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}and\ Mewes,\ Jan-\/Michael\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1063/5.0040021\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{The\ Journal\ of\ Chemical\ Physics\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{6\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{064103\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{r\ 2\ SCAN-\/3c:\ A\ “Swiss\ army\ knife”\ composite\ electronic-\/structure\ method\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://doi.org/10.1063/5.0040021\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{154\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2021\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00339}00339\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00340}00340\ \ \ \ \ \textcolor{stringliteral}{"{}pbeh-\/3c"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{Grimme2015,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Grimme,\ Stefan\ and\ Brandenburg,\ Jan\ Gerit\ and\ Bannwarth,\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}Christoph\ and\ Hansen,\ Andreas\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1063/1.4927476\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{The\ Journal\ of\ Chemical\ Physics\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{5\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{054107\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pmid\ =\ \{26254642\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{Consistent\ structures\ and\ interactions\ by\ density\ functional\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}theory\ with\ small\ atomic\ orbital\ basis\ sets\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{http://scitation.aip.org/content/aip/journal/jcp/143/5/10.1063/1.4927476\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00352}00352\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{143\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2015\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00355}00355\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00356}00356\ \ \ \ \ \textcolor{stringliteral}{"{}b97-\/3c"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{b97-\/3c,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Brandenburg,\ Jan\ Gerit\ and\ Bannwarth,\ Christoph\ and\ Hansen,\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}Andreas\ and\ Grimme,\ Stefan\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1063/1.5012601\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{The\ Journal\ of\ Chemical\ Physics\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00362}00362\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{6\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{064104\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{B97-\/3c:\ A\ revised\ low-\/cost\ variant\ of\ the\ B97-\/D\ density\ functional\ method\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00365}00365\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{http://aip.scitation.org/doi/10.1063/1.5012601\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{148\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00367}00367\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2018\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00368}00368\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00369}00369\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00370}00370\ \ \ \ \ \textcolor{stringliteral}{"{}pbe0"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00371}00371\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{pbe0\_one,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00372}00372\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Perdew,\ John\ P.\ and\ Burke,\ Kieron\ and\ Ernzerhof,\ Matthias\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1103/PhysRevLett.77.3865\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00374}00374\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{Physical\ Review\ Letters\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00375}00375\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{18\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{3865-\/-\/3868\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{Generalized\ Gradient\ Approximation\ Made\ Simple\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://link.aps.org/doi/10.1103/PhysRevLett.77.3865\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{77\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{1996\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00381}00381\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00382}00382\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{pbe0\_one\_erratum,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{Generalized\ Gradient\ Approximation\ Made\ Simple\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}[Phys.\ Rev.\ Lett.\ 77,\ 3865\ (1996)]\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Perdew,\ John\ P.\ and\ Burke,\ Kieron\ and\ Ernzerhof,\ Matthias\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{Phys.\ Rev.\ Lett.\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00387}00387\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{78\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ issue\ =\ \{7\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{1396-\/-\/1396\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00390}00390\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ numpages\ =\ \{0\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{1997\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ month\ =\ \{Feb\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00393}00393\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ publisher\ =\ \{American\ Physical\ Society\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00394}00394\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1103/PhysRevLett.78.1396\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00395}00395\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://link.aps.org/doi/10.1103/PhysRevLett.78.1396\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00397}00397\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{PBE0\_two,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Adamo,Carlo\ and\ Barone,Vincenzo\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{Toward\ reliable\ density\ functional\ methods\ without\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00400}00400\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}adjustable\ parameters:\ The\ PBE0\ model\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00401}00401\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{The\ Journal\ of\ Chemical\ Physics\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00402}00402\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{110\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00403}00403\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{13\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00404}00404\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{6158-\/6170\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00405}00405\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{1999\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00406}00406\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1063/1.478522\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://doi.org/10.1063/1.478522\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00408}00408\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ eprint\ =\ \{https://doi.org/10.1063/1.478522\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00410}00410\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00411}00411\ \ \ \ \ \textcolor{stringliteral}{"{}b3-\/lyp"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00412}00412\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{b3lyp\_one,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00413}00413\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Becke,Axel\ D.\ \},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00414}00414\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{A\ new\ mixing\ of\ Hartree–Fock\ and\ local\ density‐functional\ theories\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00415}00415\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{The\ Journal\ of\ Chemical\ Physics\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00416}00416\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{98\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00417}00417\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{2\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{1372-\/1377\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{1993\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00420}00420\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1063/1.464304\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00421}00421\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://doi.org/10.1063/1.464304\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00422}00422\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ eprint\ =\ \{https://doi.org/10.1063/1.464304\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00423}00423\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{b3lyp\_two,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Stephens,\ P.\ J.\ and\ Devlin,\ F.\ J.\ and\ Chabalowski,\ C.\ F."{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00426}00426\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ and\ Frisch,\ M.\ J.\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{Ab\ Initio\ Calculation\ of\ Vibrational\ Absorption\ and\ Circular"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00428}00428\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ Dichroism\ Spectra\ Using\ Density\ Functional\ Force\ Fields\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00429}00429\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{The\ Journal\ of\ Physical\ Chemistry\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{98\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00431}00431\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{45\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00432}00432\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{11623-\/11627\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00433}00433\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{1994\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00434}00434\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1021/j100096a001\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00435}00435\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://doi.org/10.1021/j100096a001\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00436}00436\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ eprint\ =\ \{https://doi.org/10.1021/j100096a001\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00437}00437\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00438}00438\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00439}00439\ \ \ \ \ \textcolor{stringliteral}{"{}def2\_basis"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00440}00440\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{Weigend2005,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00441}00441\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Weigend,\ Florian\ and\ Ahlrichs,\ Reinhart\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00442}00442\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1039/b508541a\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00443}00443\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{Physical\ Chemistry\ Chemical\ Physics\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00444}00444\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{18\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00445}00445\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{3297\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00446}00446\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{Balanced\ basis\ sets\ of\ split\ valence,\ triple\ zeta\ valence\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00447}00447\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}and\ quadruple\ zeta\ valence\ quality\ for\ H\ to\ Rn:\ Design\ and\ assessment\ of\ accuracy\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00448}00448\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{http://xlink.rsc.org/?DOI=b508541a\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00449}00449\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{7\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2005\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00451}00451\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00452}00452\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00453}00453\ \ \ \ \ \textcolor{stringliteral}{"{}def2\_auxbasis"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00454}00454\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{Eichkorn1997,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00455}00455\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}author\ =\ \{Eichkorn,\ Karin\ and\ Weigend,\ Florian\ and\ Treutler,\ Oliver\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00456}00456\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}and\ Ahlrichs,\ Reinhart\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00457}00457\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}doi\ =\ \{10.1007/s002140050244\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00458}00458\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}journal\ =\ \{Theoretical\ Chemistry\ Accounts:\ Theory,\ Computation,\ and\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00459}00459\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}Modeling\ (Theoretica\ Chimica\ Acta)\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00460}00460\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}number\ =\ \{1-\/4\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00461}00461\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}pages\ =\ \{119-\/-\/124\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00462}00462\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}publisher\ =\ \{Springer-\/Verlag\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00463}00463\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}title\ =\ \{\{Auxiliary\ basis\ sets\ for\ main\ row\ atoms\ and\ transition\ metals"{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00464}00464\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ and\ their\ use\ to\ approximate\ Coulomb\ potentials\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00465}00465\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}url\ =\ \{http://link.springer.com/10.1007/s002140050244\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00466}00466\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}volume\ =\ \{97\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00467}00467\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}year\ =\ \{1997\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00468}00468\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00469}00469\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{Weigend2006,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Weigend,\ Florian\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00471}00471\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1039/b515623h\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00472}00472\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{Physical\ Chemistry\ Chemical\ Physics\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00473}00473\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{9\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00474}00474\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{1057\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00475}00475\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{Accurate\ Coulomb-\/fitting\ basis\ sets\ for\ H\ to\ Rn\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{http://xlink.rsc.org/?DOI=b515623h\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00477}00477\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{8\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00478}00478\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2006\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00479}00479\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00480}00480\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00481}00481\ \ \ \ \ \textcolor{stringliteral}{"{}ri"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{RI,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00483}00483\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}title\ =\ \{Integral\ approximations\ for\ LCAO-\/SCF\ calculations\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00484}00484\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}journal\ =\ \{Chemical\ Physics\ Letters\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00485}00485\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}volume\ =\ \{213\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00486}00486\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}number\ =\ \{5\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00487}00487\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}pages\ =\ \{514-\/518\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00488}00488\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}year\ =\ \{1993\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00489}00489\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}issn\ =\ \{0009-\/2614\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00490}00490\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}doi\ =\ \{https://doi.org/10.1016/0009-\/2614(93)89151-\/7\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00491}00491\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}url\ =\ \{https://www.sciencedirect.com/science/article/pii/0009261493891517\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00492}00492\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}author\ =\ \{O.\ Vahtras\ and\ J.\ Almlöf\ and\ M.W.\ Feyereisen\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00493}00493\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00494}00494\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00495}00495\ \ \ \ \ \textcolor{stringliteral}{"{}sph"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{SPH,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00497}00497\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Spicher,\ Sebastian\ and\ Grimme,\ Stefan\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00498}00498\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1021/acs.jctc.0c01306\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00499}00499\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{Journal\ of\ Chemical\ Theory\ and\ Computation\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00500}00500\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{3\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00501}00501\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{1701-\/-\/1714\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00502}00502\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pmid\ =\ \{33554604\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00503}00503\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{Single-\/Point\ Hessian\ Calculations\ for\ Improved\ Vibrational\ "{}}}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00504}00504\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}Frequencies\ and\ Rigid-\/Rotor-\/Harmonic-\/Oscillator\ Thermodynamics\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00505}00505\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{https://pubs.acs.org/doi/10.1021/acs.jctc.0c01306\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00506}00506\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{17\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00507}00507\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2021\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00508}00508\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00509}00509\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00510}00510\ \ \ \ \ \textcolor{stringliteral}{"{}dcosmors"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00511}00511\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{DCOSMORS,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00512}00512\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Klamt,\ Andreas\ and\ Diedenhofen,\ Michael\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00513}00513\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1021/jp511158y\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00514}00514\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{The\ Journal\ of\ Physical\ Chemistry\ A\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00515}00515\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{21\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00516}00516\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{5439-\/-\/5445\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00517}00517\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{\{Calculation\ of\ Solvation\ Free\ Energies\ with\ DCOSMO-\/RS\}\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00518}00518\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ url\ =\ \{http://pubs.acs.org/doi/10.1021/jp511158y\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00519}00519\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{119\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00520}00520\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{2015\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00521}00521\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00522}00522\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00523}00523\ \ \ \ \ \textcolor{stringliteral}{"{}alpb"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00524}00524\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}@article\{ALPB,"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ author\ =\ \{Ehlert,\ Sebastian\ and\ Stahn,\ Marcel\ and\ Spicher,\ Sebastian\ and\ Grimme,\ Stefan\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00526}00526\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ title\ =\ \{Robust\ and\ Efficient\ Implicit\ Solvation\ Model\ for\ Fast\ Semiempirical\ Methods\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00527}00527\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ journal\ =\ \{Journal\ of\ Chemical\ Theory\ and\ Computation\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00528}00528\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ volume\ =\ \{0\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00529}00529\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ number\ =\ \{0\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00530}00530\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ pages\ =\ \{null\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00531}00531\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ year\ =\ \{0\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00532}00532\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ doi\ =\ \{10.1021/acs.jctc.1c00471\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00533}00533\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ note\ =\{PMID:\ 34185531\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00534}00534\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\ \ URL\ =\ \{https://doi.org/10.1021/acs.jctc.1c00471\},"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00535}00535\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\}"{}},}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00536}00536\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{params_8py_source_l00537}00537\ \}}
+
+\end{DoxyCode}

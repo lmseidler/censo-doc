@@ -1,0 +1,299 @@
+\doxysection{censo.\+ensembledata.\+Ensemble\+Data Class Reference}
+\hypertarget{classcenso_1_1ensembledata_1_1EnsembleData}{}\label{classcenso_1_1ensembledata_1_1EnsembleData}\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ab75938ba0f7a3e4a6113f0b44145c3a7}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str workdir, Namespace args=None)
+\item 
+\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}{conformers}} (self)
+\item 
+\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}{conformers}} (self, confs)
+\item 
+None \mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a22dac152d589cd3b059d572bdd338c8e}{read\+\_\+input}} (self, str \mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}{ensemble\+\_\+path}}, int charge=None, int unpaired=None, int nconf=None)
+\item 
+None \mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a7f08eda30138abdcf0352d22a4748de8}{setup\+\_\+conformers}} (self, int maxconf)
+\item 
+list\mbox{[}str\mbox{]} \mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a450da817691091a515ebd76cfe677f55}{update\+\_\+conformers}} (self, Callable\mbox{[}\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{Molecule\+Data}}\mbox{]}, float\mbox{]} target, float threshold, Callable\mbox{[}\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{Molecule\+Data}}\mbox{]}, bool\mbox{]} additional\+\_\+filter=None, bool boltzmann=False)
+\item 
+None \mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_add43fc0e01f321970e568cbc7d77dc4c}{remove\+\_\+conformers}} (self, list\mbox{[}int\mbox{]} confids)
+\item 
+None \mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ab9f9e1d0f9f188d7ac28af5f71cb3a54}{dump\+\_\+ensemble}} (self, str part)
+\item 
+None \mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a89e3f15276a3bedfde417821e2dff8f7}{calc\+\_\+boltzmannweights}} (self, float temp, str part)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}{runinfo}}
+\item 
+\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}{ensemble\+\_\+path}}
+\item 
+\mbox{\hyperlink{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}{conformers}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb} \end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00024}{24}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_ab75938ba0f7a3e4a6113f0b44145c3a7}\label{classcenso_1_1ensembledata_1_1EnsembleData_ab75938ba0f7a3e4a6113f0b44145c3a7} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily censo.\+ensembledata.\+Ensemble\+Data.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{workdir,  }\item[{Namespace }]{args = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Setup a EnsembleData object using the args from the command line
+workdir is the directory where the CENSO run should be executed in
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00027}{27}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_a89e3f15276a3bedfde417821e2dff8f7}\label{classcenso_1_1ensembledata_1_1EnsembleData_a89e3f15276a3bedfde417821e2dff8f7} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!calc\_boltzmannweights@{calc\_boltzmannweights}}
+\index{calc\_boltzmannweights@{calc\_boltzmannweights}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{calc\_boltzmannweights()}{calc\_boltzmannweights()}}
+{\footnotesize\ttfamily  None censo.\+ensembledata.\+Ensemble\+Data.\+calc\+\_\+boltzmannweights (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{float}]{temp,  }\item[{str}]{part }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Calculate populations for boltzmann distribution of ensemble at given temperature and part name to search 
+results, given values for free enthalpy
+
+Args:
+    temp (float): Temperature in Kelvin.
+    part (str): Name of the part to search results for.
+
+Returns:
+    None
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00300}{300}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1ensembledata_1_1EnsembleData_a89e3f15276a3bedfde417821e2dff8f7_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3}\label{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!conformers@{conformers}}
+\index{conformers@{conformers}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{conformers()}{conformers()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily censo.\+ensembledata.\+Ensemble\+Data.\+conformers (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Returns the conformers list. Includes a check wether there are any conformers left.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00060}{60}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1ensembledata_1_1EnsembleData_a5d877196120df97ab7b874bf2ef3c4d3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a}\label{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!conformers@{conformers}}
+\index{conformers@{conformers}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{conformers()}{conformers()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily censo.\+ensembledata.\+Ensemble\+Data.\+conformers (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{confs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00068}{68}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1ensembledata_1_1EnsembleData_ac1ba7374f1547223ff1b4d117accc54a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_ab9f9e1d0f9f188d7ac28af5f71cb3a54}\label{classcenso_1_1ensembledata_1_1EnsembleData_ab9f9e1d0f9f188d7ac28af5f71cb3a54} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!dump\_ensemble@{dump\_ensemble}}
+\index{dump\_ensemble@{dump\_ensemble}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{dump\_ensemble()}{dump\_ensemble()}}
+{\footnotesize\ttfamily  None censo.\+ensembledata.\+Ensemble\+Data.\+dump\+\_\+ensemble (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{part }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}dump the conformers to a file
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00290}{290}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1ensembledata_1_1EnsembleData_ab9f9e1d0f9f188d7ac28af5f71cb3a54_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_a22dac152d589cd3b059d572bdd338c8e}\label{classcenso_1_1ensembledata_1_1EnsembleData_a22dac152d589cd3b059d572bdd338c8e} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!read\_input@{read\_input}}
+\index{read\_input@{read\_input}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{read\_input()}{read\_input()}}
+{\footnotesize\ttfamily  None censo.\+ensembledata.\+Ensemble\+Data.\+read\+\_\+input (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{ensemble\+\_\+path,  }\item[{int }]{charge = {\ttfamily None},  }\item[{int }]{unpaired = {\ttfamily None},  }\item[{int }]{nconf = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Read ensemble input file. Should be a file in xyz-file format with all the conformers in consecutive order.
+If command line arguments are given, the priorities of parameters will be:
+    1. method arguments,
+    2. cml arguments,
+    3. defaults.
+
+Args:
+    ensemble_path (str): Path to the ensemble input file.
+    charge (int, optional): Charge of the system. Defaults to None.
+    unpaired (int, optional): Number of unpaired electrons. Defaults to None.
+    nconf (int, optional): Number of conformers to consider. Defaults to None.
+
+Returns:
+    None
+
+Raises:
+    RuntimeError: If the charge or the number of unpaired electrons is not defined.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00072}{72}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_add43fc0e01f321970e568cbc7d77dc4c}\label{classcenso_1_1ensembledata_1_1EnsembleData_add43fc0e01f321970e568cbc7d77dc4c} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!remove\_conformers@{remove\_conformers}}
+\index{remove\_conformers@{remove\_conformers}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{remove\_conformers()}{remove\_conformers()}}
+{\footnotesize\ttfamily  None censo.\+ensembledata.\+Ensemble\+Data.\+remove\+\_\+conformers (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{list\mbox{[}int\mbox{]}}]{confids }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Remove the conformers with the IDs listed in 'confids' from further consideration.
+
+Args:
+    confids (list[int]): A list of conformer IDs.
+
+Returns:
+    None
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00266}{266}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1ensembledata_1_1EnsembleData_add43fc0e01f321970e568cbc7d77dc4c_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_a7f08eda30138abdcf0352d22a4748de8}\label{classcenso_1_1ensembledata_1_1EnsembleData_a7f08eda30138abdcf0352d22a4748de8} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!setup\_conformers@{setup\_conformers}}
+\index{setup\_conformers@{setup\_conformers}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{setup\_conformers()}{setup\_conformers()}}
+{\footnotesize\ttfamily  None censo.\+ensembledata.\+Ensemble\+Data.\+setup\+\_\+conformers (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{maxconf }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}open ensemble input
+split into conformers
+create MoleculeData objects out of coord input
+read out energy from xyz file if possible
+
+Args: 
+    maxconf (int): Maximum number of conformers to consider.
+
+Returns:
+    None
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00139}{139}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1ensembledata_1_1EnsembleData_a7f08eda30138abdcf0352d22a4748de8_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_a450da817691091a515ebd76cfe677f55}\label{classcenso_1_1ensembledata_1_1EnsembleData_a450da817691091a515ebd76cfe677f55} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!update\_conformers@{update\_conformers}}
+\index{update\_conformers@{update\_conformers}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{update\_conformers()}{update\_conformers()}}
+{\footnotesize\ttfamily  list\mbox{[}str\mbox{]} censo.\+ensembledata.\+Ensemble\+Data.\+update\+\_\+conformers (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Callable\mbox{[}\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{Molecule\+Data}}\mbox{]}, float\mbox{]}}]{target,  }\item[{float}]{threshold,  }\item[{Callable\mbox{[}\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{Molecule\+Data}}\mbox{]}, bool\mbox{]} }]{additional\+\_\+filter = {\ttfamily None},  }\item[{bool }]{boltzmann = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Update the conformers based on a target function, a threshold, and an additional filter.
+Logic for the additional filter is "and".
+Returns a list of the names of the removed conformers.
+
+Args:
+    target (Callable[[MoleculeData], float]): A function that takes a MoleculeData object as input and returns a
+    float.
+    threshold (float): The threshold value.
+    additional_filter (Callable[[MoleculeData], bool], optional): An optional function that takes a MoleculeData
+    object as input and returns a boolean. Defaults to None.
+    boltzmann (bool, optional): If True, the threshold is interpreted as a population threshold.
+
+Returns:
+    None
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00202}{202}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcenso_1_1ensembledata_1_1EnsembleData_a450da817691091a515ebd76cfe677f55_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c}\label{classcenso_1_1ensembledata_1_1EnsembleData_af0ea9e652d90eaed3a3260d9081ded8c} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!conformers@{conformers}}
+\index{conformers@{conformers}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{conformers}{conformers}}
+{\footnotesize\ttfamily censo.\+ensembledata.\+Ensemble\+Data.\+conformers}
+
+
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00236}{236}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641}\label{classcenso_1_1ensembledata_1_1EnsembleData_ae5ca58c68d7641a019743d2348048641} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!ensemble\_path@{ensemble\_path}}
+\index{ensemble\_path@{ensemble\_path}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{ensemble\_path}{ensemble\_path}}
+{\footnotesize\ttfamily censo.\+ensembledata.\+Ensemble\+Data.\+ensemble\+\_\+path}
+
+
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00099}{99}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+\Hypertarget{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d}\label{classcenso_1_1ensembledata_1_1EnsembleData_a88f322ea0d1b33ad7163af38c6b1743d} 
+\index{censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}!runinfo@{runinfo}}
+\index{runinfo@{runinfo}!censo.ensembledata.EnsembleData@{censo.ensembledata.EnsembleData}}
+\doxysubsubsection{\texorpdfstring{runinfo}{runinfo}}
+{\footnotesize\ttfamily censo.\+ensembledata.\+Ensemble\+Data.\+runinfo}
+
+
+
+Definition at line \mbox{\hyperlink{ensembledata_8py_source_l00041}{41}} of file \mbox{\hyperlink{ensembledata_8py_source}{ensembledata.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/polt/prog/\+CENSOdev/src/censo/\mbox{\hyperlink{ensembledata_8py}{ensembledata.\+py}}\end{DoxyCompactItemize}

@@ -1,0 +1,251 @@
+\doxysection{censo.\+parallel Namespace Reference}
+\hypertarget{namespacecenso_1_1parallel}{}\label{namespacecenso_1_1parallel}\index{censo.parallel@{censo.parallel}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+dict\mbox{[}int, any\mbox{]} \mbox{\hyperlink{namespacecenso_1_1parallel_ad8c19d59ae4a5cad75f20046458e07c9}{execute}} (list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{Molecule\+Data}}\mbox{]} conformers, str workdir, str prog, dict\mbox{[}str, dict\mbox{]} prepinfo, list\mbox{[}str\mbox{]} jobtype, bool copy\+\_\+mo=False, bool retry\+\_\+failed=False, bool balance=True, int maxcores=OMPMIN, int omp=OMPMIN)
+\item 
+list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{Parallel\+Job}}\mbox{]} \mbox{\hyperlink{namespacecenso_1_1parallel_afe848153b6d2f91c0205864c1f09b528}{prepare\+\_\+jobs}} (list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{Molecule\+Data}}\mbox{]} conformers, dict\mbox{[}str, dict\mbox{]} prepinfo, list\mbox{[}str\mbox{]} jobtype)
+\item 
+\mbox{\hyperlink{namespacecenso_1_1parallel_aa2560cdd789d437d85c59669a49bc9bf}{reduce\+\_\+cores}} (multiprocessing.\+Value free\+\_\+cores, int omp, multiprocessing.\+Condition enough\+\_\+cores)
+\item 
+\mbox{\hyperlink{namespacecenso_1_1parallel_a9225caa0918ea9e456039ab3855096ae}{increase\+\_\+cores}} (multiprocessing.\+Value free\+\_\+cores, int omp, multiprocessing.\+Condition enough\+\_\+cores)
+\item 
+\mbox{\hyperlink{namespacecenso_1_1parallel_a226532f7207b7f77b668928b3c849562}{handle\+\_\+sigterm}} (signum, frame, executor)
+\item 
+list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{Parallel\+Job}}\mbox{]} \mbox{\hyperlink{namespacecenso_1_1parallel_a8523dd0abcd9161400eb170e53ca1728}{dqp}} (list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{Parallel\+Job}}\mbox{]} jobs, \mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc}{Qm\+Proc}} processor)
+\item 
+None \mbox{\hyperlink{namespacecenso_1_1parallel_a9709705bc46bc8b03b12444b60260a27}{set\+\_\+omp\+\_\+chunking}} (list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{Parallel\+Job}}\mbox{]} jobs)
+\item 
+tuple\mbox{[}list\mbox{[}int\mbox{]}, list\mbox{[}int\mbox{]}\mbox{]} \mbox{\hyperlink{namespacecenso_1_1parallel_a7e33a308abc1aca44a8b765145815b59}{retry\+\_\+failed\+\_\+jobs}} (list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{Parallel\+Job}}\mbox{]} jobs, \mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc}{Qm\+Proc}} processor)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecenso_1_1parallel_a1f1f87c6cd0020ef2f127953e53ed58c}{logger}} = setup\+\_\+logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\item 
+\mbox{\hyperlink{namespacecenso_1_1parallel_a2517fdd69c8851dad08f4258c8bfa01d}{ncores}} = os.\+cpu\+\_\+count()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Performs the parallel execution of the QM calls.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacecenso_1_1parallel_a8523dd0abcd9161400eb170e53ca1728}\label{namespacecenso_1_1parallel_a8523dd0abcd9161400eb170e53ca1728} 
+\index{censo.parallel@{censo.parallel}!dqp@{dqp}}
+\index{dqp@{dqp}!censo.parallel@{censo.parallel}}
+\doxysubsubsection{\texorpdfstring{dqp()}{dqp()}}
+{\footnotesize\ttfamily  list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{Parallel\+Job}}\mbox{]} censo.\+parallel.\+dqp (\begin{DoxyParamCaption}\item[{list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{Parallel\+Job}}\mbox{]}}]{jobs,  }\item[{\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc}{Qm\+Proc}}}]{processor }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}D ynamic Q ueue P rocessing
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{parallel_8py_source_l00152}{152}} of file \mbox{\hyperlink{parallel_8py_source}{parallel.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecenso_1_1parallel_a8523dd0abcd9161400eb170e53ca1728_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecenso_1_1parallel_a8523dd0abcd9161400eb170e53ca1728_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{namespacecenso_1_1parallel_ad8c19d59ae4a5cad75f20046458e07c9}\label{namespacecenso_1_1parallel_ad8c19d59ae4a5cad75f20046458e07c9} 
+\index{censo.parallel@{censo.parallel}!execute@{execute}}
+\index{execute@{execute}!censo.parallel@{censo.parallel}}
+\doxysubsubsection{\texorpdfstring{execute()}{execute()}}
+{\footnotesize\ttfamily  dict\mbox{[}int, any\mbox{]} censo.\+parallel.\+execute (\begin{DoxyParamCaption}\item[{list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{Molecule\+Data}}\mbox{]}}]{conformers,  }\item[{str}]{workdir,  }\item[{str}]{prog,  }\item[{dict\mbox{[}str, dict\mbox{]}}]{prepinfo,  }\item[{list\mbox{[}str\mbox{]}}]{jobtype,  }\item[{bool }]{copy\+\_\+mo = {\ttfamily False},  }\item[{bool }]{retry\+\_\+failed = {\ttfamily False},  }\item[{bool }]{balance = {\ttfamily True},  }\item[{int }]{maxcores = {\ttfamily OMPMIN},  }\item[{int }]{omp = {\ttfamily OMPMIN} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Manages parallel execution of external program calls. Sets cores used per job, checks requirements,
+can copy MO-files, and retry failed jobs.
+
+Args:
+    conformers (list[MoleculeData]): List of conformers for which jobs will be created and executed.
+    workdir (str): Working directory.
+    prog (str): Name of the program to be used.
+    copy_mo (bool, optional): Whether to copy the MO-files from the previous calculation.
+    retry_failed (bool, optional): Whether to retry failed jobs.
+    balance (bool, optional): Whether to balance the number of cores used per job.
+    maxcores (int, optional): Maximum number of cores to be used.
+    omp (int, optional): Number of cores to be used per job.
+
+Returns:
+    dict[int, any]: Dictionary of results. Key: the id of the conformer.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{parallel_8py_source_l00021}{21}} of file \mbox{\hyperlink{parallel_8py_source}{parallel.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecenso_1_1parallel_ad8c19d59ae4a5cad75f20046458e07c9_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{namespacecenso_1_1parallel_a226532f7207b7f77b668928b3c849562}\label{namespacecenso_1_1parallel_a226532f7207b7f77b668928b3c849562} 
+\index{censo.parallel@{censo.parallel}!handle\_sigterm@{handle\_sigterm}}
+\index{handle\_sigterm@{handle\_sigterm}!censo.parallel@{censo.parallel}}
+\doxysubsubsection{\texorpdfstring{handle\_sigterm()}{handle\_sigterm()}}
+{\footnotesize\ttfamily censo.\+parallel.\+handle\+\_\+sigterm (\begin{DoxyParamCaption}\item[{}]{signum,  }\item[{}]{frame,  }\item[{}]{executor }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{parallel_8py_source_l00147}{147}} of file \mbox{\hyperlink{parallel_8py_source}{parallel.\+py}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecenso_1_1parallel_a226532f7207b7f77b668928b3c849562_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{namespacecenso_1_1parallel_a9225caa0918ea9e456039ab3855096ae}\label{namespacecenso_1_1parallel_a9225caa0918ea9e456039ab3855096ae} 
+\index{censo.parallel@{censo.parallel}!increase\_cores@{increase\_cores}}
+\index{increase\_cores@{increase\_cores}!censo.parallel@{censo.parallel}}
+\doxysubsubsection{\texorpdfstring{increase\_cores()}{increase\_cores()}}
+{\footnotesize\ttfamily censo.\+parallel.\+increase\+\_\+cores (\begin{DoxyParamCaption}\item[{multiprocessing.\+Value}]{free\+\_\+cores,  }\item[{int}]{omp,  }\item[{multiprocessing.\+Condition }]{enough\+\_\+cores }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{parallel_8py_source_l00135}{135}} of file \mbox{\hyperlink{parallel_8py_source}{parallel.\+py}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecenso_1_1parallel_a9225caa0918ea9e456039ab3855096ae_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{namespacecenso_1_1parallel_afe848153b6d2f91c0205864c1f09b528}\label{namespacecenso_1_1parallel_afe848153b6d2f91c0205864c1f09b528} 
+\index{censo.parallel@{censo.parallel}!prepare\_jobs@{prepare\_jobs}}
+\index{prepare\_jobs@{prepare\_jobs}!censo.parallel@{censo.parallel}}
+\doxysubsubsection{\texorpdfstring{prepare\_jobs()}{prepare\_jobs()}}
+{\footnotesize\ttfamily  list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{Parallel\+Job}}\mbox{]} censo.\+parallel.\+prepare\+\_\+jobs (\begin{DoxyParamCaption}\item[{list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1MoleculeData}{Molecule\+Data}}\mbox{]}}]{conformers,  }\item[{dict\mbox{[}str, dict\mbox{]}}]{prepinfo,  }\item[{list\mbox{[}str\mbox{]}}]{jobtype }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{parallel_8py_source_l00111}{111}} of file \mbox{\hyperlink{parallel_8py_source}{parallel.\+py}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecenso_1_1parallel_afe848153b6d2f91c0205864c1f09b528_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{namespacecenso_1_1parallel_aa2560cdd789d437d85c59669a49bc9bf}\label{namespacecenso_1_1parallel_aa2560cdd789d437d85c59669a49bc9bf} 
+\index{censo.parallel@{censo.parallel}!reduce\_cores@{reduce\_cores}}
+\index{reduce\_cores@{reduce\_cores}!censo.parallel@{censo.parallel}}
+\doxysubsubsection{\texorpdfstring{reduce\_cores()}{reduce\_cores()}}
+{\footnotesize\ttfamily censo.\+parallel.\+reduce\+\_\+cores (\begin{DoxyParamCaption}\item[{multiprocessing.\+Value}]{free\+\_\+cores,  }\item[{int}]{omp,  }\item[{multiprocessing.\+Condition }]{enough\+\_\+cores }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{parallel_8py_source_l00123}{123}} of file \mbox{\hyperlink{parallel_8py_source}{parallel.\+py}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecenso_1_1parallel_aa2560cdd789d437d85c59669a49bc9bf_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{namespacecenso_1_1parallel_a7e33a308abc1aca44a8b765145815b59}\label{namespacecenso_1_1parallel_a7e33a308abc1aca44a8b765145815b59} 
+\index{censo.parallel@{censo.parallel}!retry\_failed\_jobs@{retry\_failed\_jobs}}
+\index{retry\_failed\_jobs@{retry\_failed\_jobs}!censo.parallel@{censo.parallel}}
+\doxysubsubsection{\texorpdfstring{retry\_failed\_jobs()}{retry\_failed\_jobs()}}
+{\footnotesize\ttfamily  tuple\mbox{[}list\mbox{[}int\mbox{]}, list\mbox{[}int\mbox{]}\mbox{]} censo.\+parallel.\+retry\+\_\+failed\+\_\+jobs (\begin{DoxyParamCaption}\item[{list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{Parallel\+Job}}\mbox{]}}]{jobs,  }\item[{\mbox{\hyperlink{classcenso_1_1qm__processor_1_1QmProc}{Qm\+Proc}}}]{processor }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Tries to recover failed jobs.
+
+Args:
+    jobs (list[ParallelJob]): List of jobs.
+    processor (QmProc): Processor object.
+
+Returns:
+    tuple[list[int], list[int]]: List of indices of jobs that should be retried, list of ids of conformers
+        that could not be recovered.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{parallel_8py_source_l00250}{250}} of file \mbox{\hyperlink{parallel_8py_source}{parallel.\+py}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecenso_1_1parallel_a7e33a308abc1aca44a8b765145815b59_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecenso_1_1parallel_a7e33a308abc1aca44a8b765145815b59_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{namespacecenso_1_1parallel_a9709705bc46bc8b03b12444b60260a27}\label{namespacecenso_1_1parallel_a9709705bc46bc8b03b12444b60260a27} 
+\index{censo.parallel@{censo.parallel}!set\_omp\_chunking@{set\_omp\_chunking}}
+\index{set\_omp\_chunking@{set\_omp\_chunking}!censo.parallel@{censo.parallel}}
+\doxysubsubsection{\texorpdfstring{set\_omp\_chunking()}{set\_omp\_chunking()}}
+{\footnotesize\ttfamily  None censo.\+parallel.\+set\+\_\+omp\+\_\+chunking (\begin{DoxyParamCaption}\item[{list\mbox{[}\mbox{\hyperlink{classcenso_1_1datastructure_1_1ParallelJob}{Parallel\+Job}}\mbox{]}}]{jobs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Determines and sets the number of cores that are supposed to be used for every job.
+This method is efficient if it can be assumed that the jobs take roughly the same amount of time each.
+Each job shouldn't use less than OMPMIN cores.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{parallel_8py_source_l00211}{211}} of file \mbox{\hyperlink{parallel_8py_source}{parallel.\+py}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacecenso_1_1parallel_a9709705bc46bc8b03b12444b60260a27_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacecenso_1_1parallel_a1f1f87c6cd0020ef2f127953e53ed58c}\label{namespacecenso_1_1parallel_a1f1f87c6cd0020ef2f127953e53ed58c} 
+\index{censo.parallel@{censo.parallel}!logger@{logger}}
+\index{logger@{logger}!censo.parallel@{censo.parallel}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily censo.\+parallel.\+logger = setup\+\_\+logger(\+\_\+\+\_\+name\+\_\+\+\_\+)}
+
+
+
+Definition at line \mbox{\hyperlink{parallel_8py_source_l00015}{15}} of file \mbox{\hyperlink{parallel_8py_source}{parallel.\+py}}.
+
+\Hypertarget{namespacecenso_1_1parallel_a2517fdd69c8851dad08f4258c8bfa01d}\label{namespacecenso_1_1parallel_a2517fdd69c8851dad08f4258c8bfa01d} 
+\index{censo.parallel@{censo.parallel}!ncores@{ncores}}
+\index{ncores@{ncores}!censo.parallel@{censo.parallel}}
+\doxysubsubsection{\texorpdfstring{ncores}{ncores}}
+{\footnotesize\ttfamily censo.\+parallel.\+ncores = os.\+cpu\+\_\+count()}
+
+
+
+Definition at line \mbox{\hyperlink{parallel_8py_source_l00018}{18}} of file \mbox{\hyperlink{parallel_8py_source}{parallel.\+py}}.
+

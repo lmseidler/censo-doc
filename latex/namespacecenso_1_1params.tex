@@ -1,0 +1,446 @@
+\doxysection{censo.\+params Namespace Reference}
+\hypertarget{namespacecenso_1_1params}{}\label{namespacecenso_1_1params}\index{censo.params@{censo.params}}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+str \mbox{\hyperlink{namespacecenso_1_1params_a1d206708fe437300a4eaab856f969f6e}{DESCR}}
+\item 
+\mbox{\hyperlink{namespacecenso_1_1params_ac8b2e730e2df5b6b9a5cafe752cc1da4}{ENVIRON}} = os.\+environ.\+copy()
+\item 
+str \mbox{\hyperlink{namespacecenso_1_1params_af0dc9408c506cf5dc21c1a6e172e04dd}{LP\+\_\+\+KEY}} = "{}LD\+\_\+\+LIBRARY\+\_\+\+PATH"{}
+\item 
+\mbox{\hyperlink{namespacecenso_1_1params_a1f9b6005070ec0b9bc9a2b670137dc18}{lp\+\_\+orig}} = ENVIRON.\+get(\mbox{\hyperlink{namespacecenso_1_1params_af0dc9408c506cf5dc21c1a6e172e04dd}{LP\+\_\+\+KEY}} + "{}\+\_\+\+ORIG"{})
+\item 
+str \mbox{\hyperlink{namespacecenso_1_1params_aa1cfd19e823b8ec1d2cc4288b01221fe}{CODING}} = "{}ISO-\/8859-\/1"{}
+\item 
+int \mbox{\hyperlink{namespacecenso_1_1params_aafcea3f9136af73d2cc0516860edf515}{DIGILEN}} = 60
+\item 
+int \mbox{\hyperlink{namespacecenso_1_1params_a90005809fd8d215d18a9ed7733ac7715}{PLENGTH}} = 100
+\item 
+float \mbox{\hyperlink{namespacecenso_1_1params_aab1066d4504ef8926f125ec8fd764d90}{AU2J}} = 4.\+3597482e-\/18
+\item 
+float \mbox{\hyperlink{namespacecenso_1_1params_a575ccefd4fcc9c99e92fb2fc4f4df470}{KB}} = 1.\+3806485279e-\/23
+\item 
+float \mbox{\hyperlink{namespacecenso_1_1params_aafa2f8916e2dd66787a4ec413e86f9e4}{R}} = 1.\+987203585e-\/03
+\item 
+float \mbox{\hyperlink{namespacecenso_1_1params_a7c4174340ad472669e0ac891419a8e25}{AU2\+KCAL}} = 627.\+50947428
+\item 
+float \mbox{\hyperlink{namespacecenso_1_1params_a028130dfe8dfc71b29c917a83075ec6b}{BOHR2\+ANG}} = 0.\+52917721067
+\item 
+float \mbox{\hyperlink{namespacecenso_1_1params_aecf73281c5a835c1801edd2238d0083a}{PLANCK}} = 6.\+62607015e-\/34
+\item 
+float \mbox{\hyperlink{namespacecenso_1_1params_aec822c64274f950dd54b46152fdce6e2}{C}} = 2.\+998e8
+\item 
+int \mbox{\hyperlink{namespacecenso_1_1params_a8817ca4f134c8a2c63fcb7aa81c0cd0f}{WARNLEN}} = max(\mbox{[}len(i) for i in \mbox{[}"{}WARNING\+:"{}, "{}ERROR\+:"{}, "{}INFORMATION\+:"{}\mbox{]}\mbox{]}) + 1
+\item 
+\mbox{\hyperlink{namespacecenso_1_1params_a07ca9f48b8fcd4b5e1cb11f548d0ef25}{ASSETS\+\_\+\+PATH}} = \+\_\+\+\_\+file\+\_\+\+\_\+.\+replace("{}params.\+py"{}, "{}assets"{})
+\item 
+\mbox{\hyperlink{namespacecenso_1_1params_a834283e3f48e845e6c3e4e937f69e3a2}{USER\+\_\+\+ASSETS\+\_\+\+PATH}} = os.\+path.\+join(os.\+path.\+expanduser("{}\texorpdfstring{$\sim$}{\string~}"{}), "{}.censo2\+\_\+assets"{})
+\item 
+tuple \mbox{\hyperlink{namespacecenso_1_1params_a1e0436dac8bd024985f346ad7a9b27d4}{PROGS}} = ("{}orca"{}, "{}tm"{})
+\item 
+dict \mbox{\hyperlink{namespacecenso_1_1params_ab70bd2d89419830926fd21764228179d}{SOLV\+\_\+\+MODS}}
+\item 
+tuple \mbox{\hyperlink{namespacecenso_1_1params_a94b2c93b1332a8fd424e14cc68c2fb45}{GRIDOPTIONS}}
+\item 
+tuple \mbox{\hyperlink{namespacecenso_1_1params_a21d9f031db6a820115bc8afa9de2646c}{GFNOPTIONS}}
+\item 
+str \mbox{\hyperlink{namespacecenso_1_1params_a141935d948a6716d6091475c2ce5262c}{CENSORCNAME}} = "{}.censo2rc"{}
+\item 
+int \mbox{\hyperlink{namespacecenso_1_1params_a538eb96cb83b35fe2fd913668aa6213b}{OMPMIN}} = 4
+\item 
+int \mbox{\hyperlink{namespacecenso_1_1params_a6b0d4b4dc0f3a2eefd06823789ca4a33}{OMPMAX}} = 32
+\item 
+dict \mbox{\hyperlink{namespacecenso_1_1params_aab30731fa51756a0edfeb009ab1ab5b0}{COSMORS\+\_\+\+PARAM}}
+\item 
+dict \mbox{\hyperlink{namespacecenso_1_1params_ace1e4c9633c79615080fba0907309557}{qm\+\_\+prepinfo}}
+\item 
+dict \mbox{\hyperlink{namespacecenso_1_1params_ac791fd765d83b728c2aac4531e579acb}{rot\+\_\+sym\+\_\+num}}
+\item 
+dict \mbox{\hyperlink{namespacecenso_1_1params_a6c34763e230dda05f5fc0f1d3be97641}{si\+\_\+bib}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Storing constants for the use in all CENSO modules.
+Storing program paths --> still in transition
+Storing censo_solvent_db solvent database across all solvation models (as fallback)
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacecenso_1_1params_a07ca9f48b8fcd4b5e1cb11f548d0ef25}\label{namespacecenso_1_1params_a07ca9f48b8fcd4b5e1cb11f548d0ef25} 
+\index{censo.params@{censo.params}!ASSETS\_PATH@{ASSETS\_PATH}}
+\index{ASSETS\_PATH@{ASSETS\_PATH}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{ASSETS\_PATH}{ASSETS\_PATH}}
+{\footnotesize\ttfamily censo.\+params.\+ASSETS\+\_\+\+PATH = \+\_\+\+\_\+file\+\_\+\+\_\+.\+replace("{}params.\+py"{}, "{}assets"{})}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00065}{65}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_aab1066d4504ef8926f125ec8fd764d90}\label{namespacecenso_1_1params_aab1066d4504ef8926f125ec8fd764d90} 
+\index{censo.params@{censo.params}!AU2J@{AU2J}}
+\index{AU2J@{AU2J}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{AU2J}{AU2J}}
+{\footnotesize\ttfamily float censo.\+params.\+AU2J = 4.\+3597482e-\/18}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00056}{56}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a7c4174340ad472669e0ac891419a8e25}\label{namespacecenso_1_1params_a7c4174340ad472669e0ac891419a8e25} 
+\index{censo.params@{censo.params}!AU2KCAL@{AU2KCAL}}
+\index{AU2KCAL@{AU2KCAL}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{AU2KCAL}{AU2KCAL}}
+{\footnotesize\ttfamily float censo.\+params.\+AU2\+KCAL = 627.\+50947428}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00059}{59}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a028130dfe8dfc71b29c917a83075ec6b}\label{namespacecenso_1_1params_a028130dfe8dfc71b29c917a83075ec6b} 
+\index{censo.params@{censo.params}!BOHR2ANG@{BOHR2ANG}}
+\index{BOHR2ANG@{BOHR2ANG}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{BOHR2ANG}{BOHR2ANG}}
+{\footnotesize\ttfamily float censo.\+params.\+BOHR2\+ANG = 0.\+52917721067}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00060}{60}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_aec822c64274f950dd54b46152fdce6e2}\label{namespacecenso_1_1params_aec822c64274f950dd54b46152fdce6e2} 
+\index{censo.params@{censo.params}!C@{C}}
+\index{C@{C}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{C}{C}}
+{\footnotesize\ttfamily float censo.\+params.\+C = 2.\+998e8}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00062}{62}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a141935d948a6716d6091475c2ce5262c}\label{namespacecenso_1_1params_a141935d948a6716d6091475c2ce5262c} 
+\index{censo.params@{censo.params}!CENSORCNAME@{CENSORCNAME}}
+\index{CENSORCNAME@{CENSORCNAME}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{CENSORCNAME}{CENSORCNAME}}
+{\footnotesize\ttfamily str censo.\+params.\+CENSORCNAME = "{}.censo2rc"{}}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00089}{89}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_aa1cfd19e823b8ec1d2cc4288b01221fe}\label{namespacecenso_1_1params_aa1cfd19e823b8ec1d2cc4288b01221fe} 
+\index{censo.params@{censo.params}!CODING@{CODING}}
+\index{CODING@{CODING}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{CODING}{CODING}}
+{\footnotesize\ttfamily str censo.\+params.\+CODING = "{}ISO-\/8859-\/1"{}}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00050}{50}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_aab30731fa51756a0edfeb009ab1ab5b0}\label{namespacecenso_1_1params_aab30731fa51756a0edfeb009ab1ab5b0} 
+\index{censo.params@{censo.params}!COSMORS\_PARAM@{COSMORS\_PARAM}}
+\index{COSMORS\_PARAM@{COSMORS\_PARAM}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{COSMORS\_PARAM}{COSMORS\_PARAM}}
+{\footnotesize\ttfamily dict censo.\+params.\+COSMORS\+\_\+\+PARAM}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ \{}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{"{}12-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1201.ctd"{}},}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{"{}13-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1301.ctd"{}},}
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{stringliteral}{"{}14-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1401.ctd"{}},}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{stringliteral}{"{}15-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1501.ctd"{}},}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{stringliteral}{"{}16-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1601.ctd"{}},}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{stringliteral}{"{}17-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_C30\_1701.ctd"{}},}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{stringliteral}{"{}18-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_18.ctd"{}},}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{stringliteral}{"{}19-\/normal"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVP\_19.ctd"{}},}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{stringliteral}{"{}12-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_HB2012\_C30\_1201.ctd"{}},}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{stringliteral}{"{}13-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_HB2012\_C30\_1301.ctd"{}},}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{stringliteral}{"{}14-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_C30\_1401.ctd"{}},}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{stringliteral}{"{}15-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_C30\_1501.ctd"{}},}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{stringliteral}{"{}16-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_C30\_1601.ctd"{}},}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{stringliteral}{"{}17-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_C30\_1701.ctd"{}},}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{stringliteral}{"{}18-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_18.ctd"{}},}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{stringliteral}{"{}19-\/fine"{}}:\ \textcolor{stringliteral}{"{}BP\_TZVPD\_FINE\_19.ctd"{}},}
+\DoxyCodeLine{00018\ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00095}{95}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a1d206708fe437300a4eaab856f969f6e}\label{namespacecenso_1_1params_a1d206708fe437300a4eaab856f969f6e} 
+\index{censo.params@{censo.params}!DESCR@{DESCR}}
+\index{DESCR@{DESCR}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{DESCR}{DESCR}}
+{\footnotesize\ttfamily str censo.\+params.\+DESCR}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ f\textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{00002\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_}}
+\DoxyCodeLine{00003\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00004\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00005\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CENSO\ -\/\ Commandline\ ENSO\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00006\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v\ \{\_\_version\_\_:<\{19\}\}\ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00007\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ energetic\ sorting\ of\ CREST\ Conformer\ Rotamer\ Ensembles\ \ \ \ |}}
+\DoxyCodeLine{00008\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ University\ of\ Bonn,\ MCTC\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00009\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ???\ 2024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00010\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ based\ on\ ENSO\ version\ 2.0.1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00011\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ L.\ M.\ Seidler,\ F.\ Bohle\ and\ S.\ Grimme\ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00012\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |}}
+\DoxyCodeLine{00013\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ |\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_|}}
+\DoxyCodeLine{00014\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{00015\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Please\ cite:\ }}
+\DoxyCodeLine{00016\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ ???}}
+\DoxyCodeLine{00017\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ S.\ Grimme,\ F.\ Bohle,\ A.\ Hansen,\ P.\ Pracht,\ S.\ Spicher,\ and\ M.\ Stahn\ }}
+\DoxyCodeLine{00018\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ J.\ Phys.\ Chem.\ A\ 2021,\ 125,\ 19,\ 4039-\/4054.}}
+\DoxyCodeLine{00019\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ DOI:\ https://doi.org/10.1021/acs.jpca.1c00971}}
+\DoxyCodeLine{00020\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{00021\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ This\ program\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00022\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00023\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.}}
+\DoxyCodeLine{00024\ \textcolor{stringliteral}{"{}"{}"{}}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00012}{12}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_aafcea3f9136af73d2cc0516860edf515}\label{namespacecenso_1_1params_aafcea3f9136af73d2cc0516860edf515} 
+\index{censo.params@{censo.params}!DIGILEN@{DIGILEN}}
+\index{DIGILEN@{DIGILEN}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{DIGILEN}{DIGILEN}}
+{\footnotesize\ttfamily int censo.\+params.\+DIGILEN = 60}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00052}{52}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_ac8b2e730e2df5b6b9a5cafe752cc1da4}\label{namespacecenso_1_1params_ac8b2e730e2df5b6b9a5cafe752cc1da4} 
+\index{censo.params@{censo.params}!ENVIRON@{ENVIRON}}
+\index{ENVIRON@{ENVIRON}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{ENVIRON}{ENVIRON}}
+{\footnotesize\ttfamily censo.\+params.\+ENVIRON = os.\+environ.\+copy()}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00037}{37}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a21d9f031db6a820115bc8afa9de2646c}\label{namespacecenso_1_1params_a21d9f031db6a820115bc8afa9de2646c} 
+\index{censo.params@{censo.params}!GFNOPTIONS@{GFNOPTIONS}}
+\index{GFNOPTIONS@{GFNOPTIONS}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{GFNOPTIONS}{GFNOPTIONS}}
+{\footnotesize\ttfamily tuple censo.\+params.\+GFNOPTIONS}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ (}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{"{}gfnff"{}},}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{"{}gfn1"{}},}
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{stringliteral}{"{}gfn2"{}},}
+\DoxyCodeLine{00005\ )}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00083}{83}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a94b2c93b1332a8fd424e14cc68c2fb45}\label{namespacecenso_1_1params_a94b2c93b1332a8fd424e14cc68c2fb45} 
+\index{censo.params@{censo.params}!GRIDOPTIONS@{GRIDOPTIONS}}
+\index{GRIDOPTIONS@{GRIDOPTIONS}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{GRIDOPTIONS}{GRIDOPTIONS}}
+{\footnotesize\ttfamily tuple censo.\+params.\+GRIDOPTIONS}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ (}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{"{}low"{}},}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{"{}low+"{}},}
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{stringliteral}{"{}high"{}},}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{stringliteral}{"{}high+"{}},}
+\DoxyCodeLine{00006\ )}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00076}{76}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a575ccefd4fcc9c99e92fb2fc4f4df470}\label{namespacecenso_1_1params_a575ccefd4fcc9c99e92fb2fc4f4df470} 
+\index{censo.params@{censo.params}!KB@{KB}}
+\index{KB@{KB}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{KB}{KB}}
+{\footnotesize\ttfamily float censo.\+params.\+KB = 1.\+3806485279e-\/23}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00057}{57}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_af0dc9408c506cf5dc21c1a6e172e04dd}\label{namespacecenso_1_1params_af0dc9408c506cf5dc21c1a6e172e04dd} 
+\index{censo.params@{censo.params}!LP\_KEY@{LP\_KEY}}
+\index{LP\_KEY@{LP\_KEY}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{LP\_KEY}{LP\_KEY}}
+{\footnotesize\ttfamily str censo.\+params.\+LP\+\_\+\+KEY = "{}LD\+\_\+\+LIBRARY\+\_\+\+PATH"{}}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00040}{40}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a1f9b6005070ec0b9bc9a2b670137dc18}\label{namespacecenso_1_1params_a1f9b6005070ec0b9bc9a2b670137dc18} 
+\index{censo.params@{censo.params}!lp\_orig@{lp\_orig}}
+\index{lp\_orig@{lp\_orig}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{lp\_orig}{lp\_orig}}
+{\footnotesize\ttfamily censo.\+params.\+lp\+\_\+orig = ENVIRON.\+get(\mbox{\hyperlink{namespacecenso_1_1params_af0dc9408c506cf5dc21c1a6e172e04dd}{LP\+\_\+\+KEY}} + "{}\+\_\+\+ORIG"{})}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00041}{41}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a6b0d4b4dc0f3a2eefd06823789ca4a33}\label{namespacecenso_1_1params_a6b0d4b4dc0f3a2eefd06823789ca4a33} 
+\index{censo.params@{censo.params}!OMPMAX@{OMPMAX}}
+\index{OMPMAX@{OMPMAX}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{OMPMAX}{OMPMAX}}
+{\footnotesize\ttfamily int censo.\+params.\+OMPMAX = 32}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00093}{93}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a538eb96cb83b35fe2fd913668aa6213b}\label{namespacecenso_1_1params_a538eb96cb83b35fe2fd913668aa6213b} 
+\index{censo.params@{censo.params}!OMPMIN@{OMPMIN}}
+\index{OMPMIN@{OMPMIN}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{OMPMIN}{OMPMIN}}
+{\footnotesize\ttfamily int censo.\+params.\+OMPMIN = 4}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00091}{91}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_aecf73281c5a835c1801edd2238d0083a}\label{namespacecenso_1_1params_aecf73281c5a835c1801edd2238d0083a} 
+\index{censo.params@{censo.params}!PLANCK@{PLANCK}}
+\index{PLANCK@{PLANCK}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{PLANCK}{PLANCK}}
+{\footnotesize\ttfamily float censo.\+params.\+PLANCK = 6.\+62607015e-\/34}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00061}{61}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a90005809fd8d215d18a9ed7733ac7715}\label{namespacecenso_1_1params_a90005809fd8d215d18a9ed7733ac7715} 
+\index{censo.params@{censo.params}!PLENGTH@{PLENGTH}}
+\index{PLENGTH@{PLENGTH}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{PLENGTH}{PLENGTH}}
+{\footnotesize\ttfamily int censo.\+params.\+PLENGTH = 100}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00054}{54}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a1e0436dac8bd024985f346ad7a9b27d4}\label{namespacecenso_1_1params_a1e0436dac8bd024985f346ad7a9b27d4} 
+\index{censo.params@{censo.params}!PROGS@{PROGS}}
+\index{PROGS@{PROGS}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{PROGS}{PROGS}}
+{\footnotesize\ttfamily tuple censo.\+params.\+PROGS = ("{}orca"{}, "{}tm"{})}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00069}{69}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_ace1e4c9633c79615080fba0907309557}\label{namespacecenso_1_1params_ace1e4c9633c79615080fba0907309557} 
+\index{censo.params@{censo.params}!qm\_prepinfo@{qm\_prepinfo}}
+\index{qm\_prepinfo@{qm\_prepinfo}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{qm\_prepinfo}{qm\_prepinfo}}
+{\footnotesize\ttfamily dict censo.\+params.\+qm\+\_\+prepinfo}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ \{}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{"{}orca"{}}:\ \{}
+\DoxyCodeLine{00003\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}low"{}}:\ [\textcolor{stringliteral}{"{}grid4\ nofinalgrid"{}},\ \textcolor{stringliteral}{"{}loosescf"{}}],}
+\DoxyCodeLine{00004\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}low+"{}}:\ [\textcolor{stringliteral}{"{}grid4\ nofinalgrid"{}},\ \textcolor{stringliteral}{"{}scfconv6"{}}],}
+\DoxyCodeLine{00005\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}high"{}}:\ [\textcolor{stringliteral}{"{}grid4\ nofinalgrid"{}},\ \textcolor{stringliteral}{"{}scfconv7"{}}],}
+\DoxyCodeLine{00006\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}high+"{}}:\ [\textcolor{stringliteral}{"{}grid5\ nofinalgrid"{}},\ \textcolor{stringliteral}{"{}scfconv7"{}}],}
+\DoxyCodeLine{00007\ \ \ \ \ \},}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{stringliteral}{"{}tm"{}}:\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}low"{}}:\ [\textcolor{stringliteral}{"{}-\/grid"{}},\ \textcolor{stringliteral}{"{}m3"{}},\ \textcolor{stringliteral}{"{}-\/scfconv"{}},\ \textcolor{stringliteral}{"{}6"{}}],}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}low+"{}}:\ [\textcolor{stringliteral}{"{}-\/grid"{}},\ \textcolor{stringliteral}{"{}m4"{}},\ \textcolor{stringliteral}{"{}-\/scfconv"{}},\ \textcolor{stringliteral}{"{}6"{}}],}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}high"{}}:\ [\textcolor{stringliteral}{"{}-\/grid"{}},\ \textcolor{stringliteral}{"{}m4"{}},\ \textcolor{stringliteral}{"{}-\/scfconv"{}},\ \textcolor{stringliteral}{"{}7"{}}],}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}high+"{}}:\ [\textcolor{stringliteral}{"{}-\/grid"{}},\ \textcolor{stringliteral}{"{}m5"{}},\ \textcolor{stringliteral}{"{}-\/scfconv"{}},\ \textcolor{stringliteral}{"{}7"{}}],}
+\DoxyCodeLine{00013\ \ \ \ \ \},}
+\DoxyCodeLine{00014\ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00115}{115}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_aafa2f8916e2dd66787a4ec413e86f9e4}\label{namespacecenso_1_1params_aafa2f8916e2dd66787a4ec413e86f9e4} 
+\index{censo.params@{censo.params}!R@{R}}
+\index{R@{R}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{R}{R}}
+{\footnotesize\ttfamily float censo.\+params.\+R = 1.\+987203585e-\/03}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00058}{58}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_ac791fd765d83b728c2aac4531e579acb}\label{namespacecenso_1_1params_ac791fd765d83b728c2aac4531e579acb} 
+\index{censo.params@{censo.params}!rot\_sym\_num@{rot\_sym\_num}}
+\index{rot\_sym\_num@{rot\_sym\_num}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{rot\_sym\_num}{rot\_sym\_num}}
+{\footnotesize\ttfamily dict censo.\+params.\+rot\+\_\+sym\+\_\+num}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00133}{133}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a6c34763e230dda05f5fc0f1d3be97641}\label{namespacecenso_1_1params_a6c34763e230dda05f5fc0f1d3be97641} 
+\index{censo.params@{censo.params}!si\_bib@{si\_bib}}
+\index{si\_bib@{si\_bib}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{si\_bib}{si\_bib}}
+{\footnotesize\ttfamily dict censo.\+params.\+si\+\_\+bib}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00167}{167}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_ab70bd2d89419830926fd21764228179d}\label{namespacecenso_1_1params_ab70bd2d89419830926fd21764228179d} 
+\index{censo.params@{censo.params}!SOLV\_MODS@{SOLV\_MODS}}
+\index{SOLV\_MODS@{SOLV\_MODS}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{SOLV\_MODS}{SOLV\_MODS}}
+{\footnotesize\ttfamily dict censo.\+params.\+SOLV\+\_\+\+MODS}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ \{}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{"{}orca"{}}:\ (\textcolor{stringliteral}{"{}cpcm"{}},\ \textcolor{stringliteral}{"{}smd"{}}),}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{"{}tm"{}}:\ (\textcolor{stringliteral}{"{}cosmo"{}},\ \textcolor{stringliteral}{"{}dcosmors"{}}),}
+\DoxyCodeLine{00004\ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00071}{71}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a834283e3f48e845e6c3e4e937f69e3a2}\label{namespacecenso_1_1params_a834283e3f48e845e6c3e4e937f69e3a2} 
+\index{censo.params@{censo.params}!USER\_ASSETS\_PATH@{USER\_ASSETS\_PATH}}
+\index{USER\_ASSETS\_PATH@{USER\_ASSETS\_PATH}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{USER\_ASSETS\_PATH}{USER\_ASSETS\_PATH}}
+{\footnotesize\ttfamily censo.\+params.\+USER\+\_\+\+ASSETS\+\_\+\+PATH = os.\+path.\+join(os.\+path.\+expanduser("{}\texorpdfstring{$\sim$}{\string~}"{}), "{}.censo2\+\_\+assets"{})}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00067}{67}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+
+\Hypertarget{namespacecenso_1_1params_a8817ca4f134c8a2c63fcb7aa81c0cd0f}\label{namespacecenso_1_1params_a8817ca4f134c8a2c63fcb7aa81c0cd0f} 
+\index{censo.params@{censo.params}!WARNLEN@{WARNLEN}}
+\index{WARNLEN@{WARNLEN}!censo.params@{censo.params}}
+\doxysubsubsection{\texorpdfstring{WARNLEN}{WARNLEN}}
+{\footnotesize\ttfamily int censo.\+params.\+WARNLEN = max(\mbox{[}len(i) for i in \mbox{[}"{}WARNING\+:"{}, "{}ERROR\+:"{}, "{}INFORMATION\+:"{}\mbox{]}\mbox{]}) + 1}
+
+
+
+Definition at line \mbox{\hyperlink{params_8py_source_l00063}{63}} of file \mbox{\hyperlink{params_8py_source}{params.\+py}}.
+

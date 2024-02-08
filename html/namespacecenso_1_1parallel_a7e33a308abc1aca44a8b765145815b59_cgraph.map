@@ -1,0 +1,13 @@
+<map id="censo.parallel.retry_failed_jobs" name="censo.parallel.retry_failed_jobs">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,105,153,150"/>
+<area shape="rect" id="Node000002" href="$namespacecenso_1_1parallel.html#a8523dd0abcd9161400eb170e53ca1728" title=" " alt="" coords="201,83,341,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,113,185,108,186,113,153,119"/>
+<area shape="rect" id="Node000006" href="$namespacecenso_1_1parallel.html#a9709705bc46bc8b03b12444b60260a27" title=" " alt="" coords="203,135,339,179"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="153,136,188,142,187,147,153,142"/>
+<area shape="rect" id="Node000003" href="$namespacecenso_1_1parallel.html#a226532f7207b7f77b668928b3c849562" title=" " alt="" coords="395,5,555,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="313,80,392,53,393,58,315,85"/>
+<area shape="rect" id="Node000004" href="$namespacecenso_1_1parallel.html#a9225caa0918ea9e456039ab3855096ae" title=" " alt="" coords="389,75,560,119"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="341,94,373,94,373,100,341,100"/>
+<area shape="rect" id="Node000005" href="$namespacecenso_1_1parallel.html#aa2560cdd789d437d85c59669a49bc9bf" title=" " alt="" coords="395,144,555,189"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="315,109,393,136,392,141,313,114"/>
+</map>

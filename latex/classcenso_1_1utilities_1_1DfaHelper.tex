@@ -1,0 +1,162 @@
+\doxysection{censo.\+utilities.\+Dfa\+Helper Class Reference}
+\hypertarget{classcenso_1_1utilities_1_1DfaHelper}{}\label{classcenso_1_1utilities_1_1DfaHelper}\index{censo.utilities.DfaHelper@{censo.utilities.DfaHelper}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcenso_1_1utilities_1_1DfaHelper_ac5eb4f5106320a1598097153b9024565}{set\+\_\+dfa\+\_\+dict}} (cls, str dfadict\+\_\+path)
+\item 
+\mbox{\hyperlink{classcenso_1_1utilities_1_1DfaHelper_a6d7e0b79da4ecde588c20bdcf4c51fee}{find\+\_\+func}} (cls, str part, prog=None)
+\item 
+\mbox{\hyperlink{classcenso_1_1utilities_1_1DfaHelper_a47197f81563e8222bb227a30630ed1bc}{get\+\_\+name}} (cls, str func, str prog)
+\item 
+\mbox{\hyperlink{classcenso_1_1utilities_1_1DfaHelper_aafdb9d5bb5a5d938c31b22fa441a3996}{get\+\_\+disp}} (cls, str func)
+\item 
+\mbox{\hyperlink{classcenso_1_1utilities_1_1DfaHelper_a9e9755e0c8565ae264c0bc1210921fa7}{get\+\_\+type}} (cls, str func)
+\item 
+dict\mbox{[}str, dict\mbox{]} \mbox{\hyperlink{classcenso_1_1utilities_1_1DfaHelper_a8d0c4172e83e64ab4620e602659a86f0}{functionals}} (cls)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcenso_1_1utilities_1_1DfaHelper_afe543e73e294a0d24fba7ae0a8d35f47}{\+\_\+dfa\+\_\+dict}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dict \mbox{\hyperlink{classcenso_1_1utilities_1_1DfaHelper_a61103bec89bda2854085836c8b2ffa07}{\+\_\+dfa\+\_\+dict}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00021}{21}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcenso_1_1utilities_1_1DfaHelper_a6d7e0b79da4ecde588c20bdcf4c51fee}\label{classcenso_1_1utilities_1_1DfaHelper_a6d7e0b79da4ecde588c20bdcf4c51fee} 
+\index{censo.utilities.DfaHelper@{censo.utilities.DfaHelper}!find\_func@{find\_func}}
+\index{find\_func@{find\_func}!censo.utilities.DfaHelper@{censo.utilities.DfaHelper}}
+\doxysubsubsection{\texorpdfstring{find\_func()}{find\_func()}}
+{\footnotesize\ttfamily censo.\+utilities.\+Dfa\+Helper.\+find\+\_\+func (\begin{DoxyParamCaption}\item[{}]{cls,  }\item[{str}]{part,  }\item[{}]{prog = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Returns all functionals available for a given part and (optionally) qm program.
+
+Args:
+    part (str): The name of the part.
+    prog (str, optional): The qm program name. Defaults to None.
+
+Returns:
+    list[str]: The list of functionals.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00030}{30}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{classcenso_1_1utilities_1_1DfaHelper_a8d0c4172e83e64ab4620e602659a86f0}\label{classcenso_1_1utilities_1_1DfaHelper_a8d0c4172e83e64ab4620e602659a86f0} 
+\index{censo.utilities.DfaHelper@{censo.utilities.DfaHelper}!functionals@{functionals}}
+\index{functionals@{functionals}!censo.utilities.DfaHelper@{censo.utilities.DfaHelper}}
+\doxysubsubsection{\texorpdfstring{functionals()}{functionals()}}
+{\footnotesize\ttfamily  dict\mbox{[}str, dict\mbox{]} censo.\+utilities.\+Dfa\+Helper.\+functionals (\begin{DoxyParamCaption}\item[{}]{cls }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00114}{114}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{classcenso_1_1utilities_1_1DfaHelper_aafdb9d5bb5a5d938c31b22fa441a3996}\label{classcenso_1_1utilities_1_1DfaHelper_aafdb9d5bb5a5d938c31b22fa441a3996} 
+\index{censo.utilities.DfaHelper@{censo.utilities.DfaHelper}!get\_disp@{get\_disp}}
+\index{get\_disp@{get\_disp}!censo.utilities.DfaHelper@{censo.utilities.DfaHelper}}
+\doxysubsubsection{\texorpdfstring{get\_disp()}{get\_disp()}}
+{\footnotesize\ttfamily censo.\+utilities.\+Dfa\+Helper.\+get\+\_\+disp (\begin{DoxyParamCaption}\item[{}]{cls,  }\item[{str}]{func }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Returns the dispersion correction of a given functional. If dispersion correction 
+cannot be determined, apply none.
+
+Args:
+    func (str): The functional.
+
+Returns:
+    str: The dispersion correction name.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00074}{74}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{classcenso_1_1utilities_1_1DfaHelper_a47197f81563e8222bb227a30630ed1bc}\label{classcenso_1_1utilities_1_1DfaHelper_a47197f81563e8222bb227a30630ed1bc} 
+\index{censo.utilities.DfaHelper@{censo.utilities.DfaHelper}!get\_name@{get\_name}}
+\index{get\_name@{get\_name}!censo.utilities.DfaHelper@{censo.utilities.DfaHelper}}
+\doxysubsubsection{\texorpdfstring{get\_name()}{get\_name()}}
+{\footnotesize\ttfamily censo.\+utilities.\+Dfa\+Helper.\+get\+\_\+name (\begin{DoxyParamCaption}\item[{}]{cls,  }\item[{str}]{func,  }\item[{str}]{prog }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Returns the name of a certain functional in the given qm program. If name could not
+be found, the string passed as func will be returned instead.
+
+Args:
+    func (str): The functional.
+    prog (str): The qm program.
+
+Returns:
+    str: The name of the functional.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00053}{53}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{classcenso_1_1utilities_1_1DfaHelper_a9e9755e0c8565ae264c0bc1210921fa7}\label{classcenso_1_1utilities_1_1DfaHelper_a9e9755e0c8565ae264c0bc1210921fa7} 
+\index{censo.utilities.DfaHelper@{censo.utilities.DfaHelper}!get\_type@{get\_type}}
+\index{get\_type@{get\_type}!censo.utilities.DfaHelper@{censo.utilities.DfaHelper}}
+\doxysubsubsection{\texorpdfstring{get\_type()}{get\_type()}}
+{\footnotesize\ttfamily censo.\+utilities.\+Dfa\+Helper.\+get\+\_\+type (\begin{DoxyParamCaption}\item[{}]{cls,  }\item[{str}]{func }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Returns the type of a certain functional. If the type cannot be determined, it 
+is assumed to be a GGA.
+
+Args:
+    func (str): The functional.
+
+Returns:
+    str: The type of the functional.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00094}{94}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{classcenso_1_1utilities_1_1DfaHelper_ac5eb4f5106320a1598097153b9024565}\label{classcenso_1_1utilities_1_1DfaHelper_ac5eb4f5106320a1598097153b9024565} 
+\index{censo.utilities.DfaHelper@{censo.utilities.DfaHelper}!set\_dfa\_dict@{set\_dfa\_dict}}
+\index{set\_dfa\_dict@{set\_dfa\_dict}!censo.utilities.DfaHelper@{censo.utilities.DfaHelper}}
+\doxysubsubsection{\texorpdfstring{set\_dfa\_dict()}{set\_dfa\_dict()}}
+{\footnotesize\ttfamily censo.\+utilities.\+Dfa\+Helper.\+set\+\_\+dfa\+\_\+dict (\begin{DoxyParamCaption}\item[{}]{cls,  }\item[{str}]{dfadict\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00025}{25}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classcenso_1_1utilities_1_1DfaHelper_a61103bec89bda2854085836c8b2ffa07}\label{classcenso_1_1utilities_1_1DfaHelper_a61103bec89bda2854085836c8b2ffa07} 
+\index{censo.utilities.DfaHelper@{censo.utilities.DfaHelper}!\_dfa\_dict@{\_dfa\_dict}}
+\index{\_dfa\_dict@{\_dfa\_dict}!censo.utilities.DfaHelper@{censo.utilities.DfaHelper}}
+\doxysubsubsection{\texorpdfstring{\_dfa\_dict}{\_dfa\_dict}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily dict censo.\+utilities.\+Dfa\+Helper.\+\_\+dfa\+\_\+dict\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00022}{22}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+\Hypertarget{classcenso_1_1utilities_1_1DfaHelper_afe543e73e294a0d24fba7ae0a8d35f47}\label{classcenso_1_1utilities_1_1DfaHelper_afe543e73e294a0d24fba7ae0a8d35f47} 
+\index{censo.utilities.DfaHelper@{censo.utilities.DfaHelper}!\_dfa\_dict@{\_dfa\_dict}}
+\index{\_dfa\_dict@{\_dfa\_dict}!censo.utilities.DfaHelper@{censo.utilities.DfaHelper}}
+\doxysubsubsection{\texorpdfstring{\_dfa\_dict}{\_dfa\_dict}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily censo.\+utilities.\+Dfa\+Helper.\+\_\+dfa\+\_\+dict\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{utilities_8py_source_l00027}{27}} of file \mbox{\hyperlink{utilities_8py_source}{utilities.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/polt/prog/\+CENSOdev/src/censo/\mbox{\hyperlink{utilities_8py}{utilities.\+py}}\end{DoxyCompactItemize}

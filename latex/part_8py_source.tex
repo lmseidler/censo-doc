@@ -1,0 +1,276 @@
+\doxysection{part.\+py}
+\hypertarget{part_8py_source}{}\label{part_8py_source}\index{/home/polt/prog/CENSOdev/src/censo/part.py@{/home/polt/prog/CENSOdev/src/censo/part.py}}
+\mbox{\hyperlink{part_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00001}\mbox{\hyperlink{namespacecenso_1_1part}{00001}}\ \textcolor{keyword}{import}\ functools}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00002}00002\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00003}00003\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00004}00004\ \textcolor{keyword}{import}\ ast}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00005}00005\ \textcolor{keyword}{from}\ collections.abc\ \textcolor{keyword}{import}\ Callable}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00007}00007\ \textcolor{keyword}{from}\ .ensembledata\ \textcolor{keyword}{import}\ EnsembleData}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00008}00008\ \textcolor{keyword}{from}\ .params\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00009}00009\ \ \ \ \ PLENGTH,}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00010}00010\ \ \ \ \ DIGILEN,}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00011}00011\ \ \ \ \ OMPMIN,}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00012}00012\ \ \ \ \ OMPMAX,}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00013}00013\ )}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00014}00014\ \textcolor{keyword}{from}\ .logging\ \textcolor{keyword}{import}\ setup\_logger}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00015}00015\ \textcolor{keyword}{from}\ .utilities\ \textcolor{keyword}{import}\ \textcolor{keywordflow}{print}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00017}\mbox{\hyperlink{namespacecenso_1_1part_af78c32246afe4ae9f080e1a65164bad5}{00017}}\ logger\ =\ setup\_logger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00020}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart}{00020}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart}{CensoPart}}:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00021}00021\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ Part\ class\ as\ parent\ class\ for\ all\ parts\ of\ the\ calculation.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00023}00023\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00024}00024\ \textcolor{stringliteral}{\ \ \ \ Settings\ that\ are\ not\ part\ of\ the\ general\ settings\ and\ strictly\ necessary\ for\ ...}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00025}00025\ \textcolor{stringliteral}{\ \ \ \ ...\ DFT\ calculations:}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ prog}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ func}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ basis}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ grid}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ template}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ gcp}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ ...\ xtb\ calculations:}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00033}00033\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ gfnv}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00034}00034\ \textcolor{stringliteral}{\ \ \ \ Further\ requirements\ are\ defined\ in\ dictionaries\ belonging\ to\ processor\ classes.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00035}00035\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00037}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a11ed37e33a5ac09d3541ca3d0eca3415}{00037}}\ \ \ \ \ \_options\ =\ \{}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}maxcores"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ 4,\ \textcolor{stringliteral}{"{}range"{}}:\ [OMPMIN,\ 256]\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}omp"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ 4,\ \textcolor{stringliteral}{"{}range"{}}:\ [OMPMIN,\ OMPMAX]\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}imagthr"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ -\/100.0,\ \textcolor{stringliteral}{"{}range"{}}:\ [-\/300.0,\ 0.0]\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sthr"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ 0.0,\ \textcolor{stringliteral}{"{}range"{}}:\ [0.0,\ 100.0]\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}scale"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ 1.0,\ \textcolor{stringliteral}{"{}range"{}}:\ [0.0,\ 1.0]\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}temperature"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ 298.15,\ \textcolor{stringliteral}{"{}range"{}}:\ [1e-\/05,\ 2000.0]\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}solvent"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{stringliteral}{"{}h2o"{}},\ \textcolor{stringliteral}{"{}options"{}}:\ []\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sm\_rrho"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{stringliteral}{"{}alpb"{}},\ \textcolor{stringliteral}{"{}options"{}}:\ [\textcolor{stringliteral}{"{}alpb"{}},\ \textcolor{stringliteral}{"{}gbsa"{}}]\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}multitemp"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}evaluate\_rrho"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}consider\_sym"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bhess"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}rmsdbias"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{False}\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}balance"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gas-\/phase"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{False}\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}copy\_mo"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}retry\_failed"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}trange"{}}:\ \{\textcolor{stringliteral}{"{}default"{}}:\ [273.15,\ 373.15,\ 5]\},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00056}00056\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00058}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_af9a732bfc258f51d7e476a7b060f690b}{00058}}\ \ \ \ \ \_settings\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00060}00060\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00061}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a4cf1e2b06bbd1c49691d2fd36754b119}{00061}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a4cf1e2b06bbd1c49691d2fd36754b119}{set\_general\_settings}}(settings:\ dict[str,\ any])\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ CensoPart.\_validate(settings)}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ settings\ =\ CensoPart.\_complete(settings)}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ CensoPart.\_settings\ =\ settings}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00066}00066\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00067}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a69c9579f369a52b8b621f1855c684921}{00067}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a69c9579f369a52b8b621f1855c684921}{set\_general\_setting}}(setting,\ value):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ type(value)\ \textcolor{keywordflow}{is}\ type(CensoPart.\_settings[setting])}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ CensoPart.\_settings[setting]\ =\ value}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00071}00071\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00072}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_acf81255589cd586b4b23db71fa17c386}{00072}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_acf81255589cd586b4b23db71fa17c386}{get\_general\_settings}}():}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CensoPart.\_settings}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00075}00075\ \ \ \ \ \textcolor{preprocessor}{@classmethod}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00076}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_acf007aca70ba76eee25003396b3d3c84}{00076}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_acf007aca70ba76eee25003396b3d3c84}{get\_settings}}(cls):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_af9a732bfc258f51d7e476a7b060f690b}{\_settings}}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a60798f65a41a51c13c8b1b685264efc1}{\_settings}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00079}00079\ \ \ \ \ \textcolor{preprocessor}{@classmethod}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00080}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_afec1f678e7727cb100ae0cb0d265f4c1}{00080}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_afec1f678e7727cb100ae0cb0d265f4c1}{set\_settings}}(cls,\ settings:\ dict[str,\ any]):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a753ca48d3f7e1cfc8c7a2a14b83e824d}{\_validate}}(settings)}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ settings\ =\ cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a57ea2ed738885471a65bfe09230ee40a}{\_complete}}(settings)}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00083}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a60798f65a41a51c13c8b1b685264efc1}{00083}}\ \ \ \ \ \ \ \ \ cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_af9a732bfc258f51d7e476a7b060f690b}{\_settings}}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a60798f65a41a51c13c8b1b685264efc1}{\_settings}}\ =\ settings}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00085}00085\ \ \ \ \ \textcolor{preprocessor}{@classmethod}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00086}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a113056aa29b1512b97f59de2a968e826}{00086}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a113056aa29b1512b97f59de2a968e826}{set\_setting}}(cls,\ setting\_name:\ str,\ setting\_value:\ any):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ type(setting\_value)\ \textcolor{keywordflow}{is}\ type(cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_af9a732bfc258f51d7e476a7b060f690b}{\_settings}}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a60798f65a41a51c13c8b1b685264efc1}{\_settings}}[setting\_name])}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_af9a732bfc258f51d7e476a7b060f690b}{\_settings}}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a60798f65a41a51c13c8b1b685264efc1}{\_settings}}[setting\_name]\ =\ setting\_value}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00090}00090\ \ \ \ \ \textcolor{preprocessor}{@classmethod}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00091}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_abc627023356baa64231dca99f30c48a6}{00091}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_abc627023356baa64231dca99f30c48a6}{get\_options}}(cls):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a11ed37e33a5ac09d3541ca3d0eca3415}{\_options}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00094}00094\ \ \ \ \ \textcolor{preprocessor}{@classmethod}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00095}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a57ea2ed738885471a65bfe09230ee40a}{00095}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a57ea2ed738885471a65bfe09230ee40a}{\_complete}}(cls,\ tocomplete:\ dict[str,\ any])\ -\/>\ dict[str,\ any]:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00097}00097\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ fill\ in\ missing\ settings\ with\ default\ values}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00098}00098\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ setting,\ definition\ \textcolor{keywordflow}{in}\ cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a11ed37e33a5ac09d3541ca3d0eca3415}{\_options}}.items():}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ setting\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ tocomplete:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tocomplete[setting]\ =\ definition[\textcolor{stringliteral}{"{}default"{}}]}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tocomplete}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00105}00105\ \ \ \ \ \textcolor{preprocessor}{@classmethod}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00106}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a753ca48d3f7e1cfc8c7a2a14b83e824d}{00106}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a753ca48d3f7e1cfc8c7a2a14b83e824d}{\_validate}}(cls,\ tovalidate:\ dict[str,\ any])\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00108}00108\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Validates\ the\ type\ of\ each\ setting\ in\ the\ given\ dict.\ Also\ potentially\ validate\ if\ the\ setting\ is\ allowed\ by\ }}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00109}00109\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ checking\ with\ cls.\_options.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00110}00110\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00111}00111\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00112}00112\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ tovalidate\ (dict[str,\ any]):\ The\ dict\ containing\ the\ settings\ to\ be\ validated.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00113}00113\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00114}00114\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00115}00115\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ None}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00116}00116\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00117}00117\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Raises:}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00118}00118\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ ValueError:\ If\ the\ setting\ is\ not\ allowed\ or\ the\ value\ is\ not\ within\ the\ allowed\ range.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00119}00119\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ go\ through\ each\ section\ and\ try\ to\ validate\ each\ setting's\ type}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ remove\ =\ []}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ setting\_name\ \textcolor{keywordflow}{in}\ tovalidate:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ try\ to\ get\ the\ settings's\ type\ from\ the\ default\ value\ in\ the\ \_options\ dict}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setting\_type\ =\ type(cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a11ed37e33a5ac09d3541ca3d0eca3415}{\_options}}[setting\_name][\textcolor{stringliteral}{"{}default"{}}])}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ KeyError:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ KeyError\ means\ that\ the\ setting\ does\ not\ exist,\ therefore\ the\ setting\ key\ should\ be\ removed}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ remove.append(setting\_name)}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ try\ to\ cast\ the\ setting-\/string\ into\ the\ correct\ type}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ setting\_type\ ==\ bool:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setting\_value\ =\ \{\textcolor{stringliteral}{"{}True"{}}:\ \textcolor{keyword}{True},\ \textcolor{stringliteral}{"{}False"{}}:\ \textcolor{keyword}{False}\}.get(}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tovalidate[setting\_name]}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ setting\_type\ ==\ list:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setting\_value\ =\ ast.literal\_eval(tovalidate[setting\_name])}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setting\_value\ =\ setting\_type(tovalidate[setting\_name])}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ that's\ not\ possible\ raise\ an\ exception}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ NOTE:\ KeyError\ is\ raised\ when\ the\ conversion\ for\ bools\ fails}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ (ValueError,\ KeyError):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Value\ '\{tovalidate[setting\_name]\}'\ is\ not\ allowed\ for\ setting\ '\{setting\_name\}'\ in\ part\ of\ type\ '\{cls.\_\_name\_\_\}'"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ now\ check\ if\ the\ setting\ is\ allowed}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ for\ strings\ check\ if\ string\ is\ within\ a\ list\ of\ allowed\ values}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ setting\_type\ ==\ str:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ options\ =\ cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a11ed37e33a5ac09d3541ca3d0eca3415}{\_options}}[setting\_name][\textcolor{stringliteral}{"{}options"{}}]}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ setting\_value\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ options\ \textcolor{keywordflow}{and}\ len(options)\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Only\ check\ if\ there\ are\ options}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ This\ is\ fatal\ so\ an\ exception\ is\ raised}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Value\ '\{setting\_value\}'\ is\ not\ allowed\ for\ setting\ '\{setting\_name\}'\ in\ part\ of\ type\ '\{cls.\_\_name\_\_\}'."{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ for\ numeric\ values\ check\ if\ value\ is\ within\ a\ range}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ setting\_type\ \textcolor{keywordflow}{in}\ (int,\ float):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ interval\ =\ cls.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a11ed37e33a5ac09d3541ca3d0eca3415}{\_options}}[setting\_name][\textcolor{stringliteral}{"{}range"{}}]}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ interval[0]\ <=\ setting\_value\ <=\ interval[1]:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ This\ is\ fatal\ so\ an\ exception\ is\ raised}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Value\ '\{setting\_value\}'\ is\ out\ of\ range\ "{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}(\{interval[0]\},\{interval[1]\})\ for\ setting\ '\{setting\_name\}'\ in\ part\ of\ type\ '\{cls.\_\_name\_\_\}'."{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ NOTE:\ there\ is\ no\ check\ for\ complex\ types\ yet\ (i.e.\ lists)}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ set\ the\ value\ in\ the\ dict\ tovalidate\ to\ the\ casted\ value}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ tovalidate[setting\_name]\ =\ setting\_value}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ remove\ the\ invalid\ settings}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ setting\ \textcolor{keywordflow}{in}\ remove:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ tovalidate.pop(setting)}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00176}00176\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00177}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a4f028772b4b69b4be478ca94cebfc0f8}{00177}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a4f028772b4b69b4be478ca94cebfc0f8}{\_create\_dir}}(runner:\ Callable)\ -\/>\ Callable:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00179}00179\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ This\ method\ needs\ to\ be\ defined\ as\ @staticmethod\ to\ be\ accessible\ from\ within\ the\ class\ via\ the\ @\_create\_dir}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00180}00180\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ decorator.\ The\ wrapper\ function\ within\ will\ be\ able\ to\ access\ the\ instance\ variables\ of\ the\ class.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00181}00181\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ To\ access\ this\ method\ from\ child\ classes,\ the\ decorator\ must\ be\ called\ like:\ @CensoPart.\_create\_dir.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00182}00182\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00183}00183\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00184}00184\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ runner:\ The\ function\ to\ be\ decorated.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00185}00185\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00186}00186\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00187}00187\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Callable:\ The\ decorated\ function.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00188}00188\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00189}00189\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \textcolor{preprocessor}{@functools.wraps(runner)}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{keyword}{def\ }wrapper(self,\ *args,\ **kwargs):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ create/set\ folder\ to\ do\ the\ calculations\ in}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00193}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a56ea2474f0cd296a12a717890a7e64cd}{00193}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a56ea2474f0cd296a12a717890a7e64cd}{dir}}\ =\ os.path.join(self.ensemble.workdir,\ self.\_name)}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ os.path.isdir(self.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a56ea2474f0cd296a12a717890a7e64cd}{dir}}):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{global}\ logger}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Folder\ \{self.dir\}\ already\ exists.\ Potentially\ overwriting\ files."{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ os.system(f\textcolor{stringliteral}{"{}mkdir\ \{self.dir\}"{}})\ !=\ 0\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ os.path.isdir(self.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a56ea2474f0cd296a12a717890a7e64cd}{dir}}):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Could\ not\ create\ directory\ for\ \{self.\_name\}."{}})}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ runner(self,\ *args,\ **kwargs)}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ wrapper}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00207}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a186f19337cc62fdbb6f11666a7453c3b}{00207}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a186f19337cc62fdbb6f11666a7453c3b}{\_\_init\_\_}}(self,\ ensemble:\ EnsembleData):}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00209}00209\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Initializes\ a\ part\ instance.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00210}00210\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00211}00211\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00212}00212\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ ensemble:\ The\ ensemble\ instance\ that\ manages\ the\ conformers.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00213}00213\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00214}00214\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00215}00215\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ None}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00216}00216\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ sets\ the\ name\ of\ the\ part\ (used\ for\ printing\ and\ folder\ creation)}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ self.\_name:\ str\ =\ self.\_\_class\_\_.\_\_name\_\_.lower()}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ every\ part\ instance\ depends\ on\ a\ ensemble\ instance\ to\ manage\ the\ conformers}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ self.ensemble:\ EnsembleData\ =\ ensemble}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Directory\ where\ the\ part\ executes\ it's\ calculations}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ It\ is\ set\ using\ the\ \_create\_dir\ method\ (intended\ to\ be\ used\ as\ wrapper\ for\ run)}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a56ea2474f0cd296a12a717890a7e64cd}{dir}}:\ str\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00227}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_aadf0d3676b63e7eb2eb79fb126c3e670}{00227}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_aadf0d3676b63e7eb2eb79fb126c3e670}{run}}(self)\ -\/>\ None:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00229}00229\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ what\ gets\ executed\ if\ the\ part\ is\ run}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00230}00230\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ should\ be\ implemented\ for\ every\ part\ respectively}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00231}00231\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ NotImplementedError}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00234}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a1da213ee85325837ec060436cb57d4e4}{00234}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a1da213ee85325837ec060436cb57d4e4}{print\_info}}(self)\ -\/>\ None:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00236}00236\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ formatted\ print\ for\ part\ instructions}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00237}00237\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Print\ header\ with\ part\ name}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ lines\ =\ [}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ +\ \textcolor{stringliteral}{"{}"{}}.ljust(PLENGTH,\ \textcolor{stringliteral}{"{}-\/"{}})\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{self.\_\_class\_\_.\_\_name\_\_.upper()\}\ -\/\ \{self.\_name.upper()\}"{}}.center(}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PLENGTH,\ \textcolor{stringliteral}{"{}\ "{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}}.ljust(PLENGTH,\ \textcolor{stringliteral}{"{}-\/"{}})\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Print\ all\ settings\ with\ name\ and\ value}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ setting,\ val\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_af9a732bfc258f51d7e476a7b060f690b}{\_settings}}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a60798f65a41a51c13c8b1b685264efc1}{\_settings}}.items():}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ lines.append(f\textcolor{stringliteral}{"{}\{setting\}:"{}}.ljust(DIGILEN\ //\ 2,\ \textcolor{stringliteral}{"{}\ "{}})\ +\ f\textcolor{stringliteral}{"{}\{val\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ print\ everything\ to\ console}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ lines:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ print(line)}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00257}00257\ }
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00258}\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a6f080b5b7db57d8f701004b78267e286}{00258}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classcenso_1_1part_1_1CensoPart_a6f080b5b7db57d8f701004b78267e286}{write\_json}}(self)\ -\/>\ None:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00260}00260\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Writes\ the\ part's\ results\ to\ a\ json\ file.}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00261}00261\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00262}00262\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00263}00263\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ None}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00264}00264\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ results\ =\ \{conf.name:\ conf.results[self.\_name]}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ conf\ \textcolor{keywordflow}{in}\ self.ensemble.conformers\}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ os.path.join(self.ensemble.workdir,\ f\textcolor{stringliteral}{"{}\{self.\_name\}.json"{}}),\ \textcolor{stringliteral}{"{}w"{}}}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{as}\ outfile:}
+\DoxyCodeLine{\Hypertarget{part_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ json.dump(results,\ outfile,\ indent=4)}
+
+\end{DoxyCode}
